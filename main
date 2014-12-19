@@ -1,32 +1,36 @@
 import java.io.*;
-public class TextManipulator {
+
+public class RunTextManipulate {
     public static void main(String[] args) {
 
     }
+
     public static void AnalyzeText(String text, boolean analyzetext_settings[]) {
-        if(analyzetext_settings[0])
+        if (analyzetext_settings[0])
             WordCount(text);
-        if(analyzetext_settings[1])
+        if (analyzetext_settings[1])
             CharCount(text);
-        if(analyzetext_settings[2])
+        if (analyzetext_settings[2])
             LineCount(text);
-        if(analyzetext_settings[3])
+        if (analyzetext_settings[3])
             SentenceCount(text);
-        if(analyzetext_settings[4])
+        if (analyzetext_settings[4])
             WordFrequency(text);
-        if(analyzetext_settings[5])
+        if (analyzetext_settings[5])
             CharFrequency(text);
     }
+
     public static void DefaultSettings() {
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
             BufferedWriter write_settings = new BufferedWriter(file);
             write_settings.write("111111");
             write_settings.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             Print("Error writing default settings file\n");
         }
     }
+
     public static boolean LoadSettings() {
         boolean load = true;
         try {
@@ -35,42 +39,53 @@ public class TextManipulator {
             String line = "";
             int[] analyzetext_settings = new int[6];
             int line_counter = 1;
-          //  while((line == read_settings.readLine()) != null) {
-          //      if(line_counter == 1) {/* load settings for AnalyzeText */
-          //          analyzetext_settings[0] = Boolean.parseBoolean(line.charAt(0));
-          //      }
-          //  }
-        } catch(IOException e) {
+            // while((line == read_settings.readLine()) != null) {
+            // if(line_counter == 1) {/* load settings for AnalyzeText */
+            // analyzetext_settings[0] = Boolean.parseBoolean(line.charAt(0));
+            // }
+            // }
+        } catch (IOException e) {
             Print("Error reading settings file\n");
             load = false;
         }
         return load;
     }
-    public static int WordCount(String text) { /// I've left these functions for you to fill out
-        int word_count = 0;
-        return word_count;
-    }
+
     public static int CharCount(String text) {
-        int char_count = 0;
+        int char_count = text.replace("\n", "").length();
         return char_count;
     }
+
+    public static int WordCount(String text) {
+        int word_count = text.length()
+                - text.replace(" ", "").replace("\n", "").length() + 1;
+        return word_count;
+    }
+
     public static int LineCount(String text) {
-        int line_count = 0;
+        int line_count = text.length() - text.replace("\n", "").length() + 1;
         return line_count;
     }
+
     public static int SentenceCount(String text) {
-        int sentence_count = 0;
+        int sentence_count = text.length()
+                - text.replace(".", "").replace("?", "").replace("!", "")
+                        .length();
         return sentence_count;
     }
+
     public static void WordFrequency(String text) {
 
     }
+
     public static void CharFrequency(String text) {
 
     }
+
     public static void Print(String s) {
         System.out.print(s);
     }
+
     public static void Println(String s) {
         System.out.println(s);
     }

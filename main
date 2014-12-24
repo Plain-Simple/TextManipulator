@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class RunTextManipulate {
+public class TextManipulator {
     public static void main(String[] args) {
 
     }
@@ -19,12 +19,13 @@ public class RunTextManipulate {
         if (analyzetext_settings[5])
             CharFrequency(text);
     }
-
+    /* initializes all variables with default settings and creates the "TextManipulator_Settings" file */
     public static void DefaultSettings() {
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
             BufferedWriter write_settings = new BufferedWriter(file);
-            write_settings.write("111111");
+            write_settings.write("#Line 1: AnalyzeText Settings: WordCount, CharCount, LineCount, SentenceCount, WordFrequency, CharFrequency\n");
+            write_settings.write("1,1,1,1,1,1\n");
             write_settings.close();
         } catch (IOException e) {
             Print("Error writing default settings file\n");
@@ -37,18 +38,53 @@ public class RunTextManipulate {
             FileReader file = new FileReader("TextManipulator_Settings");
             BufferedReader read_settings = new BufferedReader(file);
             String line = "";
-            int[] analyzetext_settings = new int[6];
+            boolean[] analyzetext_settings = new boolean[6];
             int line_counter = 1;
-            // while((line == read_settings.readLine()) != null) {
-            // if(line_counter == 1) {/* load settings for AnalyzeText */
-            // analyzetext_settings[0] = Boolean.parseBoolean(line.charAt(0));
-            // }
-            // }
+            while((line = read_settings.readLine()) != null) {
+                if(line_counter == 1) {/* load settings for AnalyzeText */
+                    analyzetext_settings[0] = CharToBoolean(line.charAt(0));
+                    analyzetext_settings[1] = CharToBoolean(line.charAt(2));
+                    analyzetext_settings[2] = CharToBoolean(line.charAt(4));
+                    analyzetext_settings[3] = CharToBoolean(line.charAt(6));
+                    analyzetext_settings[4] = CharToBoolean(line.charAt(8));
+                    analyzetext_settings[5] = CharToBoolean(line.charAt(10));
+                }
+                line_counter++;
+            }
         } catch (IOException e) {
             Print("Error reading settings file\n");
             load = false;
         }
         return load;
+    }
+
+    public static boolean UpdateSettings(boolean[] analyzetext_settings) {
+        try {
+            FileWriter file = new FileWriter("TextManipulator_Settings");
+            BufferedWriter write_settings = new BufferedWriter(file);
+            write_settings.write(BooleanToChar(analyzetext_settings[0]) + "," + BooleanToChar(analyzetext_settings[1]) +
+                    "," + BooleanToChar(analyzetext_settings[2]) + "," + BooleanToChar(analyzetext_settings[3]) + "," +
+                    BooleanToChar(analyzetext_settings[4]) + "," + BooleanToChar(analyzetext_settings[5]));
+            write_settings.newLine();
+            write_settings.close();
+        } catch(IOException e) {
+            Print("Error writing to file\n");
+        }
+    }
+    /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
+     * the program */
+    public static boolean CharToBoolean(char c) {
+        if(c == '0')
+            return false;
+        else
+            return true;
+    }
+    /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
+    public static char BooleanToChar(boolean b) {
+        if(b == false)
+            return '0';
+        else
+            return '1';
     }
 
     public static int CharCount(String text) {
@@ -70,7 +106,7 @@ public class RunTextManipulate {
     public static int SentenceCount(String text) {
         int sentence_count = text.length()
                 - text.replace(".", "").replace("?", "").replace("!", "")
-                        .length();
+                .length();
         return sentence_count;
     }
 
@@ -82,11 +118,14 @@ public class RunTextManipulate {
 
     }
 
-    public static void Print(String s) {
-        System.out.print(s);
+    public static String AddPrefixSuffix(String text, String prefix, String suffix) {
+        String new_text = "";
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        for(int i = 0; i < lines.length; i++)
+            new_text = new_text + prefix + lines[i] + suffix + "\n";
+        return new_text;
     }
 
-    public static void Println(String s) {
-        System.out.println(s);
-    }
+    public static void Print(String s) { System.out.print(s); }
+    public static void Println(String s) { System.out.println(s); }
 }

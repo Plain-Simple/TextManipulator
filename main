@@ -4,7 +4,7 @@ public class TextManipulator {
     public static void main(String[] args) {
 
     }
-
+    /* runs each sub-function user has chosen under "AnayzeText" function settings */
     public static void AnalyzeText(String text, boolean analyzetext_settings[]) {
         if (analyzetext_settings[0])
             WordCount(text);
@@ -20,16 +20,18 @@ public class TextManipulator {
             CharFrequency(text);
     }
     /* initializes all variables with default settings and creates the "TextManipulator_Settings" file */
-    public static void DefaultSettings() {
+    public static void DefaultSettings(boolean analyzetext_settings[]) {
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
             BufferedWriter write_settings = new BufferedWriter(file);
             write_settings.write("#Line 1: AnalyzeText Settings: WordCount, CharCount, LineCount, SentenceCount, WordFrequency, CharFrequency\n");
-            write_settings.write("1,1,1,1,1,1\n");
+            write_settings.write("1,1,1,1,1,1\n"); /* sets values on file to true by default */
             write_settings.close();
         } catch (IOException e) {
             Print("Error writing default settings file\n");
         }
+        for(int i = 0; i < 6; i++)
+            analyzetext_settings[i] = true; /* set all values to true by default */
     }
 
     public static boolean LoadSettings() {
@@ -38,10 +40,11 @@ public class TextManipulator {
             FileReader file = new FileReader("TextManipulator_Settings");
             BufferedReader read_settings = new BufferedReader(file);
             String line = "";
-            boolean[] analyzetext_settings = new boolean[6];
+            boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
             int line_counter = 1;
             while((line = read_settings.readLine()) != null) {
-                if(line_counter == 1) {/* load settings for AnalyzeText */
+                if(line_counter == 1) {/* line 1: load settings for AnalyzeText */
+                    /* line is "1,1,1,1,1,1" so we can read it in easily. Each value is parsed from String to boolean for easy use */
                     analyzetext_settings[0] = CharToBoolean(line.charAt(0));
                     analyzetext_settings[1] = CharToBoolean(line.charAt(2));
                     analyzetext_settings[2] = CharToBoolean(line.charAt(4));
@@ -55,13 +58,14 @@ public class TextManipulator {
             Print("Error reading settings file\n");
             load = false;
         }
-        return load;
+        return load; /* returns whether "TextManipulator_Settings" was accessed and read */
     }
-
+    /* updates "TextManipulator_Settings" with new values from program - will be run every time the user changes settings */
     public static boolean UpdateSettings(boolean[] analyzetext_settings) {
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
             BufferedWriter write_settings = new BufferedWriter(file);
+            /* write settings to file (in the correct order), first converting each value to a char and comma-separating them */
             write_settings.write(BooleanToChar(analyzetext_settings[0]) + "," + BooleanToChar(analyzetext_settings[1]) +
                     "," + BooleanToChar(analyzetext_settings[2]) + "," + BooleanToChar(analyzetext_settings[3]) + "," +
                     BooleanToChar(analyzetext_settings[4]) + "," + BooleanToChar(analyzetext_settings[5]));
@@ -117,12 +121,12 @@ public class TextManipulator {
     public static void CharFrequency(String text) {
 
     }
-
+    /* adds prefix and suffix to each line */
     public static String AddPrefixSuffix(String text, String prefix, String suffix) {
         String new_text = "";
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         for(int i = 0; i < lines.length; i++)
-            new_text = new_text + prefix + lines[i] + suffix + "\n";
+            new_text = new_text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
         return new_text;
     }
 

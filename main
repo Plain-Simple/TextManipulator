@@ -1,21 +1,32 @@
 import java.io.*;
 import java.util.Vector;
+import java.util.Arrays;
 public class TextManipulator {
     public static void main(String[] args) {
-        String text = "This is a test of the Plain+Simple TextManipulator";
+        String text = "This is a test of the Plain+Simple TextManipulator" +
+                        "\n this is line two.";
         boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
         boolean file_loaded = LoadSettings(analyzetext_settings);
         if(!(file_loaded))
             DefaultSettings(analyzetext_settings);
-        for(int i = 0; i < 6; i++) {
-            Println("analyzetext_settings[" + i + "] = " + analyzetext_settings[i]);
-        }
         AnalyzeText(text, analyzetext_settings);
         text = AddPrefixSuffix(text, "Prefix", "Suffix");
         Println(text);
-        if(ReadFromFile("TextManipulator_Test", text)) {
+        boolean[] success = new boolean[1]; /* this can be used in functions to return true or false */
+        text = ReadFromFile("TextManipulator_Test", text, success);
+        if(success[0]) {
             Println(text);
             AnalyzeText(text, analyzetext_settings);
+            //text = AddPrefixSuffix(text, "Prefix", "Suffix");
+            //Println(text);
+            //text = RemoveDuplicateLines(text);
+            //Println(text);
+            //text = RemoveLinesContaining(text, "file");
+            //Println(text);
+            //text = SortLinesAlphabetically(text);
+            //Println(text);
+            text = SortLinesBySize(text);
+            Println(text);
         }
     }
 
@@ -92,21 +103,21 @@ public class TextManipulator {
         }
         return success;
     }
-    public static boolean ReadFromFile(String file_name, String text) { /// some problems with this... any ideas?
+    public static String ReadFromFile(String file_name, String text, boolean[] success) {
         text = ""; /* empty variable text */
-        boolean success = true;
         try {
+            success[0] = true;
             FileReader file = new FileReader(file_name);
             BufferedReader read_file = new BufferedReader(file);
             String line = "";
             while((line = read_file.readLine()) != null) {
-                text = text + line;
+                text = text + line + "\n"; /* need to include a newline, otherwise everything will be made into one line */
             }
         } catch(IOException e) {
             Println("Error reading file \"" + file_name + "\"");
-            success = false;
+            success[0] = false;
         }
-        return success;
+        return text;
     }
     /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
      * the program */
@@ -136,7 +147,7 @@ public class TextManipulator {
     }
 
     public static int LineCount(String text) {
-        int line_count = text.length() - text.replace("\n", "").length() + 1;
+        int line_count = text.length() - text.replace("\n", "").length() + 1; /// needs to be tested and possibly corrected
         return line_count;
     }
 
@@ -156,25 +167,30 @@ public class TextManipulator {
     }
     /* adds prefix and suffix to each line */
     public static String AddPrefixSuffix(String text, String prefix, String suffix) {
+        //String delims = "[\\r\\n]+"; /* splits text into separate lines */
+        //String[] lines = text.split(delims); /* create an array that holds each individual line */
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++)
             text = text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
         return text;
     }
-    public static String RemoveDuplicateLines(String text) { /// haven't had a chance to test it out or comment it, right now I know it's a little messy
+    public static String RemoveDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
         Vector<Integer> duplicates = new Vector<Integer> (0, 1);
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
-        for(int i = 0; i < lines.length - 1; i++) {
-            for(int j = i + 1; j < lines.length; j++) {
-                if(lines[j] == lines[i]) /* duplicate found */
-                    duplicates.addElement(j); /* add element value to vector */
+        for(int i = 0; i < lines.length; i++) {
+            for(int j = i + 1; j < lines.length; j++) { /* check to see if any of the later elements match */
+                Println("lines[" + i + "] = " + lines[i] + " and lines[" + j + "] = " + lines[j]);
+                if(lines[j].equals(lines[i])) {/* duplicate found */
+                    Println("Duplicate found. Element " + j + " = Element " + i);
+                    duplicates.addElement(j); /* add element position to vector */
+                }
             }
         }
-        Vector<String> new_lines = new Vector<String> (0,1);
+        Vector<String> new_lines = new Vector<String> (0,1); /* vector to hold the non-duplicate lines */
         for(int i = 0; i < lines.length; i++) {
-            boolean copy_element = true;
+            boolean copy_element = true; /* true if element is not a duplicate */
             for(int j = 0; j < duplicates.size(); j++) {
                 if(i == duplicates.get(j))
                     copy_element = false;
@@ -183,10 +199,48 @@ public class TextManipulator {
                 new_lines.addElement(lines[i]);
         }
         for(int i = 0; i < new_lines.size(); i++)
-            text = text + new_lines.get(i);
+            text = text + new_lines.get(i) + "\n";
         return text;
     }
+    public static String RemoveLinesContaining(String text, String remove) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) { /* for each line... */
+            if(lines[i].indexOf(remove) < 0) /* could not find String remove in line */
+                text = text + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String ScrambleLines(String text) { /// still working on this, feel free to help
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
 
+        return text;
+    }
+    public static String SortLinesAlphabetically(String text) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        Arrays.sort(lines);
+        for(int i = 0; i < lines.length; i++)
+            text = text + lines[i] + "\n";
+        return text;
+    }
+    public static String SortLinesBySize(String text) { /// still working on this, doesn't work yet, feel free to help
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            for(int j = i + 1; j < lines.length; j++) {
+                if(lines[j].length() < lines[i].length()) {
+                    String copy = lines[i];
+                    lines[i] = lines[j];
+                    lines[j] = copy;
+                }
+            }
+        }
+        for(int i = 0; i < lines.length; i++)
+            text = text + lines[i] + "\n";
+        return text;
+    }
     public static void Print(String s) { System.out.print(s); }
     public static void Println(String s) { System.out.println(s); }
 }

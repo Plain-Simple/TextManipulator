@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.Vector;
 public class TextManipulator {
     public static void main(String[] args) {
         String text = "This is a test of the Plain+Simple TextManipulator";
@@ -160,6 +160,30 @@ public class TextManipulator {
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++)
             text = text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
+        return text;
+    }
+    public static String RemoveDuplicateLines(String text) { /// haven't had a chance to test it out or comment it, right now I know it's a little messy
+        Vector<Integer> duplicates = new Vector<Integer> (0, 1);
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length - 1; i++) {
+            for(int j = i + 1; j < lines.length; j++) {
+                if(lines[j] == lines[i]) /* duplicate found */
+                    duplicates.addElement(j); /* add element value to vector */
+            }
+        }
+        Vector<String> new_lines = new Vector<String> (0,1);
+        for(int i = 0; i < lines.length; i++) {
+            boolean copy_element = true;
+            for(int j = 0; j < duplicates.size(); j++) {
+                if(i == duplicates.get(j))
+                    copy_element = false;
+            }
+            if(copy_element)
+                new_lines.addElement(lines[i]);
+        }
+        for(int i = 0; i < new_lines.size(); i++)
+            text = text + new_lines.get(i);
         return text;
     }
 

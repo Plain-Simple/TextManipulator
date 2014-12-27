@@ -2,18 +2,33 @@ import java.io.*;
 
 public class TextManipulator {
     public static void main(String[] args) {
-
+        String text = "This is a test of the Plain+Simple TextManipulator";
+        boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
+        boolean file_loaded = LoadSettings(analyzetext_settings);
+        if(!(file_loaded))
+            DefaultSettings(analyzetext_settings);
+        for(int i = 0; i < 6; i++) {
+            Println("analyzetext_settings[" + i + "] = " + analyzetext_settings[i]);
+        }
+        AnalyzeText(text, analyzetext_settings);
+        text = AddPrefixSuffix(text, "Prefix", "Suffix");
+        Println(text);
+        if(ReadFromFile("TextManipulator_Test", text)) {
+            Println(text);
+            AnalyzeText(text, analyzetext_settings);
+        }
     }
+
     /* runs each sub-function user has chosen under "AnayzeText" function settings */
     public static void AnalyzeText(String text, boolean analyzetext_settings[]) {
         if (analyzetext_settings[0])
-            WordCount(text);
+            Println("Text has " + WordCount(text) + " words.");
         if (analyzetext_settings[1])
-            CharCount(text);
+            Println("Text has " + CharCount(text) + " characters.");
         if (analyzetext_settings[2])
-            LineCount(text);
+            Println("Text has " + LineCount(text) + " lines.");
         if (analyzetext_settings[3])
-            SentenceCount(text);
+            Println("Text has " + SentenceCount(text) + " sentences.");
         if (analyzetext_settings[4])
             WordFrequency(text);
         if (analyzetext_settings[5])
@@ -34,13 +49,12 @@ public class TextManipulator {
             analyzetext_settings[i] = true; /* set all values to true by default */
     }
 
-    public static boolean LoadSettings() {
+    public static boolean LoadSettings(boolean analyzetext_settings[]) {
         boolean load = true;
         try {
             FileReader file = new FileReader("TextManipulator_Settings");
             BufferedReader read_settings = new BufferedReader(file);
             String line = "";
-            boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
             int line_counter = 1;
             while((line = read_settings.readLine()) != null) {
                 if(line_counter == 1) {/* line 1: load settings for AnalyzeText */
@@ -62,6 +76,7 @@ public class TextManipulator {
     }
     /* updates "TextManipulator_Settings" with new values from program - will be run every time the user changes settings */
     public static boolean UpdateSettings(boolean[] analyzetext_settings) {
+        boolean success = true;
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
             BufferedWriter write_settings = new BufferedWriter(file);
@@ -73,7 +88,25 @@ public class TextManipulator {
             write_settings.close();
         } catch(IOException e) {
             Print("Error writing to file\n");
+            success = false;
         }
+        return success;
+    }
+    public static boolean ReadFromFile(String file_name, String text) { /// some problems with this... any ideas?
+        text = ""; /* empty variable text */
+        boolean success = true;
+        try {
+            FileReader file = new FileReader(file_name);
+            BufferedReader read_file = new BufferedReader(file);
+            String line = "";
+            while((line = read_file.readLine()) != null) {
+                text = text + line;
+            }
+        } catch(IOException e) {
+            Println("Error reading file \"" + file_name + "\"");
+            success = false;
+        }
+        return success;
     }
     /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
      * the program */
@@ -107,7 +140,7 @@ public class TextManipulator {
         return line_count;
     }
 
-    public static int SentenceCount(String text) {
+    public static int SentenceCount(String text) { /// should count 1 sentence if there is no period
         int sentence_count = text.length()
                 - text.replace(".", "").replace("?", "").replace("!", "")
                 .length();
@@ -123,11 +156,11 @@ public class TextManipulator {
     }
     /* adds prefix and suffix to each line */
     public static String AddPrefixSuffix(String text, String prefix, String suffix) {
-        String new_text = "";
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++)
-            new_text = new_text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
-        return new_text;
+            text = text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
+        return text;
     }
 
     public static void Print(String s) { System.out.print(s); }

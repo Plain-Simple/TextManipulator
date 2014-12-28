@@ -4,30 +4,19 @@ import java.util.Arrays;
 public class TextManipulator {
     public static void main(String[] args) {
         String text = "This is a test of the Plain+Simple TextManipulator" +
-                        "\n this is line two.";
+                "\n this is line two.";
         boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
         boolean file_loaded = LoadSettings(analyzetext_settings);
         if(!(file_loaded))
             DefaultSettings(analyzetext_settings);
         AnalyzeText(text, analyzetext_settings);
-        text = AddPrefixSuffix(text, "Prefix", "Suffix");
-        Println(text);
         boolean[] success = new boolean[1]; /* this can be used in functions to return true or false */
         text = ReadFromFile("TextManipulator_Test", text, success);
         if(success[0]) {
-            //Println(text);
-            //AnalyzeText(text, analyzetext_settings);
-            //text = AddPrefixSuffix(text, "Prefix", "Suffix");
-            //Println(text);
-            //text = RemoveDuplicateLines(text);
-            //Println(text);
-            //text = RemoveLinesContaining(text, "file");
-            //Println(text);
-            //text = SortLinesAlphabetically(text);
-            //Println(text);
-            text = FindReplace(text, "file", "replaced");
+            String text2 = "merge1" + "\nmerge2" + "\nmerge3" + "\n" + "\nmerge4";
+            text = MergeText(text, text2);
             Println(text);
-            //text = SortLinesBySize(text);
+            //text = RemoveEmptyLines(text);
             //Println(text);
         }
     }
@@ -213,10 +202,15 @@ public class TextManipulator {
         }
         return text;
     }
-    public static String ScrambleLines(String text) { /// still working on this, feel free to help
+    public static String ScrambleLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        Vector<String> lines_vector = new Vector(Arrays.asList(lines)); /* copy array to vector for easier manipulation */
         text = ""; /* clear variable once it has been split into lines*/
-
+        while(lines_vector.size() > 0) { /* runs until all lines have been copied */
+            int line_number = GenerateRandomNumber(lines_vector.size() - 1); /* generate random number within range of vector */
+            text = text + lines_vector.get(line_number) + "\n"; /* copy corresponding element to text */
+            lines_vector.remove(line_number); /* remove the element from the vector so it cannot be copied again */
+        }
         return text;
     }
     public static String SortLinesAlphabetically(String text) {
@@ -227,21 +221,62 @@ public class TextManipulator {
             text = text + lines[i] + "\n";
         return text;
     }
-    public static String SortLinesBySize(String text) { /// still working on this, doesn't work yet, feel free to help
+    public static String SortLinesBySize(String text) { /// this still doesn't quite work, still trying to figure it out, feel free to help
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
-        for(int i = 0; i < lines.length; i++) {
-            for(int j = i + 1; j < lines.length; j++) {
-                if(lines[j].length() < lines[i].length()) {
-                    String copy = lines[i];
-                    lines[i] = lines[j];
-                    lines[j] = copy;
-                }
+        for(int i = 1; i < lines.length; i++) { /* start at first element */
+            int num = 1;
+            while(lines[i].length() < lines[i - num].length() && num != 0) {
+                String line_copy = lines[i - num];
+                lines[i - num] = lines[i];
+                lines[i] = line_copy;
+                num++;
             }
         }
         for(int i = 0; i < lines.length; i++)
             text = text + lines[i] + "\n";
         return text;
+    }
+    /* generates a random integer from 0 to upper_bound, inclusive */
+    public static int GenerateRandomNumber(int upper_bound) {
+        //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
+        return (int) Math.floor(Math.random() * (upper_bound + 1));
+    }
+    public static String NumberLines(String text, String prefix, String suffix) {
+        /* prefix is what goes before the number itself, suffix is what goes after the number but before the line.
+        For example: "1. " has no prefix and ". " as the suffix */
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            text = text + prefix + (i + 1) + suffix + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String RemoveEmptyLines(String text) { /// need some help with this, mainly how to detect if the line is empty */
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            if(lines[i] != "" && lines[i] != "\n" && lines[i] != "\r") /// doesn't work
+                text = text + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String MergeText(String text, String text2) {
+        String[] lines = text.split("\\r?\\n");
+        String[] lines2 = text2.split("\\r?\\n");
+        String new_text = "";
+        int smaller = 0;
+        if(lines.length > lines2.length)
+            smaller = 1;
+        for(int i = 0; i < lines.length; i++) {
+            if(i < lines.length && i < lines2.length)
+                new_text = new_text + lines[i] + lines2[i] + "\n";
+            else if(i > lines.length)
+                new_text = new_text + lines2[i] + "\n";
+            else if(i > lines2.length)
+                new_text = new_text + lines[i] + "\n";
+        }
+        return new_text;
     }
     public static String FindReplace(String text, String find, String replace) { /// just the basic algorithm for now
         int instances = 0;

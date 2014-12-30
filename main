@@ -15,6 +15,8 @@ public class TextManipulator {
         if(success[0]) {
             text = SortLinesBySize(text);
             Println(text);
+            text = RemovePunctuation(text);
+            Println(text);
             text = LineSeparateValues(text, ' ');
             Println(text);
 
@@ -325,7 +327,7 @@ public class TextManipulator {
         }
         return new_text1;
     }
-    public static String LineSeparateValues(String text, char separator) { /// mistake when 'separator' is at the beginning of a line 
+    public static String LineSeparateValues(String text, char separator) { /// mistake when 'separator' is at the beginning of a line
         String new_text = "", word = "";
         for(int i = 0; i < text.length(); i++) {
             if(text.charAt(i) != separator)
@@ -337,6 +339,31 @@ public class TextManipulator {
         }
         return new_text + word; /* make sure to get the last word */
     }
+    public static void LineAnalysis(String text) {
+        String[] lines = text.split("\\r?\\n");
+        for(int i = 0; i < lines.length; i++) {
+            Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " words, " + CharCount(lines[i]) + " characters, "
+            + SentenceCount(lines[i]) + " sentences.");
+        }
+    }
+    /* puts each individual sentence on a separate line */
+    public static String SplitSentences(String text) {
+        String new_text = "";
+        return new_text;
+    }
+    public static String RemovePunctuation(String text) {
+        String new_text = "";
+        for(int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if(!((c > 32 && c < 48) || (c > 57 && c < 65) || (c > 90 && c < 97) || (c > 122 && c < 127)))
+                new_text = new_text + c;
+        }
+        return new_text;
+    }
+    public static void CompareLines(String text, int line_number1, int line_number2) {
+
+    }
+
     public static String ForceUppercase(String text) {return text.toLowerCase();}
     public static String ForceLowercase(String text) {return text.toUpperCase();}
     public static void Print(String s) { System.out.print(s); }

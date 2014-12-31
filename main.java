@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Vector;
 import java.util.Arrays;
+import java.lang.Character;
 public class TextManipulator {
     public static void main(String[] args) {
         String text = "This is a test of the Plain+Simple TextManipulator" +
@@ -13,26 +14,22 @@ public class TextManipulator {
         boolean[] success = new boolean[1]; /* this can be used in functions to return true or false */
         text = ReadFromFile("TextManipulator_Test", text, success);
         if(success[0]) {
-            text = SortLinesBySize(text);
-            Println(text);
-            text = RemovePunctuation(text);
-            Println(text);
-            text = LineSeparateValues(text, ' ');
-            Println(text);
-
+            LineAnalysis(text);
+            Println(SortLinesBySize(text));
+            Println(RemoveEmptyLines(text));
         }
     }
 
     /* runs each sub-function user has chosen under "AnayzeText" function settings */
     public static void AnalyzeText(String text, boolean analyzetext_settings[]) {
         if (analyzetext_settings[0])
-            Println("Text has " + WordCount(text) + " words.");
+            Println("Text has " + WordCount(text) + " word(s).");
         if (analyzetext_settings[1])
-            Println("Text has " + CharCount(text) + " characters.");
+            Println("Text has " + CharCount(text) + " character(s).");
         if (analyzetext_settings[2])
-            Println("Text has " + LineCount(text) + " lines.");
+            Println("Text has " + LineCount(text) + " line(s).");
         if (analyzetext_settings[3])
-            Println("Text has " + SentenceCount(text) + " sentences.");
+            Println("Text has " + SentenceCount(text) + " sentence(s).");
         if (analyzetext_settings[4])
             WordFrequency(text);
         if (analyzetext_settings[5])
@@ -144,10 +141,12 @@ public class TextManipulator {
         return line_count;
     }
 
-    public static int SentenceCount(String text) { /// should count 1 sentence if there is no period
+    public static int SentenceCount(String text) {
         int sentence_count = text.length()
                 - text.replace(".", "").replace("?", "").replace("!", "")
                 .length();
+        if(sentence_count == 0)
+            sentence_count++; /* it has to be at least one sentence, even though it may not be grammatically complete */
         return sentence_count;
     }
 
@@ -255,11 +254,18 @@ public class TextManipulator {
         }
         return text;
     }
-    public static String RemoveEmptyLines(String text) { /// need some help with this, mainly how to detect if the line is empty */
+    public static String RemoveEmptyLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) {
-            if(lines[i] != "" && lines[i] != "\n" && lines[i] != "\r") /// doesn't work
+            boolean copy = false;
+            for(int j = 0; j < lines[i].length(); j++) {
+                if(!(Character.isWhitespace(lines[i].charAt(j)))) {/* condition will be true if a character in lines[i] is NOT whitespace */
+                    copy = true;
+                    break;
+                }
+            }
+            if(copy)
                 text = text + lines[i] + "\n";
         }
         return text;
@@ -342,8 +348,8 @@ public class TextManipulator {
     public static void LineAnalysis(String text) {
         String[] lines = text.split("\\r?\\n");
         for(int i = 0; i < lines.length; i++) {
-            Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " words, " + CharCount(lines[i]) + " characters, "
-            + SentenceCount(lines[i]) + " sentences.");
+            Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " word(s), " + CharCount(lines[i]) + " character(s), "
+            + SentenceCount(lines[i]) + " sentence(s).");
         }
     }
     /* puts each individual sentence on a separate line */

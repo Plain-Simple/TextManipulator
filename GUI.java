@@ -1,7 +1,11 @@
 /* Plain+Simple TextManipulator GUI version */
 package test;
-import java.util.Vector;
 import java.util.Arrays;
+import java.lang.Character;
+import java.io.*;
+import java.util.Vector;
+import java.awt.datatransfer.*;
+import java.awt.Toolkit;
 
 public class TextManipulatorGUI extends javax.swing.JFrame {
 
@@ -31,11 +35,21 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
         text_input = new javax.swing.JTextArea();
         scramblelines_button = new javax.swing.JButton();
         removepunctuation_button = new javax.swing.JButton();
+        cleartext_box = new javax.swing.JButton();
+        error_message = new javax.swing.JLabel();
+        copy_button = new javax.swing.JButton();
+        loadfile_button = new javax.swing.JButton();
+        Title = new javax.swing.JLabel();
+        filename_label = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        removeDuplicateLines_button = new javax.swing.JButton();
+        forceUppercase_button = new javax.swing.JButton();
+        forceLowercase_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Plain+Simple TextManipulator");
 
-        list_title.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        list_title.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         list_title.setText("Available Functions");
 
         analyzetext_button.setText("Analyze Text");
@@ -46,6 +60,7 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
         });
 
         text_input.setColumns(20);
+        text_input.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         text_input.setRows(5);
         text_input.setText("[Enter text here]");
         text_field.setViewportView(text_input);
@@ -64,6 +79,61 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
             }
         });
 
+        cleartext_box.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cleartext_box.setText("Clear Text");
+        cleartext_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleartext_boxActionPerformed(evt);
+            }
+        });
+
+        error_message.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        error_message.setForeground(new java.awt.Color(204, 0, 0));
+
+        copy_button.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        copy_button.setText("Copy to Clipboard");
+        copy_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copy_buttonActionPerformed(evt);
+            }
+        });
+
+        loadfile_button.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        loadfile_button.setText("Load File");
+        loadfile_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadfile_buttonActionPerformed(evt);
+            }
+        });
+
+        Title.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        Title.setText("TextManipulator v 0.2");
+
+        filename_label.setText("[Enter file name]");
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        removeDuplicateLines_button.setText("Remove Duplicate Lines");
+        removeDuplicateLines_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeDuplicateLines_buttonActionPerformed(evt);
+            }
+        });
+
+        forceUppercase_button.setText("Force Upper Case");
+        forceUppercase_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forceUppercase_buttonActionPerformed(evt);
+            }
+        });
+
+        forceLowercase_button.setText("Force Lower Case");
+        forceLowercase_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forceLowercase_buttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,54 +141,96 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(list_title)
-                    .addComponent(analyzetext_button)
-                    .addComponent(scramblelines_button)
-                    .addComponent(removepunctuation_button))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(list_title, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(charcount_label)
-                        .addGap(22, 22, 22)
-                        .addComponent(linecount_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sentencecount_label)
-                        .addGap(0, 88, Short.MAX_VALUE))
-                    .addComponent(text_field))
+                        .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(analyzetext_button, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(removepunctuation_button)
+                                    .addComponent(removeDuplicateLines_button)
+                                    .addComponent(forceUppercase_button)
+                                    .addComponent(forceLowercase_button))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(scramblelines_button))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(linecount_label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sentencecount_label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(charcount_label))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(loadfile_button)
+                                .addGap(2, 2, 2)
+                                .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(copy_button)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cleartext_box, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {charcount_label, linecount_label, sentencecount_label, wordcount_label});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {analyzetext_button, removepunctuation_button, scramblelines_button});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {analyzetext_button, forceLowercase_button, forceUppercase_button, loadfile_button, removeDuplicateLines_button, removepunctuation_button, scramblelines_button});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(copy_button)
+                    .addComponent(cleartext_box)
+                    .addComponent(loadfile_button)
+                    .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(list_title, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(list_title)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(analyzetext_button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scramblelines_button)
+                        .addComponent(removepunctuation_button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removepunctuation_button))
-                    .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(removeDuplicateLines_button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(forceUppercase_button)
+                        .addGap(5, 5, 5)
+                        .addComponent(forceLowercase_button)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scramblelines_button))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(charcount_label)
                     .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(charcount_label)
                         .addComponent(linecount_label)
                         .addComponent(sentencecount_label)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {charcount_label, linecount_label, sentencecount_label, wordcount_label});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {filename_label, loadfile_button, removeDuplicateLines_button, removepunctuation_button});
 
         pack();
     }// </editor-fold>                        
@@ -159,6 +271,37 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
         SetText(text);
     }                                                        
 
+    private void cleartext_boxActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        ClearText();
+    }                                             
+    /* copies all text from 'text_input' to system clipboard */
+    private void copy_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        String text = GetText();
+        StringSelection stringSelection = new StringSelection (text); /// I kind of just found this code online, it's not original
+        Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+        clpbrd.setContents (stringSelection, null);
+    }                                           
+
+    private void loadfile_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        boolean[] success = new boolean[1];
+        String file_name = filename_label.getText();
+        String new_text = ReadFromFile(file_name, success);
+        if(success[0])  /* file read successfully */
+            SetText(new_text);
+    }                                               
+
+    private void removeDuplicateLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                            
+        SetText(RemoveDuplicateLines(GetText()));
+    }                                                           
+
+    private void forceUppercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
+        SetText(ForceUppercase(GetText()));
+    }                                                     
+
+    private void forceLowercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
+        SetText(ForceLowercase(GetText()));
+    }                                                     
+
     /**
      * @param args the command line arguments
      */
@@ -193,10 +336,12 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
             }
         });
     }
-    public static int GenerateRandomNumber(int upper_bound) {
+    /* generates a random number between 0 and 'upper_bound' inclusive */
+    public static int GenerateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
         //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
         return (int) Math.floor(Math.random() * (upper_bound + 1));
     }
+    /* removes all non-letter and non-numbers, leaves spaces */
     public static String RemovePunctuation(String text) {
         String new_text = "";
         for(int i = 0; i < text.length(); i++) {
@@ -206,18 +351,293 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
         }
         return new_text;
     }
-    private String GetText() {
+    /* returns text from the 'text_input' box */
+    public String GetText() {
         return text_input.getText();
     }
-    private void SetText(String text) {
+    /* sets the textbox to 'text' */
+    public void SetText(String text) {
         text_input.setText(text);
     }
+    /* clears the text box */
+    public void ClearText() {
+        text_input.setText("");
+    }
+    public String ReadFromFile(String file_name, boolean[] success) {
+        String text = ""; /* empty variable text */
+        try {
+            success[0] = true;
+            FileReader file = new FileReader(file_name);
+            BufferedReader read_file = new BufferedReader(file);
+            String line = "";
+            while((line = read_file.readLine()) != null) {
+                text = text + line + "\n"; /* need to include a newline, otherwise everything will be made into one line */
+            }
+        } catch(IOException e) {
+            error_message.setText("Error reading file \"" + file_name + "\"");
+            success[0] = false;
+        }
+        return text;
+    }
+    /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
+     * the program */
+    public static boolean CharToBoolean(char c) {
+        if(c == '0')
+            return false;
+        else
+            return true;
+    }
+    /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
+    public static char BooleanToChar(boolean b) {
+        if(b == false)
+            return '0';
+        else
+            return '1';
+    }
 
+    public static int CharCount(String text) {
+        int char_count = text.replace("\n", "").length();
+        return char_count;
+    }
+
+    public static int WordCount(String text) {
+        int word_count = text.length()
+                - text.replace(" ", "").replace("\n", "").length() + 1;
+        return word_count;
+    }
+
+    public static int LineCount(String text) {
+        int line_count = text.length() - text.replace("\n", "").length() + 1; /// needs to be tested and possibly corrected
+        return line_count;
+    }
+
+    public static int SentenceCount(String text) {
+        int sentence_count = text.length()
+                - text.replace(".", "").replace("?", "").replace("!", "")
+                .length();
+        if(sentence_count == 0)
+            sentence_count++; /* it has to be at least one sentence, even though it may not be grammatically complete */
+        return sentence_count;
+    }
+
+    public static void WordFrequency(String text) {
+
+    }
+
+    public static void CharFrequency(String text) {
+
+    }
+    /* adds prefix and suffix to each line */
+    public static String AddPrefixSuffix(String text, String prefix, String suffix) {
+        //String delims = "[\\r\\n]+"; /* splits text into separate lines */
+        //String[] lines = text.split(delims); /* create an array that holds each individual line */
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++)
+            text = text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
+        return text;
+    }
+    public static String RemoveDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
+        Vector<Integer> duplicates = new Vector<Integer> (0, 1);
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            for(int j = i + 1; j < lines.length; j++) { /* check to see if any of the later elements match */
+                if(lines[j].equals(lines[i])) {/* duplicate found */
+                    duplicates.addElement(j); /* add element position to vector */
+                }
+            }
+        }
+        Vector<String> new_lines = new Vector<String> (0,1); /* vector to hold the non-duplicate lines */
+        for(int i = 0; i < lines.length; i++) {
+            boolean copy_element = true; /* true if element is not a duplicate */
+            for(int j = 0; j < duplicates.size(); j++) {
+                if(i == duplicates.get(j))
+                    copy_element = false;
+            }
+            if(copy_element)
+                new_lines.addElement(lines[i]);
+        }
+        for(int i = 0; i < new_lines.size(); i++)
+            text = text + new_lines.get(i) + "\n";
+        return text;
+    }
+    public static String RemoveLinesContaining(String text, String remove) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) { /* for each line... */
+            if(lines[i].indexOf(remove) < 0) /* could not find String remove in line */
+                text = text + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String ScrambleLines(String text) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        Vector<String> lines_vector = new Vector(Arrays.asList(lines)); /* copy array to vector for easier manipulation */
+        text = ""; /* clear variable once it has been split into lines*/
+        while(lines_vector.size() > 0) { /* runs until all lines have been copied */
+            int line_number = GenerateRandomNumber(lines_vector.size() - 1); /* generate random number within range of vector */
+            text = text + lines_vector.get(line_number) + "\n"; /* copy corresponding element to text */
+            lines_vector.remove(line_number); /* remove the element from the vector so it cannot be copied again */
+        }
+        return text;
+    }
+    public static String SortLinesAlphabetically(String text) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        Arrays.sort(lines);
+        for(int i = 0; i < lines.length; i++)
+            text = text + lines[i] + "\n";
+        return text;
+    }
+    public static String SortLinesBySize(String text) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 1; i < lines.length; i++) { /* start at second element */
+            int num = 1;
+            String compare = lines[i];
+            while(num <= i && compare.length() < lines[i - num].length()) { /* keeps looping while a smaller line
+                exists behind the current element and num doesn't cause an arrayindexoutofbounds exception */
+                lines[i - num + 1] = lines[i - num]; /* move larger element one to the right */
+                lines[i - num] = compare; /* move compare one to the left */
+                num++;
+            }
+        }
+        for(int i = 0; i < lines.length; i++)
+            text = text + lines[i] + "\n";
+        return text;
+    }
+    public static String NumberLines(String text, String prefix, String suffix) {
+        /* prefix is what goes before the number itself, suffix is what goes after the number but before the line.
+        For example: "1. " has no prefix and ". " as the suffix */
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            text = text + prefix + (i + 1) + suffix + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String RemoveEmptyLines(String text) {
+        String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
+        text = ""; /* clear variable once it has been split into lines*/
+        for(int i = 0; i < lines.length; i++) {
+            boolean copy = false;
+            for(int j = 0; j < lines[i].length(); j++) {
+                if(!(Character.isWhitespace(lines[i].charAt(j)))) {/* condition will be true if a character in lines[i] is NOT whitespace */
+                    copy = true;
+                    break;
+                }
+            }
+            if(copy)
+                text = text + lines[i] + "\n";
+        }
+        return text;
+    }
+    public static String MergeText(String text, String text2) {
+        String[] lines = text.split("\\r?\\n");
+        String[] lines2 = text2.split("\\r?\\n");
+        String new_text = "";
+        for(int i = 0; i < lines.length; i++) {
+            if(i < lines2.length) /* will prevent lines2 from going out of bounds if it is smaller than lines */
+                new_text = new_text + lines[i] + lines2[i] + "\n";
+            else
+                new_text = new_text + lines[i] + "\n"; /* all elements of lines2 have been transferred */
+        }
+        if(lines2.length > lines.length) {
+            for(int i = lines.length; i < lines2.length; i++) /* merge any remaining elements from lines2 */
+                new_text = new_text + lines2[i] + "\n";
+        }
+        return new_text;
+    }
+    public static String FindReplace(String text, String find, String replace) { /// just the basic algorithm for now. May need to be fixed.
+        int instances = 0;
+        while(text.indexOf(find) > -1) { /* runs until String find is no longer found */ /// no longer sure if this will work correctly, although testing was fine.
+            text = text.substring(0, text.indexOf(find)) + replace + text.substring(text.indexOf(find) + find.length(), text.length());
+            instances++;
+        }
+        return text;
+    }
+    /* removes all instances of 'argument' from 'text' */
+    public static String RemoveArgument(String argument, String text) {
+        String new_text = "";
+        Vector<Integer> locations = new Vector<Integer> (0,1); /* will be used to store the indexes where argument is found */
+        int from_index = 0;
+        while(text.indexOf(argument, from_index) > -1) {
+            int index = text.indexOf(argument, from_index);
+            locations.addElement(index); /* store locations of all instances */
+            from_index = index + argument.length(); /* increment from_index so it won't keep finding the same string over and over */
+        }
+        int j = 0, argument_length = argument.length();
+        for(int i = 0; i < text.length(); i++) {
+            if(j < locations.size() && i == locations.get(j)) { /* i has reached one of the instances */
+                i = i + argument_length - 1; /* increment i to skip the instance */
+                j++;
+            }
+            else
+                new_text = new_text + text.charAt(i);
+        }
+        return new_text;
+    }
+    public static String CommaSeparateValues(String text) {
+        String new_text = "";
+        for(int i = 0; i < text.length(); i++)
+            if(text.charAt(i) == ' ')
+                new_text = new_text + ",";
+            else
+                new_text = new_text + text.charAt(i);
+        String new_text1 = "";
+        for(int i = 0; i < new_text.length() - 1; i++) {
+            if(!(new_text.charAt(i) == ',' && new_text.charAt(i + 1) == ',')) /* remove duplicate commas */
+                new_text1 = new_text1 + new_text.charAt(i);
+        }
+        return new_text1;
+    }
+    public static String LineSeparateValues(String text, char separator) { /// mistake when 'separator' is at the beginning of a line
+        String new_text = "", word = "";
+        for(int i = 0; i < text.length(); i++) {
+            if(text.charAt(i) != separator)
+                word = word + text.charAt(i);
+            else if(word != "") { /* this avoids empty line breaks when there is more than one separator in a row */
+                new_text = new_text + word + "\n"; /* add 'word' and a newline */
+                word = ""; /* reset word */
+            }
+        }
+        return new_text + word; /* make sure to get the last word */
+    }
+    //public static void LineAnalysis(String text) {
+    //    String[] lines = text.split("\\r?\\n");
+    //    for(int i = 0; i < lines.length; i++) {
+    //        Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " word(s), " + CharCount(lines[i]) + " character(s), "
+    //        + SentenceCount(lines[i]) + " sentence(s).");
+    //    }
+    //}
+    /* puts each individual sentence on a separate line */
+    public static String SplitSentences(String text) {
+        String new_text = "";
+        return new_text;
+    }
+    public static void CompareLines(String text, int line_number1, int line_number2) {
+
+    }
+    
+
+    public static String ForceUppercase(String text) {return text.toUpperCase();}
+    public static String ForceLowercase(String text) {return text.toLowerCase();}
     // Variables declaration - do not modify                     
+    private javax.swing.JLabel Title;
     private javax.swing.JButton analyzetext_button;
     private javax.swing.JLabel charcount_label;
+    private javax.swing.JButton cleartext_box;
+    private javax.swing.JButton copy_button;
+    private javax.swing.JLabel error_message;
+    private javax.swing.JTextField filename_label;
+    private javax.swing.JButton forceLowercase_button;
+    private javax.swing.JButton forceUppercase_button;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel linecount_label;
     private javax.swing.JLabel list_title;
+    private javax.swing.JButton loadfile_button;
+    private javax.swing.JButton removeDuplicateLines_button;
     private javax.swing.JButton removepunctuation_button;
     private javax.swing.JButton scramblelines_button;
     private javax.swing.JLabel sentencecount_label;

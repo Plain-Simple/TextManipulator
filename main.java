@@ -1,23 +1,25 @@
+package textfunctions;
 import java.io.*;
 import java.util.Vector;
 import java.util.Arrays;
 import java.lang.Character;
 public class TextManipulator {
     public static void main(String[] args) {
-        String text = "This is a test of the Plain+Simple TextManipulator" +
+       /* String text = "This is a test of the Plain+Simple TextManipulator" +
                 "\n this is line two.";
         boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
-        boolean file_loaded = LoadSettings(analyzetext_settings);
+        /*boolean file_loaded = LoadSettings(analyzetext_settings);
         if(!(file_loaded))
             DefaultSettings(analyzetext_settings);
         AnalyzeText(text, analyzetext_settings);
         boolean[] success = new boolean[1]; /* this can be used in functions to return true or false */
-        text = ReadFromFile("TextManipulator_Test", text, success);
+        /*text = ReadFromFile("TextManipulator_Test", text, success);
         if(success[0]) {
             LineAnalysis(text);
             Println(SortLinesBySize(text));
             Println(RemoveEmptyLines(text));
-        }
+            Println(NumberLines(text, "", ") "));
+        }*/
     }
 
     /* runs each sub-function user has chosen under "AnayzeText" function settings */
@@ -93,8 +95,8 @@ public class TextManipulator {
         }
         return success;
     }
-    public static String ReadFromFile(String file_name, String text, boolean[] success) {
-        text = ""; /* empty variable text */
+    public String ReadFromFile(String file_name, boolean[] success) {
+        String text = ""; /* empty variable text */
         try {
             success[0] = true;
             FileReader file = new FileReader(file_name);
@@ -104,7 +106,7 @@ public class TextManipulator {
                 text = text + line + "\n"; /* need to include a newline, otherwise everything will be made into one line */
             }
         } catch(IOException e) {
-            Println("Error reading file \"" + file_name + "\"");
+            error_message.setText("Error reading file \"" + file_name + "\"");
             success[0] = false;
         }
         return text;
@@ -173,9 +175,7 @@ public class TextManipulator {
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) {
             for(int j = i + 1; j < lines.length; j++) { /* check to see if any of the later elements match */
-                Println("lines[" + i + "] = " + lines[i] + " and lines[" + j + "] = " + lines[j]);
                 if(lines[j].equals(lines[i])) {/* duplicate found */
-                    Println("Duplicate found. Element " + j + " = Element " + i);
                     duplicates.addElement(j); /* add element position to vector */
                 }
             }
@@ -239,11 +239,6 @@ public class TextManipulator {
             text = text + lines[i] + "\n";
         return text;
     }
-    /* generates a random integer from 0 to upper_bound, inclusive */
-    public static int GenerateRandomNumber(int upper_bound) {
-        //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
-        return (int) Math.floor(Math.random() * (upper_bound + 1));
-    }
     public static String NumberLines(String text, String prefix, String suffix) {
         /* prefix is what goes before the number itself, suffix is what goes after the number but before the line.
         For example: "1. " has no prefix and ". " as the suffix */
@@ -292,7 +287,6 @@ public class TextManipulator {
             text = text.substring(0, text.indexOf(find)) + replace + text.substring(text.indexOf(find) + find.length(), text.length());
             instances++;
         }
-        Println(instances + " instances of \"" + find + "\" replaced."); /// we can remove this counter later
         return text;
     }
     /* removes all instances of 'argument' from 'text' */
@@ -304,9 +298,6 @@ public class TextManipulator {
             int index = text.indexOf(argument, from_index);
             locations.addElement(index); /* store locations of all instances */
             from_index = index + argument.length(); /* increment from_index so it won't keep finding the same string over and over */
-        }
-        for(int i = 0; i < locations.size(); i++) {
-            Println("locations[" + i + "] = " + locations.get(i));
         }
         int j = 0, argument_length = argument.length();
         for(int i = 0; i < text.length(); i++) {
@@ -345,18 +336,27 @@ public class TextManipulator {
         }
         return new_text + word; /* make sure to get the last word */
     }
-    public static void LineAnalysis(String text) {
-        String[] lines = text.split("\\r?\\n");
-        for(int i = 0; i < lines.length; i++) {
-            Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " word(s), " + CharCount(lines[i]) + " character(s), "
-            + SentenceCount(lines[i]) + " sentence(s).");
-        }
-    }
+    //public static void LineAnalysis(String text) {
+    //    String[] lines = text.split("\\r?\\n");
+    //    for(int i = 0; i < lines.length; i++) {
+    //        Println("Line " + (i + 1) + ": " + WordCount(lines[i]) + " word(s), " + CharCount(lines[i]) + " character(s), "
+    //        + SentenceCount(lines[i]) + " sentence(s).");
+    //    }
+    //}
     /* puts each individual sentence on a separate line */
     public static String SplitSentences(String text) {
         String new_text = "";
         return new_text;
     }
+    public static void CompareLines(String text, int line_number1, int line_number2) {
+
+    }
+    /* generates a random number between 0 and 'upper_bound' inclusive */
+    public static int GenerateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
+        //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
+        return (int) Math.floor(Math.random() * (upper_bound + 1));
+    }
+    /* removes all non-letter and non-numbers, leaves spaces */
     public static String RemovePunctuation(String text) {
         String new_text = "";
         for(int i = 0; i < text.length(); i++) {
@@ -366,12 +366,10 @@ public class TextManipulator {
         }
         return new_text;
     }
-    public static void CompareLines(String text, int line_number1, int line_number2) {
 
-    }
 
-    public static String ForceUppercase(String text) {return text.toLowerCase();}
-    public static String ForceLowercase(String text) {return text.toUpperCase();}
+    public static String ForceUppercase(String text) {return text.toUpperCase();}
+    public static String ForceLowercase(String text) {return text.toLowerCase();}
     public static void Print(String s) { System.out.print(s); }
     public static void Println(String s) { System.out.println(s); }
 }

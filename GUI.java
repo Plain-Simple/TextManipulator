@@ -1,5 +1,7 @@
 /* Plain+Simple TextManipulator GUI version */
-package test;
+package textfunctions;
+
+import javax.swing.JFrame;
 import java.util.Arrays;
 import java.lang.Character;
 import java.io.*;
@@ -8,7 +10,8 @@ import java.awt.datatransfer.*;
 import java.awt.Toolkit;
 import textfunctions.TextManipulator; /* TextManipulator package */
 
-public class TextManipulatorGUI extends javax.swing.JFrame {
+public class TextManipulatorGUI extends JFrame {
+	/* Plain+Simple TextManipulator GUI version */
 
     /**
      * Creates new form TextManipulatorGUI
@@ -382,17 +385,17 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
         String text = GetText();
         int word_count = text.length()
                 - text.replace(" ", "").replace("\n", "").length() + 1;
-        wordcount_label.setText(word_count + " words");
+        wordcount_label.setText(word_count + ((word_count == 1) ? " word" : " words"));
         int char_count = text.replace("\n", "").length();
-        charcount_label.setText(char_count + " characters");
+        charcount_label.setText(char_count + ((char_count == 1) ? " character" : " characters"));
         int line_count = text.length() - text.replace("\n", "").length() + 1;
-        linecount_label.setText(line_count + " lines");
+        linecount_label.setText(line_count + ((line_count == 1) ? " line" : " lines"));
         int sentence_count = text.length()
                 - text.replace(".", "").replace("?", "").replace("!", "")
                 .length();
         if(sentence_count == 0)
             sentence_count++;
-        sentencecount_label.setText(sentence_count + " sentences");
+        sentencecount_label.setText(sentence_count + ((sentence_count == 1) ? " sentence" : " sentences"));
     }                                                  
 /// only works the first time
     private void sortLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
@@ -549,6 +552,7 @@ public class TextManipulatorGUI extends javax.swing.JFrame {
             while((line = read_file.readLine()) != null) {
                 text = text + line + "\n"; /* need to include a newline, otherwise everything will be made into one line */
             }
+            read_file.close();
         } catch(IOException e) {
             error_message.setText("Error reading file \"" + file_name + "\"");
             success[0] = false;

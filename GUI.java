@@ -1,6 +1,4 @@
-/* Plain+Simple TextManipulator GUI version */
-package textfunctions;
-
+/* Plain+Simple TextManipulator GUI */
 import javax.swing.JFrame;
 import java.util.Arrays;
 import java.lang.Character;
@@ -8,15 +6,16 @@ import java.io.*;
 import java.util.Vector;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
-import textfunctions.TextManipulator; /* TextManipulator package */
+import textfunctions.ManipulateText;
+import textfunctions.AnalyzeText;
 
-public class TextManipulatorGUI extends JFrame {
+public class GUI extends JFrame {
 	/* Plain+Simple TextManipulator GUI version */
 
     /**
-     * Creates new form TextManipulatorGUI
+     * Creates new form GUI
      */
-    public TextManipulatorGUI() {
+    public GUI() {
         initComponents();
     }
 
@@ -224,79 +223,79 @@ public class TextManipulatorGUI extends JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(list_title, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(linecount_label)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sentencecount_label)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(charcount_label))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(loadfile_button)
-                                .addGap(2, 2, 2)
-                                .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(copy_button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cleartext_box, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(analyzetext_button, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(removepunctuation_button)
-                                    .addComponent(removeDuplicateLines_button)
-                                    .addComponent(forceUppercase_button)
-                                    .addComponent(forceLowercase_button))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(commaSeparate_button)
-                                        .addComponent(removeEmptyLines_button, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addComponent(lineSeparate_button))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(sortLines_button)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(list_title, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(sortAlphabetically_radiobutton))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(addPrefix_button)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(prefix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(sortBySize_radiobutton)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(sortRandomly_radiobutton))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(addSuffix_button)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(suffix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(remove_button)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(remove_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                                .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(linecount_label)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(sentencecount_label)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(charcount_label))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(loadfile_button)
+                                                                .addGap(2, 2, 2)
+                                                                .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(copy_button)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(cleartext_box, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(analyzetext_button, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(removepunctuation_button)
+                                                                        .addComponent(removeDuplicateLines_button)
+                                                                        .addComponent(forceUppercase_button)
+                                                                        .addComponent(forceLowercase_button))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(commaSeparate_button)
+                                                                                .addComponent(removeEmptyLines_button, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                                        .addComponent(lineSeparate_button))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(sortLines_button)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addComponent(sortAlphabetically_radiobutton))
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(addPrefix_button)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addComponent(prefix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(sortBySize_radiobutton)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addComponent(sortRandomly_radiobutton))
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(addSuffix_button)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addComponent(suffix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addComponent(remove_button)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                .addComponent(remove_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {charcount_label, linecount_label, sentencecount_label, wordcount_label});
@@ -306,70 +305,70 @@ public class TextManipulatorGUI extends JFrame {
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {prefix_textfield, remove_textfield});
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(copy_button)
-                    .addComponent(cleartext_box)
-                    .addComponent(loadfile_button)
-                    .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(list_title, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(analyzetext_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removepunctuation_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeDuplicateLines_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(forceUppercase_button)
-                        .addGap(5, 5, 5)
-                        .addComponent(forceLowercase_button)
-                        .addGap(25, 25, 25))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(text_field, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(sortLines_button)
-                                    .addComponent(sortAlphabetically_radiobutton)
-                                    .addComponent(sortBySize_radiobutton)
-                                    .addComponent(sortRandomly_radiobutton))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(addPrefix_button)
-                                    .addComponent(prefix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addSuffix_button)
-                                    .addComponent(suffix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(remove_button)
-                                    .addComponent(remove_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(removeEmptyLines_button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(commaSeparate_button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lineSeparate_button)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(charcount_label)
-                    .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(linecount_label)
-                        .addComponent(sentencecount_label)))
-                .addGap(31, 31, 31))
+                                        .addComponent(copy_button)
+                                        .addComponent(cleartext_box)
+                                        .addComponent(loadfile_button)
+                                        .addComponent(filename_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(list_title, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                                        .addComponent(error_message, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(analyzetext_button)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(removepunctuation_button)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(removeDuplicateLines_button)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(forceUppercase_button)
+                                                .addGap(5, 5, 5)
+                                                .addComponent(forceLowercase_button)
+                                                .addGap(25, 25, 25))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(sortLines_button)
+                                                                        .addComponent(sortAlphabetically_radiobutton)
+                                                                        .addComponent(sortBySize_radiobutton)
+                                                                        .addComponent(sortRandomly_radiobutton))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(addPrefix_button)
+                                                                        .addComponent(prefix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(addSuffix_button)
+                                                                        .addComponent(suffix_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(remove_button)
+                                                                        .addComponent(remove_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(removeEmptyLines_button)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(commaSeparate_button)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(lineSeparate_button)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(charcount_label)
+                                        .addComponent(wordcount_label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(linecount_label)
+                                                .addComponent(sentencecount_label)))
+                                .addGap(31, 31, 31))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {charcount_label, linecount_label, sentencecount_label, wordcount_label});
@@ -381,120 +380,119 @@ public class TextManipulatorGUI extends JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void analyzetext_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+    private void analyzetext_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String text = GetText();
-        int word_count = text.length()
-                - text.replace(" ", "").replace("\n", "").length() + 1;
+        int word_count = AnalyzeText.WordCount(text);
         wordcount_label.setText(word_count + ((word_count == 1) ? " word" : " words"));
-        int char_count = text.replace("\n", "").length();
+        int char_count = AnalyzeText.CharCount(text);
         charcount_label.setText(char_count + ((char_count == 1) ? " character" : " characters"));
-        int line_count = text.length() - text.replace("\n", "").length() + 1;
+        int line_count = AnalyzeText.LineCount(text);
         linecount_label.setText(line_count + ((line_count == 1) ? " line" : " lines"));
-        int sentence_count = text.length()
-                - text.replace(".", "").replace("?", "").replace("!", "")
-                .length();
+        int sentence_count = AnalyzeText.SentenceCount(text);
         if(sentence_count == 0)
             sentence_count++;
         sentencecount_label.setText(sentence_count + ((sentence_count == 1) ? " sentence" : " sentences"));
-    }                                                  
-/// only works the first time
-    private void sortLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    }
+    /// only works the first time
+    private void sortLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         if(sortAlphabetically_radiobutton.isEnabled()) /* need to know which radiobutton is currently pressed */
-            SetText(TextManipulator.SortLinesAlphabetically(GetText()));
+            SetText(ManipulateText.SortLinesAlphabetically(GetText()));
         else if(sortBySize_radiobutton.isEnabled())
-            SetText(TextManipulator.SortLinesBySize(GetText()));
-        else if(sortRandomly_radiobutton.isEnabled()) 
-            SetText(TextManipulator.ScrambleLines(GetText()));
+            SetText(ManipulateText.SortLinesBySize(GetText()));
+        else if(sortRandomly_radiobutton.isEnabled())
+            SetText(ManipulateText.ScrambleLines(GetText()));
         else
-            error_message.setText("Error: No button selected");
+            SetErrorMessage("Error: No button selected");
         //sortLines_buttongroup.clearSelection();
-    }                                                
+    }
 
-    private void removepunctuation_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                         
-        SetText(TextManipulator.RemovePunctuation(GetText()));
-    }                                                        
+    private void removepunctuation_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.RemovePunctuation(GetText()));
+    }
 
-    private void cleartext_boxActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void cleartext_boxActionPerformed(java.awt.event.ActionEvent evt) {
         ClearText();
-    }                                             
+    }
     /* copies all text from 'text_input' to system clipboard */
-    private void copy_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void copy_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String text = GetText();
         StringSelection stringSelection = new StringSelection (text); /// I kind of just found this code online, it's not original
         Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
         clpbrd.setContents (stringSelection, null);
-    }                                           
+    }
 
-    private void loadfile_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void loadfile_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         boolean[] success = new boolean[1];
         String file_name = filename_label.getText();
         String new_text = ReadFromFile(file_name, success);
         if(success[0])  /* file read successfully */
             SetText(new_text);
-    }                                               
+        else
+            SetErrorMessage("Error reading file \"" + file_name + "\"");
+    }
 
-    private void removeDuplicateLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                            
-        SetText(TextManipulator.RemoveDuplicateLines(GetText()));
-    }                                                           
+    private void removeDuplicateLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.RemoveDuplicateLines(GetText()));
+    }
 
-    private void forceUppercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        SetText(TextManipulator.ForceUppercase(GetText()));
-    }                                                     
+    private void forceUppercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.ForceUppercase(GetText()));
+    }
 
-    private void forceLowercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        SetText(TextManipulator.ForceLowercase(GetText()));
-    }                                                     
+    private void forceLowercase_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.ForceLowercase(GetText()));
+    }
 
     private void sortAlphabetically_radiobuttonActionPerformed(java.awt.event.ActionEvent evt) {                                                               
         /* function only serves as a flag for SortLines */
-    }                                                              
+    }
 
     private void sortBySize_radiobuttonActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         /* function only serves as a flag for SortLines */
-    }                                                      
+    }
 
     private void sortRandomly_radiobuttonActionPerformed(java.awt.event.ActionEvent evt) {                                                         
         /* function only serves as a flag for SortLines */
-    }                                                        
+    }
 
-    private void addPrefix_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    private void addPrefix_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String prefix = prefix_textfield.getText();
         if(prefix.equals("")) {
-            error_message.setText("Error: No prefix specified");
+            SetErrorMessage("Error: No prefix specified");
             prefix_textfield.setText("[Enter prefix]");
         } else
-            SetText(TextManipulator.AddPrefixSuffix(GetText(), prefix, ""));
-    }                                                
+            SetText(ManipulateText.AddPrefixSuffix(GetText(), prefix, ""));
+    }
 
-    private void addSuffix_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    private void addSuffix_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String suffix = suffix_textfield.getText();
         if(suffix.equals("")) {
-            error_message.setText("Error: No suffix specified");
+            SetErrorMessage("Error: No suffix specified");
             suffix_textfield.setText("[Enter suffix]");
         } else
-            SetText(TextManipulator.AddPrefixSuffix(GetText(), "", suffix));
-    }                                                
+            SetText(ManipulateText.AddPrefixSuffix(GetText(), "", suffix));
+    }
 
-    private void removeEmptyLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                        
-        SetText(TextManipulator.RemoveEmptyLines(GetText()));
-    }                                                       
+    private void removeEmptyLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.RemoveEmptyLines(GetText()));
+    }
 
-    private void commaSeparate_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        SetText(TextManipulator.CommaSeparateValues(GetText()));
-    }                                                    
+    private void commaSeparate_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.CommaSeparateValues(GetText()));
+    }
 
-    private void lineSeparate_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        SetText(TextManipulator.LineSeparateValues(GetText(), ' '));
-    }                                                   
+    private void lineSeparate_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        SetText(ManipulateText.LineSeparateValues(GetText(), ' '));
+    }
 
-    private void remove_buttonActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void remove_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         String remove = remove_textfield.getText();
         if(remove.equals("")) {
-            error_message.setText("Error: No argument specified");
+            SetErrorMessage("Error: No argument specified");
             remove_textfield.setText("[Enter text to remove]");
         } else
-            SetText(TextManipulator.RemoveArgument(remove, GetText()));
-    }                                             
+            SetText(ManipulateText.RemoveArgument(remove, GetText()));
+    }
 
     /**
      * @param args the command line arguments
@@ -513,20 +511,20 @@ public class TextManipulatorGUI extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TextManipulatorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TextManipulatorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TextManipulatorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TextManipulatorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TextManipulatorGUI().setVisible(true);
+                new GUI().setVisible(true);
             }
         });
     }
@@ -542,6 +540,9 @@ public class TextManipulatorGUI extends JFrame {
     public void ClearText() {
         text_input.setText("");
     }
+    public void SetErrorMessage(String message) {
+        error_message.setText(message);
+    }
     public String ReadFromFile(String file_name, boolean[] success) {
         String text = ""; /* empty variable text */
         try {
@@ -554,7 +555,7 @@ public class TextManipulatorGUI extends JFrame {
             }
             read_file.close();
         } catch(IOException e) {
-            error_message.setText("Error reading file \"" + file_name + "\"");
+            SetErrorMessage("Error reading file \"" + file_name + "\"");
             success[0] = false;
         }
         return text;

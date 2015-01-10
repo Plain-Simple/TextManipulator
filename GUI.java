@@ -395,11 +395,11 @@ public class GUI extends JFrame {
     }
     /// only works the first time
     private void sortLines_buttonActionPerformed(java.awt.event.ActionEvent evt) {
-        if(sortAlphabetically_radiobutton.isEnabled()) /* need to know which radiobutton is currently pressed */
+        if(sortAlphabetically_radiobutton.isSelected()) /* need to know which radiobutton is currently pressed */
             SetText(ManipulateText.SortLinesAlphabetically(GetText()));
-        else if(sortBySize_radiobutton.isEnabled())
+        else if(sortBySize_radiobutton.isSelected())
             SetText(ManipulateText.SortLinesBySize(GetText()));
-        else if(sortRandomly_radiobutton.isEnabled())
+        else if(sortRandomly_radiobutton.isSelected())
             SetText(ManipulateText.ScrambleLines(GetText()));
         else
             SetErrorMessage("Error: No button selected");

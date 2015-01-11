@@ -563,19 +563,16 @@ public class GUI extends JFrame {
     /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
      * the program */
     public static boolean CharToBoolean(char c) {
-        if(c == '0')
-            return false;
-        else
-            return true;
+        return c != '0';
     }
     /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
     public static char BooleanToChar(boolean b) {
-        if(b == false)
+        if(!b)
             return '0';
         else
             return '1';
     }
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify
     private javax.swing.JButton addPrefix_button;
     private javax.swing.JButton addSuffix_button;
     private javax.swing.JButton analyzetext_button;

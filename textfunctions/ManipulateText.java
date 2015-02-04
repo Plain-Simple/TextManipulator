@@ -1,27 +1,9 @@
 /* Plain+Simple TextManipulator text manipulation functions */
-package textfunctions;
-import java.io.*;
-import java.util.Vector;
+import java.io.*; // may be unnecessary
 import java.util.Arrays;
-import java.lang.Character;
+import java.lang.Character; // may be unnecessary
+import java.util.ArrayList;
 public class ManipulateText {
-    public static void main(String[] args) {
-       /* String text = "This is a test of the Plain+Simple TextManipulator" +
-                "\n this is line two.";
-        boolean[] analyzetext_settings = new boolean[6]; /* create array of booleans to store settings for the "AnalyzeText" function */
-        /*boolean file_loaded = LoadSettings(analyzetext_settings);
-        if(!(file_loaded))
-            DefaultSettings(analyzetext_settings);
-        AnalyzeText(text, analyzetext_settings);
-        boolean[] success = new boolean[1]; /* this can be used in functions to return true or false */
-        /*text = ReadFromFile("TextManipulator_Test", text, success);
-        if(success[0]) {
-            LineAnalysis(text);
-            Println(SortLinesBySize(text));
-            Println(RemoveEmptyLines(text));
-            Println(NumberLines(text, "", ") "));
-        }*/
-    }
     /* adds prefix and suffix to each line */
     public static String AddPrefixSuffix(String text, String prefix, String suffix) {
         //String delims = "[\\r\\n]+"; /* splits text into separate lines */
@@ -33,17 +15,17 @@ public class ManipulateText {
         return text;
     }
     public static String RemoveDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
-        Vector<Integer> duplicates = new Vector<Integer> (0, 1);
+        ArrayList<Integer> duplicates = new ArrayList<>();
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) {
             for(int j = i + 1; j < lines.length; j++) { /* check to see if any of the later elements match */
                 if(lines[j].equals(lines[i])) {/* duplicate found */
-                    duplicates.addElement(j); /* add element position to vector */
+                    duplicates.add(j); /* add element position to list */
                 }
             }
         }
-        Vector<String> new_lines = new Vector<String> (0,1); /* vector to hold the non-duplicate lines */
+        ArrayList<String> new_lines = new ArrayList<>(); /* arraylist to hold the non-duplicate lines */
         for(int i = 0; i < lines.length; i++) {
             boolean copy_element = true; /* true if element is not a duplicate */
             for(int j = 0; j < duplicates.size(); j++) {
@@ -51,7 +33,7 @@ public class ManipulateText {
                     copy_element = false;
             }
             if(copy_element)
-                new_lines.addElement(lines[i]);
+                new_lines.add(lines[i]);
         }
         for(int i = 0; i < new_lines.size(); i++)
             text = text + new_lines.get(i) + "\n";
@@ -68,12 +50,13 @@ public class ManipulateText {
     }
     public static String ScrambleLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
-        Vector<String> lines_vector = new Vector(Arrays.asList(lines)); /* copy array to vector for easier manipulation */
+        /* copy array to arraylist for easier manipulation */
+        ArrayList<String> lines_list = new ArrayList<>(Arrays.asList(lines));
         text = ""; /* clear variable once it has been split into lines*/
-        while(lines_vector.size() > 0) { /* runs until all lines have been copied */
-            int line_number = GenerateRandomNumber(lines_vector.size() - 1); /* generate random number within range of vector */
-            text = text + lines_vector.get(line_number) + "\n"; /* copy corresponding element to text */
-            lines_vector.remove(line_number); /* remove the element from the vector so it cannot be copied again */
+        while(lines_list.size() > 0) { /* runs until all lines have been copied */
+            int line_number = GenerateRandomNumber(lines_list.size() - 1); /* generate random number within range of list */
+            text = text + lines_list.get(line_number) + "\n"; /* copy corresponding element to text */
+            lines_list.remove(line_number); /* remove the element from the list so it cannot be copied again */
         }
         return text;
     }
@@ -155,11 +138,11 @@ public class ManipulateText {
     /* removes all instances of 'argument' from 'text' */
     public static String RemoveArgument(String argument, String text) {
         String new_text = "";
-        Vector<Integer> locations = new Vector<Integer> (0,1); /* will be used to store the indexes where argument is found */
+        ArrayList<Integer> locations = new ArrayList<>(); /* will be used to store the indexes where argument is found */
         int from_index = 0;
         while(text.indexOf(argument, from_index) > -1) {
             int index = text.indexOf(argument, from_index);
-            locations.addElement(index); /* store locations of all instances */
+            locations.add(index); /* store locations of all instances */
             from_index = index + argument.length(); /* increment from_index so it won't keep finding the same string over and over */
         }
         int j = 0, argument_length = argument.length();

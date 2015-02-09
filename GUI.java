@@ -1,6 +1,24 @@
+
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.KeyStroke;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
+
 public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
+        text_input.requestFocusInWindow(); /* set focus at start */
+        addDocumentListener(text_input);
+        addUndoableEventListener(text_input);
+        
+        
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
@@ -25,6 +43,8 @@ public class GUI extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        undo_menu_item = new javax.swing.JMenuItem();
+        redo_menu_item = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Plain+Simple TextManipulator");
@@ -124,6 +144,43 @@ public class GUI extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        undo_menu_item.setText("Undo");
+        /* CTRL-Z shortcut */
+        undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        /*
+        undo_menu_item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undo_menu_itemActionPerformed(evt);
+            }
+        });
+        */
+        undo_menu_item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    undo.undo();
+                } catch (CannotUndoException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        jMenu2.add(undo_menu_item);
+
+        redo_menu_item.setText("Redo");
+        redo_menu_item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    undo.redo();
+                } catch (CannotRedoException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        jMenu2.add(redo_menu_item);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -156,9 +213,7 @@ public class GUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addContainerGap())
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2))))))
+                            .addComponent(jLabel2)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,6 +241,10 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
+    /* handles user clicking "Undo" in menu */ /*
+    private void undo_menu_itemActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        
+    }                                              
     /* returns text entered by user in the editor pane */
     public String getText() {return text_input.getText();}
     /* sets the editor pane using String passed */
@@ -197,6 +256,32 @@ public class GUI extends javax.swing.JFrame {
         table.setValueAt(analyze_text.CharCount(text), 1, 1);
         table.setValueAt(analyze_text.SentenceCount(text), 2, 1);
         table.setValueAt(analyze_text.LineCount(text), 3, 1);
+    }
+    /* adds a document listener to specified editor pane */
+    public void addDocumentListener(javax.swing.JEditorPane text) {
+        text.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { /* fires when character(s) inserted */
+                updateTable(text_analysis_table, text.getText()); /* update table */
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) { /* fires when character(s) removed */
+                updateTable(text_analysis_table, text.getText()); /* update table */
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {} /* only used in styled components */
+        });
+    }
+    /* adds an UndoableEventListener to specified editor pane */
+    public void addUndoableEventListener(javax.swing.JEditorPane text) {
+        text.getDocument().addUndoableEditListener(new UndoableEditListener() {
+            @Override
+            public void undoableEditHappened(UndoableEditEvent e) {
+                undo.addEdit(e.getEdit());
+               // undoAction.updateUndoState(); /* used for menus(?) */
+               // redoAction.updateRedoState();
+            }
+        });
     }
     
     
@@ -226,7 +311,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -246,7 +331,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem redo_menu_item;
     private javax.swing.JTable text_analysis_table;
     private javax.swing.JEditorPane text_input;
+    private javax.swing.JMenuItem undo_menu_item;
     // End of variables declaration                   
+    protected UndoManager undo = new UndoManager(); /* manager for undo/redo support */
 }

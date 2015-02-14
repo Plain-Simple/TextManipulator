@@ -3,7 +3,7 @@ import java.io.*; // may be unnecessary
 import java.util.Arrays;
 import java.lang.Character; // may be unnecessary
 import java.util.ArrayList;
-public class ManipulateText {
+class ManipulateText {
     /* adds prefix and suffix to each line */
     public String AddPrefixSuffix(String text, String prefix, String suffix) {
         //String delims = "[\\r\\n]+"; /* splits text into separate lines */
@@ -15,7 +15,7 @@ public class ManipulateText {
         return text;
     }
     public String RemoveDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
-        ArrayList<Integer> duplicates = new ArrayList<>();
+        ArrayList<Integer> duplicates = new ArrayList<Integer>();
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) {
@@ -25,7 +25,7 @@ public class ManipulateText {
                 }
             }
         }
-        ArrayList<String> new_lines = new ArrayList<>(); /* arraylist to hold the non-duplicate lines */
+        ArrayList<String> new_lines = new ArrayList<String>(); /* arraylist to hold the non-duplicate lines */
         for(int i = 0; i < lines.length; i++) {
             boolean copy_element = true; /* true if element is not a duplicate */
             for(int j = 0; j < duplicates.size(); j++) {
@@ -51,7 +51,7 @@ public class ManipulateText {
     public String ScrambleLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         /* copy array to arraylist for easier manipulation */
-        ArrayList<String> lines_list = new ArrayList<>(Arrays.asList(lines));
+        ArrayList<String> lines_list = new ArrayList<String>(Arrays.asList(lines));
         text = ""; /* clear variable once it has been split into lines*/
         while(lines_list.size() > 0) { /* runs until all lines have been copied */
             int line_number = GenerateRandomNumber(lines_list.size() - 1); /* generate random number within range of list */
@@ -138,7 +138,7 @@ public class ManipulateText {
     /* removes all instances of 'argument' from 'text' */
     public String RemoveArgument(String argument, String text) {
         String new_text = "";
-        ArrayList<Integer> locations = new ArrayList<>(); /* will be used to store the indexes where argument is found */
+        ArrayList<Integer> locations = new ArrayList<Integer>(); /* will be used to store the indexes where argument is found */
         int from_index = 0;
         while(text.indexOf(argument, from_index) > -1) {
             int index = text.indexOf(argument, from_index);
@@ -175,7 +175,7 @@ public class ManipulateText {
         for(int i = 0; i < text.length(); i++) {
             if(text.charAt(i) != separator)
                 word = word + text.charAt(i);
-            else if(word != "") { /* this avoids empty line breaks when there is more than one separator in a row */
+            else if(!word.equals("")) { /* this avoids empty line breaks when there is more than one separator in a row */
                 new_text = new_text + word + "\n"; /* add 'word' and a newline */
                 word = ""; /* reset word */
             }
@@ -191,14 +191,13 @@ public class ManipulateText {
     //}
     /* puts each individual sentence on a separate line */
     public String SplitSentences(String text) {
-        String new_text = "";
-        return new_text;
+        return "";
     }
     public void CompareLines(String text, int line_number1, int line_number2) {
 
     }
     /* generates a random number between 0 and 'upper_bound' inclusive */
-    public int GenerateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
+    int GenerateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
         //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
         return (int) Math.floor(Math.random() * (upper_bound + 1));
     }

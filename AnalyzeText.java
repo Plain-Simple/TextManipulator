@@ -1,17 +1,14 @@
-/* Plain+Simple Textmanipulator text analysis functions */
+/* Plain+Simple Text Manipulator text analysis functions */
 public class AnalyzeText {
     public int CharCount(String text) {
-        int char_count = text.replace("\n", "").length();
-        return char_count;
+        return text.replace("\n", "").length();
     }
     public int WordCount(String text) {
-        int word_count = text.length()
+        return text.length()
                 - text.replace(" ", "").replace("\n", "").length() + 1;
-        return word_count;
     }
     public int LineCount(String text) {
-        int line_count = text.length() - text.replace("\n", "").length() + 1; /// needs to be tested and possibly corrected
-        return line_count;
+        return text.length() - text.replace("\n", "").length() + 1;
     }
     public int SentenceCount(String text) {
         int sentence_count = text.length()

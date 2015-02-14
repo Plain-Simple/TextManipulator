@@ -11,7 +11,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-public class GUI extends javax.swing.JFrame {
+class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
         text_input.requestFocusInWindow(); /* set focus at start */
@@ -250,7 +250,7 @@ public class GUI extends javax.swing.JFrame {
     /* sets the editor pane using String passed */
     public void setText(String s) {text_input.setText(s);}
     /* updates text_analysis_table with latest data */
-    public void updateTable(javax.swing.JTable table, String text) {
+    void updateTable(javax.swing.JTable table, String text) {
         AnalyzeText analyze_text = new AnalyzeText();
         table.setValueAt(analyze_text.WordCount(text), 0, 1);
         table.setValueAt(analyze_text.CharCount(text), 1, 1);
@@ -258,7 +258,7 @@ public class GUI extends javax.swing.JFrame {
         table.setValueAt(analyze_text.LineCount(text), 3, 1);
     }
     /* adds a document listener to specified editor pane */
-    public void addDocumentListener(final javax.swing.JEditorPane text) {
+    void addDocumentListener(final javax.swing.JEditorPane text) {
         text.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { /* fires when character(s) inserted */
@@ -273,7 +273,7 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     /* adds an UndoableEventListener to specified editor pane */
-    public void addUndoableEventListener(javax.swing.JEditorPane text) {
+    void addUndoableEventListener(javax.swing.JEditorPane text) {
         text.getDocument().addUndoableEditListener(new UndoableEditListener() {
             @Override
             public void undoableEditHappened(UndoableEditEvent e) {
@@ -285,7 +285,7 @@ public class GUI extends javax.swing.JFrame {
     }
     
     
-    public static void StartGUI() {
+    public void StartGUI() {
         
         /* Set the Nimbus look and feel */
         try {
@@ -336,5 +336,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JEditorPane text_input;
     private javax.swing.JMenuItem undo_menu_item;
     // End of variables declaration                   
-    protected UndoManager undo = new UndoManager(); /* manager for undo/redo support */
+    protected final UndoManager undo = new UndoManager(); /* manager for undo/redo support */
 }

@@ -1,9 +1,9 @@
-/* Table model for TextAnalysis, Plain+Simple Textmanipulator. Code taken from Oracle JavaDocs */
+/* Table model for TextAnalysis, Plain+Simple Text Manipulator. Code taken from Oracle JavaDocs */
 import javax.swing.table.AbstractTableModel;
 
 class EditableTableModel extends AbstractTableModel {
-        private String[] columnNames = {"Text Analysis", ""};
-        private Object[][] data = {
+        private final String[] columnNames = {"Text Analysis", ""};
+        private final Object[][] data = {
         {"Words", 0},
         {"Chars", 0},
         {"Sentences", 0},
@@ -42,11 +42,7 @@ class EditableTableModel extends AbstractTableModel {
         public boolean isCellEditable(int row, int col) {
             //Note that the data/cell address is constant,
             //no matter where the cell appears onscreen.
-            if (col < 2) {
-                return false;
-            } else {
-                return true;
-            }
+            return col >= 2;
         }
  
         /*

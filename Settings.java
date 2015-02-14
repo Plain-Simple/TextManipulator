@@ -1,7 +1,7 @@
 import java.io.*;
 
 /* Plain+Simple TextManipulator settings and global variable management */
-public class Settings {
+class Settings {
     public static void DefaultSettings(boolean analyzetext_settings[]) {
         try {
             FileWriter file = new FileWriter("TextManipulator_Settings");
@@ -62,14 +62,11 @@ public class Settings {
     /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
  * the program */
     public static boolean CharToBoolean(char c) {
-        if(c == '0')
-            return false;
-        else
-            return true;
+        return c != '0';
     }
     /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
     public static char BooleanToChar(boolean b) {
-        if(b == false)
+        if(!b)
             return '0';
         else
             return '1';

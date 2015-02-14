@@ -258,7 +258,7 @@ public class GUI extends javax.swing.JFrame {
         table.setValueAt(analyze_text.LineCount(text), 3, 1);
     }
     /* adds a document listener to specified editor pane */
-    public void addDocumentListener(javax.swing.JEditorPane text) {
+    public void addDocumentListener(final javax.swing.JEditorPane text) {
         text.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { /* fires when character(s) inserted */
@@ -285,7 +285,7 @@ public class GUI extends javax.swing.JFrame {
     }
     
     
-    public static void main(String args[]) {
+    public static void StartGUI() {
         
         /* Set the Nimbus look and feel */
         try {
@@ -311,8 +311,8 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-    
-    // Variables declaration - do not modify                     
+
+    // Variables declaration - do not modify
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

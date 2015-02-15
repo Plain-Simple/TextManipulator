@@ -3,12 +3,12 @@ package TextManipulator;
 import javax.swing.table.AbstractTableModel;
 
 class EditableTableModel extends AbstractTableModel {
-        private final String[] columnNames = {"Text Analysis", ""};
+        private final String[] columnNames = {i18n.messages.getString("text_analysis"), ""};
         private final Object[][] data = {
-        {"Words", 0},
-        {"Chars", 0},
-        {"Sentences", 0},
-        {"Lines", 0}};
+        {i18n.messages.getString("analysis_words"), 0},
+        {i18n.messages.getString("analysis_chars"), 0},
+        {i18n.messages.getString("analysis_sentences"), 0},
+        {i18n.messages.getString("analysis_lines"), 0}};
  
         public int getColumnCount() {
             return columnNames.length;

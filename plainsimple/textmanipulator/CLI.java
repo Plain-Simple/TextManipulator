@@ -3,26 +3,25 @@ package plainsimple.textmanipulator;
 import java.util.Scanner;
 
 class CLI {
-    public Scanner scanner = new Scanner(System.in);
-    public String text;
-    public void StartCLI(){
+    public void startCLI(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the Plain+Simple text manipulator (CLI mode)\n\n");
-        LoadFile();
-        /* we need a way of catching errors if LoadFile fails) */
+        loadFile();
+        /* we need a way of catching errors if loadFile fails) */
         System.out.println(i18n.messages.getString("function_prompt") + "\n");
         String userInput = scanner.nextLine();
         switch(userInput) {
-            case "help": OutputFunctionsList();
+            case "help": outputFunctionsList();
         }
     }
-    public void LoadFile() {
+    void loadFile() {
         System.out.println("Please enter the file name of the text file you would like to manipulate: ");
         Scanner scanner = new Scanner(System.in);
-        String file_path = scanner.nextLine();
+        String filePath = scanner.nextLine();
         /* import file_path text file into string called text */
-        text = new Scanner(file_path).useDelimiter("\\Z").next();
+        String text = new Scanner(filePath).useDelimiter("\\Z").next();
     }
-    void OutputFunctionsList() {
+    void outputFunctionsList() {
         System.out.println("\naddprefix" + i18n.messages.getString("addprefix_description"));
         System.out.println("\naddsuffix" + i18n.messages.getString("addsuffix_description"));
         System.out.println("\nremoveduplicatelines" + i18n.messages.getString("removeduplicatelines_description"));
@@ -45,7 +44,7 @@ class CLI {
         System.out.println("\nprint" + i18n.messages.getString("print_description"));
 
     }
-    public void ModifySettings() {
+    public void modifySettings() {
 
     }
 }

@@ -2,11 +2,8 @@ package plainsimple.textmanipulator;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.KeyStroke;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
+import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -17,11 +14,29 @@ class GUI extends javax.swing.JFrame {
         text_input.requestFocusInWindow(); /* set focus at start */
         addDocumentListener(text_input);
         addUndoableEventListener(text_input);
+        text_input.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                int dot = e.getDot(); /* caret position where cursor started */
+                int mark = e.getMark(); /* caret position where cursor ended */
+                if (dot == mark) { /* no specific selection */
+                    selection = "";
+                    updateTable(text_analysis_table, getText());
+                } else if (mark > dot) { /* user selected from left to right */
+                    selection = getText().substring(dot, mark);
+                    updateTable(text_analysis_table, selection);
+                } else { /* user selected from right to left */
+                    selection = getText().substring(mark, dot);
+                    updateTable(text_analysis_table, selection);
+                }
+            }
+        });
         
         
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
+        settings.loadSettings("TextManipulator_Settings");
 
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         javax.swing.JTabbedPane jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -30,10 +45,39 @@ class GUI extends javax.swing.JFrame {
         javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
-        javax.swing.JButton jButton1 = new javax.swing.JButton();
-        javax.swing.JButton jButton2 = new javax.swing.JButton();
-        javax.swing.JButton jButton3 = new javax.swing.JButton();
-        javax.swing.JButton jButton4 = new javax.swing.JButton();
+        // may need to make accent_button and button variables private
+        javax.swing.JButton accent_button_1 = new javax.swing.JButton();
+        AccentButton button_1 = new AccentButton(settings.getSettings().get(0));
+        accent_button_1.setText(button_1.getAccentString());
+
+        javax.swing.JButton accent_button_2 = new javax.swing.JButton();
+        AccentButton button_2 = new AccentButton(settings.getSettings().get(1));
+        accent_button_2.setText(button_2.getAccentString());
+
+        javax.swing.JButton accent_button_3 = new javax.swing.JButton();
+        AccentButton button_3 = new AccentButton(settings.getSettings().get(2));
+        accent_button_3.setText(button_3.getAccentString());
+
+        javax.swing.JButton accent_button_4 = new javax.swing.JButton();
+        AccentButton button_4 = new AccentButton(settings.getSettings().get(3));
+        accent_button_4.setText(button_4.getAccentString());
+
+        javax.swing.JButton accent_button_5 = new javax.swing.JButton();
+        AccentButton button_5 = new AccentButton(settings.getSettings().get(4));
+        accent_button_5.setText(button_5.getAccentString());
+
+        javax.swing.JButton accent_button_6 = new javax.swing.JButton();
+        AccentButton button_6 = new AccentButton(settings.getSettings().get(5));
+        accent_button_6.setText(button_6.getAccentString());
+
+        javax.swing.JButton accent_button_7 = new javax.swing.JButton();
+        AccentButton button_7 = new AccentButton(settings.getSettings().get(6));
+        accent_button_7.setText(button_7.getAccentString());
+
+        javax.swing.JButton accent_button_8 = new javax.swing.JButton();
+        AccentButton button_8 = new AccentButton(settings.getSettings().get(7));
+        accent_button_8.setText(button_8.getAccentString());
+
         javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
         text_input = new javax.swing.JEditorPane();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
@@ -121,15 +165,8 @@ class GUI extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab(i18n.messages.getString("settings"), jPanel5);
-
-        jButton1.setText("a");
+        
         ///TODO: 188nize
-
-        jButton2.setText(i18n.messages.getString("accent") + " 2");
-
-        jButton3.setText(i18n.messages.getString("accent") + " 3");
-
-        jButton4.setText(i18n.messages.getString("accent") + " 4");
 
         jScrollPane3.setViewportView(text_input);
 
@@ -194,53 +231,73 @@ class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addGap(50, 50, 50)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addContainerGap())
-                            .addComponent(jLabel2)))))
+                    .addGroup(layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
+                            .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addContainerGap())
+                                .addComponent(jLabel2)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTabbedPane1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTabbedPane1)
+                                            .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
-
+        accent_button_1.addActionListener(new ActionListener() { /* listens for button to be clicked */
+            @Override // not sure if @Override is necessary
+            public void actionPerformed(ActionEvent e) {
+                int location = getText().length(); /* default location to insert accent is at end of text */
+                if(selection != "") /* if user has selected text */
+                    location = getText().indexOf(selection);
+                setText(button_1.insertAccent(selection, getText(), location));
+            }
+        });
         pack();
     }// </editor-fold>                        
     /* handles user clicking "Undo" in menu */ /*
@@ -289,14 +346,10 @@ class GUI extends javax.swing.JFrame {
     
     public void startGUI() {
         
-        /* Set the Nimbus look and feel */
+        /* Set look and feel to system look and feel */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -317,6 +370,8 @@ class GUI extends javax.swing.JFrame {
     private javax.swing.JTable text_analysis_table;
     private javax.swing.JEditorPane text_input;
     private javax.swing.JMenuItem undo_menu_item;
+    private String selection = new String();
+    private Settings settings = new Settings();
     // End of variables declaration                   
     private final UndoManager undo = new UndoManager(); /* manager for undo/redo support */
 }

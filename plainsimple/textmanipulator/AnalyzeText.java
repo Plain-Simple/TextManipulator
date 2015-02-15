@@ -2,7 +2,7 @@
 
 package plainsimple.textmanipulator;
 
-public class AnalyzeText {
+class AnalyzeText {
     public int CharCount(String text) {
         return text.replace("\n", "").length();
     }

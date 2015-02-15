@@ -1,12 +1,11 @@
 /* Plain+Simple TextManipulator text manipulation functions */
 package plainsimple.textmanipulator;
-import java.io.*; // may be unnecessary
 import java.util.Arrays;
 import java.lang.Character; // may be unnecessary
 import java.util.ArrayList;
 class ManipulateText {
     /* adds prefix and suffix to each line */
-    public String AddPrefixSuffix(String text, String prefix, String suffix) {
+    public String addPrefixSuffix(String text, String prefix, String suffix) {
         //String delims = "[\\r\\n]+"; /* splits text into separate lines */
         //String[] lines = text.split(delims); /* create an array that holds each individual line */
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -15,7 +14,7 @@ class ManipulateText {
             text = text + prefix + lines[i] + suffix + "\n"; /* add each line to text with prefix and suffix */
         return text;
     }
-    public String RemoveDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
+    public String removeDuplicateLines(String text) { /// a little messy, but works. Feel free to refactor
         ArrayList<Integer> duplicates = new ArrayList<Integer>();
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
@@ -40,7 +39,7 @@ class ManipulateText {
             text = text + new_lines.get(i) + "\n";
         return text;
     }
-    public String RemoveLinesContaining(String text, String remove) {
+    public String removeLinesContaining(String text, String remove) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) { /* for each line... */
@@ -49,19 +48,19 @@ class ManipulateText {
         }
         return text;
     }
-    public String ScrambleLines(String text) {
+    public String scrambleLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         /* copy array to arraylist for easier manipulation */
         ArrayList<String> lines_list = new ArrayList<String>(Arrays.asList(lines));
         text = ""; /* clear variable once it has been split into lines*/
         while(lines_list.size() > 0) { /* runs until all lines have been copied */
-            int line_number = GenerateRandomNumber(lines_list.size() - 1); /* generate random number within range of list */
+            int line_number = generateRandomNumber(lines_list.size() - 1); /* generate random number within range of list */
             text = text + lines_list.get(line_number) + "\n"; /* copy corresponding element to text */
             lines_list.remove(line_number); /* remove the element from the list so it cannot be copied again */
         }
         return text;
     }
-    public String SortLinesAlphabetically(String text) {
+    public String sortLinesAlphabetically(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         Arrays.sort(lines);
@@ -69,7 +68,7 @@ class ManipulateText {
             text = text + lines[i] + "\n";
         return text;
     }
-    public String SortLinesBySize(String text) {
+    public String sortLinesBySize(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 1; i < lines.length; i++) { /* start at second element */
@@ -86,7 +85,7 @@ class ManipulateText {
             text = text + lines[i] + "\n";
         return text;
     }
-    public String NumberLines(String text, String prefix, String suffix) {
+    public String numberLines(String text, String prefix, String suffix) {
         /* prefix is what goes before the number itself, suffix is what goes after the number but before the line.
         For example: "1. " has no prefix and ". " as the suffix */
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -96,7 +95,7 @@ class ManipulateText {
         }
         return text;
     }
-    public String RemoveEmptyLines(String text) {
+    public String removeEmptyLines(String text) {
         String[] lines = text.split("\\r?\\n"); /* create an array that holds each individual line */
         text = ""; /* clear variable once it has been split into lines*/
         for(int i = 0; i < lines.length; i++) {
@@ -112,7 +111,7 @@ class ManipulateText {
         }
         return text;
     }
-    public String MergeText(String text, String text2) {
+    public String mergeText(String text, String text2) {
         String[] lines = text.split("\\r?\\n");
         String[] lines2 = text2.split("\\r?\\n");
         String new_text = "";
@@ -128,7 +127,7 @@ class ManipulateText {
         }
         return new_text;
     }
-    public String FindReplace(String text, String find, String replace) { /// just the basic algorithm for now. May need to be fixed.
+    public String findReplace(String text, String find, String replace) { /// just the basic algorithm for now. May need to be fixed.
         int instances = 0;
         while(text.indexOf(find) > -1) { /* runs until String find is no longer found */ /// no longer sure if this will work correctly, although testing was fine.
             text = text.substring(0, text.indexOf(find)) + replace + text.substring(text.indexOf(find) + find.length(), text.length());
@@ -137,7 +136,7 @@ class ManipulateText {
         return text;
     }
     /* removes all instances of 'argument' from 'text' */
-    public String RemoveArgument(String argument, String text) {
+    public String removeArgument(String argument, String text) {
         String new_text = "";
         ArrayList<Integer> locations = new ArrayList<Integer>(); /* will be used to store the indexes where argument is found */
         int from_index = 0;
@@ -157,7 +156,7 @@ class ManipulateText {
         }
         return new_text;
     }
-    public String CommaSeparateValues(String text) {
+    public String commaSeparateValues(String text) {
         String new_text = "";
         for(int i = 0; i < text.length(); i++)
             if(text.charAt(i) == ' ')
@@ -171,7 +170,7 @@ class ManipulateText {
         }
         return new_text1 + new_text.charAt(new_text.length() - 1); /* ensures last char is not missed */
     }
-    public String LineSeparateValues(String text, char separator) { /// mistake when 'separator' is at the beginning of a line
+    public String lineSeparateValues(String text, char separator) { /// mistake when 'separator' is at the beginning of a line
         String new_text = "", word = "";
         for(int i = 0; i < text.length(); i++) {
             if(text.charAt(i) != separator)
@@ -191,19 +190,19 @@ class ManipulateText {
     //    }
     //}
     /* puts each individual sentence on a separate line */
-    public String SplitSentences(String text) {
+    public String splitSentences(String text) {
         return "";
     }
-    public void CompareLines(String text, int line_number1, int line_number2) {
+    public void compareLines(String text, int line_number1, int line_number2) {
 
     }
     /* generates a random number between 0 and 'upper_bound' inclusive */
-    int GenerateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
+    int generateRandomNumber(int upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
         //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
         return (int) Math.floor(Math.random() * (upper_bound + 1));
     }
     /* removes all non-letter and non-numbers, leaves spaces */
-    public String RemovePunctuation(String text) {
+    public String removePunctuation(String text) {
         String new_text = "";
         for(int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
@@ -214,8 +213,8 @@ class ManipulateText {
     }
 
 
-    public String ForceUppercase(String text) {return text.toUpperCase();}
-    public String ForceLowercase(String text) {return text.toLowerCase();}
+    public String forceUppercase(String text) {return text.toUpperCase();}
+    public String forceLowercase(String text) {return text.toLowerCase();}
     public void Print(String s) { System.out.print(s); }
     public void Println(String s) { System.out.println(s); }
 }

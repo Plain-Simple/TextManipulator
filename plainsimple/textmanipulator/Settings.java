@@ -32,7 +32,7 @@ public class Settings {
       write_settings.newLine();
       write_settings.close();
     } catch (IOException e) {
-      System.out.println("Error writing default settings");
+      System.out.println(i18n.messages.getString("error_writing_default_settings"));
     }
     settings.add(130);
     settings.add(131);
@@ -53,10 +53,11 @@ public class Settings {
       while((line = read_settings.readLine()) != null) {
         settings.add(Integer.parseInt(line));
       }
-      System.out.println("File \"" + file_name + "\" loaded");
+      System.out.println(i18n.messages.getString("file") + " \"" + file_name + "\" "
+                       + i18n.messages.getString("file_loaded"));
       System.out.println(settings.toString());
     } catch (IOException e) {
-      System.out.println("Error reading settings file\n");
+      System.out.println(i18n.messages.getString("error_reading_settings") + "\n");
       read_success = false;
       setDefaultSettings(file_name);
     }
@@ -82,15 +83,11 @@ public class Settings {
   /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
   * the program */
   public boolean CharToBoolean(char c) {
-    if(c == '0') {
-      return false;
-    } else {
-      return true;
-    }
+      return c != '0';
   }
   /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
   public char BooleanToChar(boolean b) {
-    if(b == false) {
+    if(!b) {
       return '0';
     } else {
       return '1';

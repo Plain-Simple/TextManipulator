@@ -5,23 +5,35 @@ import java.util.Scanner;
 class CLI {
   public void startCLI() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Welcome to the Plain+Simple text manipulator (CLI mode)\n\n");
-    loadFile();
+    System.out.println(i18n.messages.getString("cli_welcome") + "\n\n");
     /* we need a way of catching errors if loadFile fails) */
-    System.out.println(i18n.messages.getString("function_prompt") + "\n");
-    String userInput = scanner.nextLine();
-    switch(userInput) {
-    case "help":
-      outputFunctionsList();
-    }
+    loadFile();
+      /* this runs forever, because the cli keeps going until the user exits */
+      while (true) {
+        System.out.println(i18n.messages.getString("function_prompt") + "\n");
+        String userInput = scanner.nextLine();
+        switch (userInput) {
+          case "help":
+            outputFunctionsList();
+            break;
+          case "exit":
+            System.exit(0);
+            break;
+          default:
+            System.out.println(i18n.messages.getString("invalid_cli_option"));
+            outputFunctionsList();
+            break;
+        }
+      }
   }
   void loadFile() {
-    System.out.println("Please enter the file name of the text file you would like to manipulate: ");
+    System.out.println(i18n.messages.getString("cli_file_prompt"));
     Scanner scanner = new Scanner(System.in);
     String filePath = scanner.nextLine();
     /* import file_path text file into string called text */
     String text = new Scanner(filePath).useDelimiter("\\Z").next();
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
     System.out.println("\naddprefix" +
                        i18n.messages.getString("addprefix_description"));

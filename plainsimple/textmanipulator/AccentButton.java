@@ -1,4 +1,7 @@
 package plainsimple.textmanipulator;
+
+import java.util.Objects;
+
 public class AccentButton {
   private char accent; /* accent associated with button */
   /* constructor with ascii value */
@@ -24,7 +27,7 @@ public class AccentButton {
     return (int) accent;
   }
   public String insertAccent(String selection, String text, int location) {
-    if(selection == "") { /* simply insert the accent */
+    if(Objects.equals(selection, "")) { /* simply insert the accent */
       return text.substring(0,
                             location) + getAccentString() + text.substring(location + 1);
     } else { /* replace selected text with accent */

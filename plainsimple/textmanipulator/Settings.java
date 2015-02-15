@@ -23,7 +23,7 @@ class Settings {
         try {
             FileReader file = new FileReader("TextManipulator_Settings");
             BufferedReader read_settings = new BufferedReader(file);
-            String line = "";
+            String line;
             int line_counter = 1;
             while((line = read_settings.readLine()) != null) {
                 if(line_counter == 1) {/* line 1: load settings for AnalyzeText */
@@ -63,11 +63,11 @@ class Settings {
     }
     /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
  * the program */
-    public static boolean CharToBoolean(char c) {
+    private static boolean CharToBoolean(char c) {
         return c != '0';
     }
     /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
-    public static char BooleanToChar(boolean b) {
+    private static char BooleanToChar(boolean b) {
         if(!b)
             return '0';
         else

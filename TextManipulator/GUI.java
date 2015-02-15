@@ -47,11 +47,12 @@ class GUI extends javax.swing.JFrame {
         redo_menu_item = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Plain+Simple TextManipulator");
+        //setTitle("Plain+Simple TextManipulator");
+        setTitle(i18n.messages.getString("program_full_name"));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("TextManipulator");
+        jLabel1.setText(i18n.messages.getString("program_name"));
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
@@ -67,7 +68,7 @@ class GUI extends javax.swing.JFrame {
             .addGap(0, 307, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Basic Tools", jPanel3);
+        jTabbedPane1.addTab(i18n.messages.getString("basic_tools"), jPanel3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,7 +81,7 @@ class GUI extends javax.swing.JFrame {
             .addGap(0, 307, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Line Functions", jPanel1);
+        jTabbedPane1.addTab(i18n.messages.getString("line_functions"), jPanel1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -93,7 +94,7 @@ class GUI extends javax.swing.JFrame {
             .addGap(0, 307, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Word Functions", jPanel2);
+        jTabbedPane1.addTab(i18n.messages.getString("word_functions"), jPanel2);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -106,7 +107,7 @@ class GUI extends javax.swing.JFrame {
             .addGap(0, 307, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Find & Replace", jPanel4);
+        jTabbedPane1.addTab(i18n.messages.getString("find_replace"), jPanel4);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -119,33 +120,34 @@ class GUI extends javax.swing.JFrame {
             .addGap(0, 307, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Settings", jPanel5);
+        jTabbedPane1.addTab(i18n.messages.getString("settings"), jPanel5);
 
         jButton1.setText("a");
+        ///TODO: 188nize
 
-        jButton2.setText("accent 2");
+        jButton2.setText(i18n.messages.getString("accent") + " 2");
 
-        jButton3.setText("accent 3");
+        jButton3.setText(i18n.messages.getString("accent") + " 3");
 
-        jButton4.setText("accent 4");
+        jButton4.setText(i18n.messages.getString("accent") + " 4");
 
         jScrollPane3.setViewportView(text_input);
 
         text_analysis_table.setModel(new EditableTableModel());
         jScrollPane1.setViewportView(text_analysis_table);
 
-        jLabel2.setText("Plain+Simple Programming, 2015");
+        jLabel2.setText(i18n.messages.getString("author_notice"));
 
-        jMenu1.setText("File");
+        jMenu1.setText(i18n.messages.getString("file_menu"));
 
         jMenuItem1.setText("Coming Soon!");
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText(i18n.messages.getString("edit_menu"));
 
-        undo_menu_item.setText("Undo");
+        undo_menu_item.setText(i18n.messages.getString("undo"));
         /* CTRL-Z shortcut */
         undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         /*
@@ -167,7 +169,7 @@ class GUI extends javax.swing.JFrame {
         });
         jMenu2.add(undo_menu_item);
 
-        redo_menu_item.setText("Redo");
+        redo_menu_item.setText(i18n.messages.getString("redo"));
         redo_menu_item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

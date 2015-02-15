@@ -21,15 +21,15 @@ class MasterClass {
         i18n.messages = ResourceBundle.getBundle("MessagesBundle",currentLocale);
 
         /* start the actual program: */
-        boolean RunGUI = true;
+        boolean RUN_GUI = true;
         /* set this to false to run in CLI mode. There will be a better way
          * to do this in the future */
-        if (RunGUI) {
+        if (RUN_GUI) {
             GUI gui = new GUI();
-            gui.StartGUI();
+            gui.startGUI();
         }
         CLI cli = new CLI();
-        cli.StartCLI();
+        cli.startCLI();
 
     }
 }

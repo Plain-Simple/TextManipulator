@@ -1,4 +1,4 @@
-package TextManipulator;
+package plainsimple.textmanipulator;
 
 import java.io.*;
 

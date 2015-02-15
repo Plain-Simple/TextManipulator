@@ -1,6 +1,6 @@
 /* Plain+Simple Text Manipulator text analysis functions */
 
-package TextManipulator;
+package plainsimple.textmanipulator;
 
 public class AnalyzeText {
     public int CharCount(String text) {

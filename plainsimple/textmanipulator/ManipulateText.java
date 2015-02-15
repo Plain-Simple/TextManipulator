@@ -1,5 +1,5 @@
 /* Plain+Simple TextManipulator text manipulation functions */
-package TextManipulator;
+package plainsimple.textmanipulator;
 import java.io.*; // may be unnecessary
 import java.util.Arrays;
 import java.lang.Character; // may be unnecessary

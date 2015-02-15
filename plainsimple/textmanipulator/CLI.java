@@ -1,6 +1,5 @@
-package TextManipulator;
+package plainsimple.textmanipulator;
 
-import java.io.*;
 import java.util.Scanner;
 
 class CLI {

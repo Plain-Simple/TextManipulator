@@ -1,5 +1,5 @@
 /* Table model for TextAnalysis, Plain+Simple Text Manipulator. Code taken from Oracle JavaDocs */
-package TextManipulator;
+package plainsimple.textmanipulator;
 import javax.swing.table.AbstractTableModel;
 
 class EditableTableModel extends AbstractTableModel {

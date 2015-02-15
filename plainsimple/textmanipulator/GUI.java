@@ -23,28 +23,28 @@ class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
+        javax.swing.JTabbedPane jTabbedPane1 = new javax.swing.JTabbedPane();
+        javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
+        javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
+        javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
+        javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
+        javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
+        javax.swing.JButton jButton1 = new javax.swing.JButton();
+        javax.swing.JButton jButton2 = new javax.swing.JButton();
+        javax.swing.JButton jButton3 = new javax.swing.JButton();
+        javax.swing.JButton jButton4 = new javax.swing.JButton();
+        javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
         text_input = new javax.swing.JEditorPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
         text_analysis_table = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
+        javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
+        javax.swing.JMenu jMenu1 = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
+        javax.swing.JMenu jMenu2 = new javax.swing.JMenu();
         undo_menu_item = new javax.swing.JMenuItem();
-        redo_menu_item = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem redo_menu_item = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         //setTitle("Plain+Simple TextManipulator");
@@ -180,7 +180,7 @@ class GUI extends javax.swing.JFrame {
                 }
             }
         });
-        redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         jMenu2.add(redo_menu_item);
 
         jMenuBar1.add(jMenu2);
@@ -287,7 +287,7 @@ class GUI extends javax.swing.JFrame {
     }
     
     
-    public void StartGUI() {
+    public void startGUI() {
         
         /* Set the Nimbus look and feel */
         try {
@@ -314,29 +314,9 @@ class GUI extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JMenuItem redo_menu_item;
     private javax.swing.JTable text_analysis_table;
     private javax.swing.JEditorPane text_input;
     private javax.swing.JMenuItem undo_menu_item;
     // End of variables declaration                   
-    protected final UndoManager undo = new UndoManager(); /* manager for undo/redo support */
+    private final UndoManager undo = new UndoManager(); /* manager for undo/redo support */
 }

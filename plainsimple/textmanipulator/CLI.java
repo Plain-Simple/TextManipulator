@@ -28,8 +28,6 @@ class CLI {
   public void startCLI() {
     Scanner scanner = new Scanner(System.in);
     System.out.println(i18n.messages.getString("cli_welcome") + "\n\n");
-    /* we need a way of catching errors if loadFile fails) */
-    loadFile(); // I think error-handling would happen in the function itself, or it could return the exception (null if no exception)
     /* this runs forever, because the cli keeps going until the user exits */
     while (true) {
       System.out.println(i18n.messages.getString("function_prompt") + "\n");
@@ -56,50 +54,51 @@ class CLI {
     try {
       String text = new Scanner(filePath).useDelimiter("\\Z").next();
     } catch(NoSuchElementException e) {
-      System.out.println("Error: No file name entered"); //
+      System.out.println(i18n.messages.getString("invalid_file"));
     }
   }
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
-    System.out.println("\naddprefix" +
+    System.out.println("\naddprefix: " +
                        i18n.messages.getString("addprefix_description"));
-    System.out.println("\naddsuffix" +
+    System.out.println("\naddsuffix: " +
                        i18n.messages.getString("addsuffix_description"));
     System.out.println("\nremoveduplicatelines" +
                        i18n.messages.getString("removeduplicatelines_description"));
-    System.out.println("\nremovelinescontaining" +
+    System.out.println("\nremovelinescontaining: " +
                        i18n.messages.getString("removelinescontaining_description"));
-    System.out.println("\nscramblelines" +
+    System.out.println("\nscramblelines: " +
                        i18n.messages.getString("scramblelines_description"));
     System.out.println("\nsortlinesalphabetically" +
                        i18n.messages.getString("sortlinesalphabetically_description"));
-    System.out.println("\nsortlinesbysize" +
+    System.out.println("\nsortlinesbysize: " +
                        i18n.messages.getString("sortlinesbysize_description"));
-    System.out.println("\nnumberlines" +
+    System.out.println("\nnumberlines: " +
                        i18n.messages.getString("numberlines_description"));
-    System.out.println("\nremoveemptylines" +
+    System.out.println("\nremoveemptylines: " +
                        i18n.messages.getString("removeemptylines_description"));
-    System.out.println("\nmergetext" +
+    System.out.println("\nmergetext: " +
                        i18n.messages.getString("mergetext_description"));
-    System.out.println("\nfindreplace" +
+    System.out.println("\nfindreplace: " +
                        i18n.messages.getString("findreplace_description"));
-    System.out.println("\nremoveargument" +
+    System.out.println("\nremoveargument: " +
                        i18n.messages.getString("removeargument_description"));
-    System.out.println("\ncommaseparatevalues" +
+    System.out.println("\ncommaseparatevalues: " +
                        i18n.messages.getString("commaseparatevalues_description"));
-    System.out.println("\nlineseparatevalues" +
+    System.out.println("\nlineseparatevalues: " +
                        i18n.messages.getString("lineseparatevalues_description"));
-    System.out.println("\nsplitsentences" +
+    System.out.println("\nsplitsentences: " +
                        i18n.messages.getString("splitsentences_description"));
-    System.out.println("\ncomparelines" +
+    System.out.println("\ncomparelines: " +
                        i18n.messages.getString("comparelines_description"));
-    System.out.println("\nremovepunctuation" +
+    System.out.println("\nremovepunctuation: " +
                        i18n.messages.getString("removepunctuation_description"));
-    System.out.println("\nuppercase" +
+    System.out.println("\nuppercase: " +
                        i18n.messages.getString("uppercase_description"));
-    System.out.println("\nlowercase" +
+    System.out.println("\nlowercase: " +
                        i18n.messages.getString("lowercase_description"));
-    System.out.println("\nprint" + i18n.messages.getString("print_description"));
+    System.out.println("\nprint: " +
+                       i18n.messages.getString("print_description"));
   }
   public void modifySettings() {
   }

@@ -28,7 +28,10 @@ public class AccentButton {
   }
   public String insertAccent(String selection, String text, int location) {
     if(Objects.equals(selection, "")) { /* simply insert the accent */
-      return text.substring(0,
+      if(Objects.equals(location, text.length())) {
+          return text + getAccentString(); /* append accent */
+      } else
+        return text.substring(0,
                             location) + getAccentString() + text.substring(location + 1);
     } else { /* replace selected text with accent */
       return text.substring(0,

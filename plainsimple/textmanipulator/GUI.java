@@ -18,16 +18,19 @@ class GUI extends javax.swing.JFrame {
     text_input.addCaretListener(new CaretListener() {
       @Override
       public void caretUpdate(CaretEvent e) {
-        cursor_location = e.getDot(); /* caret position where cursor started */
+        int dot = e.getDot(); /* caret position where cursor started */
         int mark = e.getMark(); /* caret position where cursor ended */
-        if (cursor_location == mark) { /* no specific selection */
+        if (dot == mark) { /* no specific selection */
           selection = "";
+            caret_location = dot;
           updateTable(text_analysis_table, getText());
-        } else if (mark > cursor_location) { /* user selected from left to right */
-          selection = getText().substring(cursor_location, mark);
+        } else if (mark > dot) { /* user selected from left to right */
+            caret_location = dot;
+            selection = getText().substring(caret_location, mark);
           updateTable(text_analysis_table, selection);
         } else { /* user selected from right to left */
-          selection = getText().substring(mark, cursor_location);
+            caret_location = mark;
+            selection = getText().substring(mark, dot);
           updateTable(text_analysis_table, selection);
         }
       }
@@ -44,30 +47,39 @@ class GUI extends javax.swing.JFrame {
     javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
     javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
     // may need to make accent_button and button variables private
+
     javax.swing.JButton accent_button_1 = new javax.swing.JButton();
-    final AccentButton button_1 = new AccentButton(settings.getSettings().get(0));
+    AccentButton button_1 = new AccentButton(settings.getSettings().get(0));
     accent_button_1.setText(button_1.getAccentString());
+
     javax.swing.JButton accent_button_2 = new javax.swing.JButton();
     AccentButton button_2 = new AccentButton(settings.getSettings().get(1));
     accent_button_2.setText(button_2.getAccentString());
+
     javax.swing.JButton accent_button_3 = new javax.swing.JButton();
     AccentButton button_3 = new AccentButton(settings.getSettings().get(2));
     accent_button_3.setText(button_3.getAccentString());
+
     javax.swing.JButton accent_button_4 = new javax.swing.JButton();
     AccentButton button_4 = new AccentButton(settings.getSettings().get(3));
     accent_button_4.setText(button_4.getAccentString());
+
     javax.swing.JButton accent_button_5 = new javax.swing.JButton();
     AccentButton button_5 = new AccentButton(settings.getSettings().get(4));
     accent_button_5.setText(button_5.getAccentString());
+
     javax.swing.JButton accent_button_6 = new javax.swing.JButton();
     AccentButton button_6 = new AccentButton(settings.getSettings().get(5));
     accent_button_6.setText(button_6.getAccentString());
+
     javax.swing.JButton accent_button_7 = new javax.swing.JButton();
     AccentButton button_7 = new AccentButton(settings.getSettings().get(6));
     accent_button_7.setText(button_7.getAccentString());
+
     javax.swing.JButton accent_button_8 = new javax.swing.JButton();
     AccentButton button_8 = new AccentButton(settings.getSettings().get(7));
     accent_button_8.setText(button_8.getAccentString());
+
     javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
     text_input = new javax.swing.JEditorPane();
     javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
@@ -283,13 +295,12 @@ class GUI extends javax.swing.JFrame {
     accent_button_1.addActionListener(new ActionListener() {
       @Override // not sure if @Override is necessary
       public void actionPerformed(ActionEvent e) {
-        if(!Objects.equals(selection, "")) { /* if user has selected text */
-          int location = getText().indexOf(selection);
-        }
-        System.out.println("location is " + cursor_location);
-        System.out.println("size is " + getText().length());
-        setText(button_1.insertAccent(selection, getText(), cursor_location));
+        setText(button_1.insertAccent(selection, getText(), caret_location));
         text_input.requestFocusInWindow();
+          if(selection == "")
+            text_input.setCaretPosition(caret_location);
+          else
+              text_input.setCaretPosition(caret_location - selection.length());
       }
     });
     pack();
@@ -375,7 +386,7 @@ class GUI extends javax.swing.JFrame {
   private javax.swing.JEditorPane text_input;
   private String selection = "";
   private Settings settings = new Settings();
-  private int cursor_location = 0;
+  private int caret_location = 0;
   // End of variables declaration
   private final UndoManager undo = new
   UndoManager(); /* manager for undo/redo support */

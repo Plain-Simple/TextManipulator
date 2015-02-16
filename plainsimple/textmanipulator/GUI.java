@@ -17,16 +17,16 @@ class GUI extends javax.swing.JFrame {
     text_input.addCaretListener(new CaretListener() {
         @Override
         public void caretUpdate(CaretEvent e) {
-            int dot = e.getDot(); /* caret position where cursor started */
+            cursor_location = e.getDot(); /* caret position where cursor started */
             int mark = e.getMark(); /* caret position where cursor ended */
-            if (dot == mark) { /* no specific selection */
+            if (cursor_location == mark) { /* no specific selection */
                 selection = "";
                 updateTable(text_analysis_table, getText());
-            } else if (mark > dot) { /* user selected from left to right */
-                selection = getText().substring(dot, mark);
+            } else if (mark > cursor_location) { /* user selected from left to right */
+                selection = getText().substring(cursor_location, mark);
                 updateTable(text_analysis_table, selection);
             } else { /* user selected from right to left */
-                selection = getText().substring(mark, dot);
+                selection = getText().substring(mark, cursor_location);
                 updateTable(text_analysis_table, selection);
             }
         }
@@ -35,6 +35,9 @@ class GUI extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">
   private void initComponents() {
     settings.loadSettings("TextManipulator_Settings");
+
+
+
     javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
     javax.swing.JTabbedPane jTabbedPane1 = new javax.swing.JTabbedPane();
     javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
@@ -143,7 +146,7 @@ class GUI extends javax.swing.JFrame {
     jTabbedPane1.addTab(i18n.messages.getString("settings"), jPanel5);
     ///TODO: 188nize
     jScrollPane3.setViewportView(text_input);
-    text_analysis_table.setModel(new EditableTableModel());
+    text_analysis_table.setModel(new TextAnalysisTableModel());
     jScrollPane1.setViewportView(text_analysis_table);
     jLabel2.setText(i18n.messages.getString("author_notice"));
     jMenu1.setText(i18n.messages.getString("file_menu"));
@@ -279,16 +282,16 @@ class GUI extends javax.swing.JFrame {
                                               .addGap(0, 0, Short.MAX_VALUE)))
                               .addContainerGap())))
     );
-    accent_button_1.addActionListener(new
-    ActionListener() { /* listens for button to be clicked */
+    accent_button_1.addActionListener(new ActionListener() {
       @Override // not sure if @Override is necessary
       public void actionPerformed(ActionEvent e) {
-        int location =
-          getText().length(); /* default location to insert accent is at end of text */
         if(selection != "") { /* if user has selected text */
-          location = getText().indexOf(selection);
+          int location = getText().indexOf(selection);
         }
-        setText(button_1.insertAccent(selection, getText(), location));
+          System.out.println("location is " + cursor_location);
+          System.out.println("size is " + getText().length());
+        setText(button_1.insertAccent(selection, getText(), cursor_location));
+          text_input.requestFocusInWindow();
       }
     });
     pack();
@@ -374,6 +377,7 @@ class GUI extends javax.swing.JFrame {
   private javax.swing.JEditorPane text_input;
     private String selection = new String();
   private Settings settings = new Settings();
+    private int cursor_location = 0;
   // End of variables declaration
   private final UndoManager undo = new
   UndoManager(); /* manager for undo/redo support */

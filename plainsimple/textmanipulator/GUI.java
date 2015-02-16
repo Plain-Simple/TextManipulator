@@ -46,39 +46,16 @@ class GUI extends javax.swing.JFrame {
     javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
     javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
     javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
+
     // may need to make accent_button and button variables private
-
-    javax.swing.JButton accent_button_1 = new javax.swing.JButton();
     AccentButton button_1 = new AccentButton(settings.getSettings().get(0));
-    accent_button_1.setText(button_1.getAccentString());
-
-    javax.swing.JButton accent_button_2 = new javax.swing.JButton();
     AccentButton button_2 = new AccentButton(settings.getSettings().get(1));
-    accent_button_2.setText(button_2.getAccentString());
-
-    javax.swing.JButton accent_button_3 = new javax.swing.JButton();
     AccentButton button_3 = new AccentButton(settings.getSettings().get(2));
-    accent_button_3.setText(button_3.getAccentString());
-
-    javax.swing.JButton accent_button_4 = new javax.swing.JButton();
     AccentButton button_4 = new AccentButton(settings.getSettings().get(3));
-    accent_button_4.setText(button_4.getAccentString());
-
-    javax.swing.JButton accent_button_5 = new javax.swing.JButton();
     AccentButton button_5 = new AccentButton(settings.getSettings().get(4));
-    accent_button_5.setText(button_5.getAccentString());
-
-    javax.swing.JButton accent_button_6 = new javax.swing.JButton();
     AccentButton button_6 = new AccentButton(settings.getSettings().get(5));
-    accent_button_6.setText(button_6.getAccentString());
-
-    javax.swing.JButton accent_button_7 = new javax.swing.JButton();
     AccentButton button_7 = new AccentButton(settings.getSettings().get(6));
-    accent_button_7.setText(button_7.getAccentString());
-
-    javax.swing.JButton accent_button_8 = new javax.swing.JButton();
     AccentButton button_8 = new AccentButton(settings.getSettings().get(7));
-    accent_button_8.setText(button_8.getAccentString());
 
     javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
     text_input = new javax.swing.JEditorPane();
@@ -218,28 +195,28 @@ class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(
                         layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
-                            .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                            .addComponent(button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
@@ -259,21 +236,21 @@ class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                    .addComponent(button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
                         javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +269,7 @@ class GUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
     );
-    accent_button_1.addActionListener(new ActionListener() {
+    button_1.addActionListener(new ActionListener() {
       @Override // not sure if @Override is necessary
       public void actionPerformed(ActionEvent e) {
         setText(button_1.insertAccent(selection, getText(), caret_location));

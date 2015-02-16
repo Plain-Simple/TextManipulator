@@ -54,7 +54,7 @@ public class Settings {
         settings.add(Integer.parseInt(line));
       }
       System.out.println(i18n.messages.getString("file") + " \"" + file_name + "\" "
-                       + i18n.messages.getString("file_loaded"));
+                         + i18n.messages.getString("file_loaded"));
       System.out.println(settings.toString());
     } catch (IOException e) {
       System.out.println(i18n.messages.getString("error_reading_settings") + "\n");
@@ -83,7 +83,7 @@ public class Settings {
   /* returns false if '0', true if anything else. Used for transferring variables from "TextManipulator_Settings to
   * the program */
   public boolean CharToBoolean(char c) {
-      return c != '0';
+    return c != '0';
   }
   /* returns '0' if false, '1' if true. Used for transferring variables from program to "TextManipulator_Settings" */
   public char BooleanToChar(boolean b) {

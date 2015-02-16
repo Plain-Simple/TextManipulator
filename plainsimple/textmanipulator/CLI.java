@@ -30,34 +30,34 @@ class CLI {
     System.out.println(i18n.messages.getString("cli_welcome") + "\n\n");
     /* we need a way of catching errors if loadFile fails) */
     loadFile(); // I think error-handling would happen in the function itself, or it could return the exception (null if no exception)
-      /* this runs forever, because the cli keeps going until the user exits */
-      while (true) {
-        System.out.println(i18n.messages.getString("function_prompt") + "\n");
-        String userInput = scanner.nextLine();
-        switch (userInput) {
-          case "help":
-            outputFunctionsList();
-            break;
-          case "exit":
-            System.exit(0);
-            break;
-          default:
-            System.out.println(i18n.messages.getString("invalid_cli_option"));
-            outputFunctionsList();
-            break;
-        }
+    /* this runs forever, because the cli keeps going until the user exits */
+    while (true) {
+      System.out.println(i18n.messages.getString("function_prompt") + "\n");
+      String userInput = scanner.nextLine();
+      switch (userInput) {
+      case "help":
+        outputFunctionsList();
+        break;
+      case "exit":
+        System.exit(0);
+        break;
+      default:
+        System.out.println(i18n.messages.getString("invalid_cli_option"));
+        outputFunctionsList();
+        break;
       }
+    }
   }
   void loadFile() {
     System.out.println(i18n.messages.getString("cli_file_prompt"));
     Scanner scanner = new Scanner(System.in);
     String filePath = scanner.nextLine();
     /* import file_path text file into string called text */
-      try {
-          String text = new Scanner(filePath).useDelimiter("\\Z").next();
-      } catch(NoSuchElementException e) {
-          System.out.println("Error: No file name entered"); //
-      }
+    try {
+      String text = new Scanner(filePath).useDelimiter("\\Z").next();
+    } catch(NoSuchElementException e) {
+      System.out.println("Error: No file name entered"); //
+    }
   }
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {

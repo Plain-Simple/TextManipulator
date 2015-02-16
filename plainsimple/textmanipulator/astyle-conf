@@ -1,0 +1,7 @@
+style=java
+indent=spaces=2
+pad-oper
+delete-empty-lines
+add-brackets
+max-code-length=80
+suffix=none

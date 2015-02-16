@@ -1,12 +1,16 @@
 package plainsimple.textmanipulator;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-class AccentButton {
+class AccentButton extends JButton {
   private char accent; /* accent associated with button */
   /* constructor with ascii value */
   public AccentButton(int ascii_value) {
     accent = (char) ascii_value;
+      setText(getAccentString()); /* sets button text to display accent */
   }
   public void setAccent(int ascii_value) {
     accent = (char) ascii_value;

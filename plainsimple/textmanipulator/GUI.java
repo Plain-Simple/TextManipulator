@@ -2,6 +2,7 @@ package plainsimple.textmanipulator;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.CannotRedoException;
@@ -195,94 +196,94 @@ class GUI extends javax.swing.JFrame {
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                          .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                          .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222,
+                            javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322,
+                        javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                          .addGroup(
-                            layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
+                    .addGroup(
+                        layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
                             .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                          javax.swing.GroupLayout.PREFERRED_SIZE)
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                          .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                Short.MAX_VALUE)
-                                            .addContainerGap())
-                                        .addComponent(jLabel2)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507,
+                            javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                    Short.MAX_VALUE)
+                                .addContainerGap())
+                            .addComponent(jLabel2)))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                          .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                          .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                        javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                          .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2))
-                          .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTabbedPane1)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE)))
-                                    .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92,
+                            javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                            javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTabbedPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
     );
     accent_button_1.addActionListener(new ActionListener() {
       @Override // not sure if @Override is necessary
       public void actionPerformed(ActionEvent e) {
-        if(selection != "") { /* if user has selected text */
+        if(!Objects.equals(selection, "")) { /* if user has selected text */
           int location = getText().indexOf(selection);
         }
         System.out.println("location is " + cursor_location);
@@ -298,11 +299,11 @@ class GUI extends javax.swing.JFrame {
 
   }
   /* returns text entered by user in the editor pane */
-  public String getText() {
+  String getText() {
     return text_input.getText();
   }
   /* sets the editor pane using String passed */
-  public void setText(String s) {
+  void setText(String s) {
     text_input.setText(s);
   }
   /* updates text_analysis_table with latest data */
@@ -372,7 +373,7 @@ class GUI extends javax.swing.JFrame {
 
   private javax.swing.JTable text_analysis_table;
   private javax.swing.JEditorPane text_input;
-  private String selection = new String();
+  private String selection = "";
   private Settings settings = new Settings();
   private int cursor_location = 0;
   // End of variables declaration

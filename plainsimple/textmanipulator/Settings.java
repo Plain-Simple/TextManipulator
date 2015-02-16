@@ -4,13 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 /* Plain+Simple TextManipulator settings and global variable management */
-public class Settings {
+class Settings {
   private ArrayList<Integer> settings = new
-  ArrayList<Integer>(); // work in progress
+  ArrayList<>(); // work in progress
   public ArrayList<Integer> getSettings() {
     return settings;
   }
-  public void setDefaultSettings(String file_name) {
+  void setDefaultSettings(String file_name) {
     try {
       FileWriter file = new FileWriter(file_name);
       BufferedWriter write_settings = new BufferedWriter(file);

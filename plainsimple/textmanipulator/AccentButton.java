@@ -2,7 +2,7 @@ package plainsimple.textmanipulator;
 
 import java.util.Objects;
 
-public class AccentButton {
+class AccentButton {
   private char accent; /* accent associated with button */
   /* constructor with ascii value */
   public AccentButton(int ascii_value) {
@@ -15,7 +15,7 @@ public class AccentButton {
     if (accent >= 0x80 && accent <= 0xFF) {
       return EXTENDED[accent - 0x7F];
     }
-    return (char) accent;
+    return accent;
   }
   public String getAccentString() {
     if (accent >= 0x80 && accent <= 0xFF) {
@@ -39,7 +39,7 @@ public class AccentButton {
     }
   }
   /* for use of extended ascii table */
-  public static final char[] EXTENDED = { 0x00C7, 0x00FC, 0x00E9, 0x00E2,
+  private static final char[] EXTENDED = { 0x00C7, 0x00FC, 0x00E9, 0x00E2,
                                           0x00E4, 0x00E0, 0x00E5, 0x00E7, 0x00EA, 0x00EB, 0x00E8, 0x00EF,
                                           0x00EE, 0x00EC, 0x00C4, 0x00C5, 0x00C9, 0x00E6, 0x00C6, 0x00F4,
                                           0x00F6, 0x00F2, 0x00FB, 0x00F9, 0x00FF, 0x00D6, 0x00DC, 0x00A2,

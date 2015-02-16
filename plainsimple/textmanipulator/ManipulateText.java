@@ -19,7 +19,7 @@ class ManipulateText {
   }
   public String removeDuplicateLines(String
                                      text) { /// a little messy, but works. Feel free to refactor
-    ArrayList<Integer> duplicates = new ArrayList<Integer>();
+    ArrayList<Integer> duplicates = new ArrayList<>();
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
     text = ""; /* clear variable once it has been split into lines*/
@@ -32,7 +32,7 @@ class ManipulateText {
       }
     }
     ArrayList<String> new_lines = new
-    ArrayList<String>(); /* arraylist to hold the non-duplicate lines */
+    ArrayList<>(); /* arraylist to hold the non-duplicate lines */
     for(int i = 0; i < lines.length; i++) {
       boolean copy_element = true; /* true if element is not a duplicate */
       for(int j = 0; j < duplicates.size(); j++) {
@@ -64,7 +64,7 @@ class ManipulateText {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
     /* copy array to arraylist for easier manipulation */
-    ArrayList<String> lines_list = new ArrayList<String>(Arrays.asList(lines));
+    ArrayList<String> lines_list = new ArrayList<>(Arrays.asList(lines));
     text = ""; /* clear variable once it has been split into lines*/
     while(lines_list.size() > 0) { /* runs until all lines have been copied */
       int line_number = generateRandomNumber(lines_list.size() -
@@ -172,7 +172,7 @@ class ManipulateText {
   public String removeArgument(String argument, String text) {
     String new_text = "";
     ArrayList<Integer> locations = new
-    ArrayList<Integer>(); /* will be used to store the indexes where argument is found */
+    ArrayList<>(); /* will be used to store the indexes where argument is found */
     int from_index = 0;
     while(text.indexOf(argument, from_index) > -1) {
       int index = text.indexOf(argument, from_index);

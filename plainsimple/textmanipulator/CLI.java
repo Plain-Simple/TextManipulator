@@ -1,5 +1,27 @@
+/* I think you could make this a lot easier on yourself if you create a loop. At the beginning of the loop is the
+console prompt (function_prompt). Then a function to take user input, and another one to analyze the input. The
+analyze function would determine the command entered, and then how many parameters to take. It could then call
+the appropriate function and pass it those parameters. Any errors encountered could be handled locally or just break
+the loop.
+
+Like this: (abbreviated)
+Prinln("cli_welcome");
+do {
+Println("function_prompt");
+String input = GetInput();
+AnalyzeInput(input);
+ExecuteInput(parameters);
+}while(userInput != "quit");
+.... just an idea
+
+possible commands:
+load file - lf
+ */
+
+
 package plainsimple.textmanipulator;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class CLI {
@@ -7,7 +29,7 @@ class CLI {
     Scanner scanner = new Scanner(System.in);
     System.out.println(i18n.messages.getString("cli_welcome") + "\n\n");
     /* we need a way of catching errors if loadFile fails) */
-    loadFile();
+    loadFile(); // I think error-handling would happen in the function itself, or it could return the exception (null if no exception)
       /* this runs forever, because the cli keeps going until the user exits */
       while (true) {
         System.out.println(i18n.messages.getString("function_prompt") + "\n");
@@ -31,7 +53,11 @@ class CLI {
     Scanner scanner = new Scanner(System.in);
     String filePath = scanner.nextLine();
     /* import file_path text file into string called text */
-    String text = new Scanner(filePath).useDelimiter("\\Z").next();
+      try {
+          String text = new Scanner(filePath).useDelimiter("\\Z").next();
+      } catch(NoSuchElementException e) {
+          System.out.println("Error: No file name entered"); //
+      }
   }
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {

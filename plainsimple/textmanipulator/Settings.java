@@ -32,7 +32,7 @@ class Settings {
       write_settings.newLine();
       write_settings.close();
     } catch (IOException e) {
-      System.out.println(i18n.messages.getString("error_writing_default_settings"));
+      System.out.println(i18n.getString("error_writing_default_settings"));
     }
     settings.add(130);
     settings.add(131);
@@ -53,11 +53,11 @@ class Settings {
       while((line = read_settings.readLine()) != null) {
         settings.add(Integer.parseInt(line));
       }
-      System.out.println(i18n.messages.getString("file") + " \"" + file_name + "\" "
-                         + i18n.messages.getString("file_loaded"));
+      System.out.println(i18n.getString("file") + " \"" + file_name + "\" "
+                         + i18n.getString("file_loaded"));
       System.out.println(settings.toString());
     } catch (IOException e) {
-      System.out.println(i18n.messages.getString("error_reading_settings") + "\n");
+      System.out.println(i18n.getString("error_reading_settings") + "\n");
       read_success = false;
       setDefaultSettings(file_name);
     }

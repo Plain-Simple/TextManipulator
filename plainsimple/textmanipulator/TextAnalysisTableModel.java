@@ -3,12 +3,12 @@ package plainsimple.textmanipulator;
 import javax.swing.table.AbstractTableModel;
 
 class TextAnalysisTableModel extends AbstractTableModel {
-  private final String[] columnNames = {i18n.messages.getString("text_analysis"), ""};
+  private final String[] columnNames = {i18n.getString("text_analysis"), ""};
   private final Object[][] data = {
-    {i18n.messages.getString("analysis_words"), 0},
-    {i18n.messages.getString("analysis_chars"), 0},
-    {i18n.messages.getString("analysis_sentences"), 0},
-    {i18n.messages.getString("analysis_lines"), 0}
+    {i18n.getString("analysis_words"), 0},
+    {i18n.getString("analysis_chars"), 0},
+    {i18n.getString("analysis_sentences"), 0},
+    {i18n.getString("analysis_lines"), 0}
   };
 
   public int getColumnCount() {

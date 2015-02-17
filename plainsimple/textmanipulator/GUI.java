@@ -78,10 +78,10 @@ class GUI extends javax.swing.JFrame {
       JMenuItem paste_menu_item = new JMenuItem();
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     //setTitle("Plain+Simple TextManipulator");
-    setTitle(i18n.messages.getString("program_full_name"));
+    setTitle(i18n.getString("program_full_name"));
     jLabel1.setFont(new Font("Tahoma", 1, 24)); // NOI18N
     jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-    jLabel1.setText(i18n.messages.getString("program_name"));
+    jLabel1.setText(i18n.getString("program_name"));
     function_panel.setBorder(BorderFactory.createEtchedBorder());
     function_panel.setTabPlacement(JTabbedPane.LEFT);
     GroupLayout jPanel3Layout = new GroupLayout(basic_tools_panel);
@@ -94,7 +94,7 @@ class GUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.messages.getString("basic_tools"), basic_tools_panel);
+    function_panel.addTab(i18n.getString("basic_tools"), basic_tools_panel);
     GroupLayout jPanel1Layout = new GroupLayout(line_functions_panel);
     line_functions_panel.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
@@ -107,7 +107,7 @@ class GUI extends javax.swing.JFrame {
     );
 
       /* adds "line functions tab to tabbed pane */
-    function_panel.addTab(i18n.messages.getString("line_functions"), line_functions_panel);
+    function_panel.addTab(i18n.getString("line_functions"), line_functions_panel);
     GroupLayout jPanel2Layout = new GroupLayout(word_functions_panel);
     word_functions_panel.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
@@ -118,7 +118,7 @@ class GUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.messages.getString("word_functions"), word_functions_panel);
+    function_panel.addTab(i18n.getString("word_functions"), word_functions_panel);
     GroupLayout jPanel4Layout = new GroupLayout(find_replace_panel);
     find_replace_panel.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
@@ -129,7 +129,7 @@ class GUI extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.messages.getString("find_replace"), find_replace_panel);
+    function_panel.addTab(i18n.getString("find_replace"), find_replace_panel);
 
       GroupLayout settings_panel_layout = new GroupLayout(settings_panel);
     settings_panel.setLayout(settings_panel_layout);
@@ -141,18 +141,18 @@ class GUI extends javax.swing.JFrame {
             settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.messages.getString("settings"), settings_panel);
+    function_panel.addTab(i18n.getString("settings"), settings_panel);
     ///TODO: 188nize
     jScrollPane3.setViewportView(text_input);
     text_analysis_table.setModel(new TextAnalysisTableModel());
     jScrollPane1.setViewportView(text_analysis_table);
-    jLabel2.setText(i18n.messages.getString("author_notice"));
-    file_menu.setText(i18n.messages.getString("file_menu"));
+    jLabel2.setText(i18n.getString("author_notice"));
+    file_menu.setText(i18n.getString("file_menu"));
     jMenuItem1.setText("Coming Soon!");
     file_menu.add(jMenuItem1);
     jMenuBar1.add(file_menu);
-    edit_menu.setText(i18n.messages.getString("edit_menu"));
-    undo_menu_item.setText(i18n.messages.getString("undo"));
+    edit_menu.setText(i18n.getString("edit_menu"));
+    undo_menu_item.setText(i18n.getString("undo"));
     /* CTRL-Z shortcut */
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -167,7 +167,7 @@ class GUI extends javax.swing.JFrame {
         }
     });
     edit_menu.add(undo_menu_item);
-    redo_menu_item.setText(i18n.messages.getString("redo"));
+    redo_menu_item.setText(i18n.getString("redo"));
     redo_menu_item.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

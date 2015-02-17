@@ -28,7 +28,7 @@ class GUI extends javax.swing.JFrame {
           updateTable(text_analysis_table, getText());
         } else if (mark > dot) { /* user selected from left to right */
             caret_location = dot;
-            selection = getText().substring(caret_location, mark);
+            selection = getText().substring(dot, mark);
           updateTable(text_analysis_table, selection);
         } else { /* user selected from right to left */
             caret_location = mark;
@@ -68,9 +68,9 @@ class GUI extends javax.swing.JFrame {
     text_analysis_table = new JTable();
     JLabel jLabel2 = new JLabel();
     JMenuBar jMenuBar1 = new JMenuBar();
-    JMenu jMenu1 = new JMenu();
+    JMenu file_menu = new JMenu();
     JMenuItem jMenuItem1 = new JMenuItem();
-    JMenu jMenu2 = new JMenu();
+    JMenu edit_menu = new JMenu();
     JMenuItem undo_menu_item = new JMenuItem();
     JMenuItem redo_menu_item = new JMenuItem();
       JMenuItem copy_menu_item = new JMenuItem();
@@ -147,11 +147,11 @@ class GUI extends javax.swing.JFrame {
     text_analysis_table.setModel(new TextAnalysisTableModel());
     jScrollPane1.setViewportView(text_analysis_table);
     jLabel2.setText(i18n.messages.getString("author_notice"));
-    jMenu1.setText(i18n.messages.getString("file_menu"));
+    file_menu.setText(i18n.messages.getString("file_menu"));
     jMenuItem1.setText("Coming Soon!");
-    jMenu1.add(jMenuItem1);
-    jMenuBar1.add(jMenu1);
-    jMenu2.setText(i18n.messages.getString("edit_menu"));
+    file_menu.add(jMenuItem1);
+    jMenuBar1.add(file_menu);
+    edit_menu.setText(i18n.messages.getString("edit_menu"));
     undo_menu_item.setText(i18n.messages.getString("undo"));
     /* CTRL-Z shortcut */
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
@@ -166,7 +166,7 @@ class GUI extends javax.swing.JFrame {
             }
         }
     });
-    jMenu2.add(undo_menu_item);
+    edit_menu.add(undo_menu_item);
     redo_menu_item.setText(i18n.messages.getString("redo"));
     redo_menu_item.addActionListener(new ActionListener() {
         @Override
@@ -180,29 +180,36 @@ class GUI extends javax.swing.JFrame {
     });
     redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y',
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-    jMenu2.add(redo_menu_item);
+    edit_menu.add(redo_menu_item);
 
       copy_menu_item.setText("Copy");
       copy_menu_item.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-              StringSelection stringSelection = new StringSelection (selection);
+              StringSelection stringSelection = new StringSelection(selection);
               Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
               clpbrd.setContents(stringSelection, null);
           }
       });
       copy_menu_item.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      jMenu2.add(copy_menu_item);
+      edit_menu.add(copy_menu_item);
 
-      /*cut_menu_item.setText("Cut");
+      cut_menu_item.setText("Cut");
       cut_menu_item.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-
+            StringSelection stringSelection = new StringSelection(selection);
+              Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+              clpbrd.setContents(stringSelection, null);
+              int location = caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
+              setText(getText().substring(0, caret_location) + getText().substring(caret_location + selection.length()));
+              text_input.setCaretPosition(location);
           }
-      }); */
+      });
+      cut_menu_item.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      edit_menu.add(cut_menu_item);
       
-    jMenuBar1.add(jMenu2);
+    jMenuBar1.add(edit_menu);
     setJMenuBar(jMenuBar1);
 
     GroupLayout layout = new GroupLayout(getContentPane());
@@ -350,12 +357,15 @@ class GUI extends javax.swing.JFrame {
   }
     /* handles event that an AccentButton is pressed */
     public void accentButtonPressed(AccentButton accent_button) {
+        /* need to copy info. over to other variables, because it will change */
+        int current_location = caret_location; // overwrites the character to the write
+        int current_length = selection.length();
         setText(accent_button.insertAccent(selection, getText(), caret_location));
-        text_input.requestFocusInWindow();
+        text_input.requestFocusInWindow(); /* give focus back to editor pane */
         if(selection == "")
-            text_input.setCaretPosition(caret_location);
+            text_input.setCaretPosition(current_location + 1);
         else
-            text_input.setCaretPosition(caret_location - selection.length());
+            text_input.setCaretPosition(current_location);
     }
 
   /* returns text entered by user in the editor pane */
@@ -403,7 +413,6 @@ class GUI extends javax.swing.JFrame {
       }
     });
   }
-
 
   public void startGUI() {
     /* Set look and feel to system look and feel */

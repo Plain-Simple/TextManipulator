@@ -31,15 +31,30 @@ class AccentButton extends JButton {
     return (int) accent;
   }
   public String insertAccent(String selection, String text, int location) {
-    if(Objects.equals(selection, "")) { /* simply insert the accent */
+    if(Objects.equals(selection, "") ) { /* simply insert the accent */
       if(Objects.equals(location, text.length())) {
         return text + getAccentString(); /* append accent */
-      } else
-        return text.substring(0,
-                              location) + getAccentString() + text.substring(location + 1);
+      } else {
+          System.out.println("No Selection");
+          System.out.println(text.substring(0, location));
+          System.out.println(getAccentString());
+          System.out.println(text.substring(location + 1));
+          return text.substring(0,
+                  location) + getAccentString() + text.substring(location);
+      }
+    } else if(text.endsWith(selection)) {
+        return text.substring(0, location) + getAccentString();
     } else { /* replace selected text with accent */
-      return text.substring(0,
-                            location) + getAccentString() + text.substring(location + selection.length());
+        System.out.println("Selection");
+        System.out.println(text.substring(0, location));
+        System.out.println(text.substring(location + selection.length()));
+        System.out.println(text.substring(location + selection.length() + 1));
+        if(selection.length() == 1)
+            return text.substring(0,
+                            location) + getAccentString() + text.substring(location + 1);
+        else
+            return text.substring(0,
+                    location) + getAccentString() + text.substring(location + selection.length());
     }
   }
   /* for use of extended ascii table */

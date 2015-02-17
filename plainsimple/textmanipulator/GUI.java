@@ -97,6 +97,8 @@ class GUI extends javax.swing.JFrame {
       jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
+
+      /* adds "line functions tab to tabbed pane */
     jTabbedPane1.addTab(i18n.messages.getString("line_functions"), jPanel1);
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
@@ -269,23 +271,53 @@ class GUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
     );
+      // maybe there's a more elegant way to do this?
+      // I was thinking adding the action listener to the AccentButton's constructor
     button_1.addActionListener(new ActionListener() {
-      @Override // not sure if @Override is necessary
-      public void actionPerformed(ActionEvent e) {
-        setText(button_1.insertAccent(selection, getText(), caret_location));
-        text_input.requestFocusInWindow();
-          if(selection == "")
-            text_input.setCaretPosition(caret_location);
-          else
-              text_input.setCaretPosition(caret_location - selection.length());
-      }
+      @Override
+      public void actionPerformed(ActionEvent e) {accentButtonPressed(button_1);}
     });
-    pack();
-  }// </editor-fold>
-  /* handles user clicking "Undo" in menu */ /*
-  private void undo_menu_itemActionPerformed(java.awt.event.ActionEvent evt) {
+      button_2.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_2);}
+      });
+      button_3.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_3);}
+      });
+      button_4.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_4);}
+      });
+      button_5.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_5);}
+      });
+      button_6.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_6);}
+      });
+      button_7.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_7);}
+      });
+      button_8.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_8);}
+      });
 
+    pack();
   }
+    /* handles event that an AccentButton is pressed */
+    public void accentButtonPressed(AccentButton accent_button) {
+        setText(accent_button.insertAccent(selection, getText(), caret_location));
+        text_input.requestFocusInWindow();
+        if(selection == "")
+            text_input.setCaretPosition(caret_location);
+        else
+            text_input.setCaretPosition(caret_location - selection.length());
+    }
+
   /* returns text entered by user in the editor pane */
   String getText() {
     return text_input.getText();

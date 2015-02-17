@@ -1,5 +1,7 @@
 package plainsimple.textmanipulator;
-import java.awt.Toolkit;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
@@ -39,100 +41,107 @@ class GUI extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">
   private void initComponents() {
     settings.loadSettings("TextManipulator_Settings");
-    javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
-    javax.swing.JTabbedPane jTabbedPane1 = new javax.swing.JTabbedPane();
-    javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
-    javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
-    javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
-    javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
-    javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
+    JLabel jLabel1 = new JLabel();
+    JTabbedPane function_panel = new JTabbedPane();
+    JPanel basic_tools_panel = new JPanel();
+    JPanel line_functions_panel = new JPanel();
+    JPanel word_functions_panel = new JPanel();
+    JPanel find_replace_panel = new JPanel();
+    JPanel settings_panel = new JPanel();
+      settings_label_1 = new JLabel("Accents to Display: ");
+      display_accents = new JTextField();
+      configure_accents_button = new JButton("Configure");
 
     // may need to make accent_button and button variables private
-    AccentButton button_1 = new AccentButton(settings.getSettings().get(0));
-    AccentButton button_2 = new AccentButton(settings.getSettings().get(1));
-    AccentButton button_3 = new AccentButton(settings.getSettings().get(2));
-    AccentButton button_4 = new AccentButton(settings.getSettings().get(3));
-    AccentButton button_5 = new AccentButton(settings.getSettings().get(4));
-    AccentButton button_6 = new AccentButton(settings.getSettings().get(5));
-    AccentButton button_7 = new AccentButton(settings.getSettings().get(6));
-    AccentButton button_8 = new AccentButton(settings.getSettings().get(7));
+    accent_button_1 = new AccentButton(settings.getSettings().get(0));
+    accent_button_2 = new AccentButton(settings.getSettings().get(1));
+    accent_button_3 = new AccentButton(settings.getSettings().get(2));
+    accent_button_4 = new AccentButton(settings.getSettings().get(3));
+    accent_button_5 = new AccentButton(settings.getSettings().get(4));
+      accent_button_6 = new AccentButton(settings.getSettings().get(5));
+    accent_button_7 = new AccentButton(settings.getSettings().get(6));
+    accent_button_8 = new AccentButton(settings.getSettings().get(7));
 
-    javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
-    text_input = new javax.swing.JEditorPane();
-    javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-    text_analysis_table = new javax.swing.JTable();
-    javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
-    javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
-    javax.swing.JMenu jMenu1 = new javax.swing.JMenu();
-    javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
-    javax.swing.JMenu jMenu2 = new javax.swing.JMenu();
+    JScrollPane jScrollPane3 = new JScrollPane();
+    text_input = new JEditorPane();
+    JScrollPane jScrollPane1 = new JScrollPane();
+    text_analysis_table = new JTable();
+    JLabel jLabel2 = new JLabel();
+    JMenuBar jMenuBar1 = new JMenuBar();
+    JMenu jMenu1 = new JMenu();
+    JMenuItem jMenuItem1 = new JMenuItem();
+    JMenu jMenu2 = new JMenu();
     JMenuItem undo_menu_item = new JMenuItem();
-    javax.swing.JMenuItem redo_menu_item = new javax.swing.JMenuItem();
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    JMenuItem redo_menu_item = new JMenuItem();
+      JMenuItem copy_menu_item = new JMenuItem();
+      JMenuItem cut_menu_item = new JMenuItem();
+      JMenuItem paste_menu_item = new JMenuItem();
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     //setTitle("Plain+Simple TextManipulator");
     setTitle(i18n.messages.getString("program_full_name"));
-    jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-    jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel1.setFont(new Font("Tahoma", 1, 24)); // NOI18N
+    jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
     jLabel1.setText(i18n.messages.getString("program_name"));
-    jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-    jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-    jPanel3.setLayout(jPanel3Layout);
+    function_panel.setBorder(BorderFactory.createEtchedBorder());
+    function_panel.setTabPlacement(JTabbedPane.LEFT);
+    GroupLayout jPanel3Layout = new GroupLayout(basic_tools_panel);
+    basic_tools_panel.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
-      jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 222, Short.MAX_VALUE)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel3Layout.setVerticalGroup(
-      jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 307, Short.MAX_VALUE)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 307, Short.MAX_VALUE)
     );
-    jTabbedPane1.addTab(i18n.messages.getString("basic_tools"), jPanel3);
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
+    function_panel.addTab(i18n.messages.getString("basic_tools"), basic_tools_panel);
+    GroupLayout jPanel1Layout = new GroupLayout(line_functions_panel);
+    line_functions_panel.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 222, Short.MAX_VALUE)
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel1Layout.setVerticalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
 
       /* adds "line functions tab to tabbed pane */
-    jTabbedPane1.addTab(i18n.messages.getString("line_functions"), jPanel1);
-    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-    jPanel2.setLayout(jPanel2Layout);
+    function_panel.addTab(i18n.messages.getString("line_functions"), line_functions_panel);
+    GroupLayout jPanel2Layout = new GroupLayout(word_functions_panel);
+    word_functions_panel.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
-      jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 222, Short.MAX_VALUE)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel2Layout.setVerticalGroup(
-      jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 307, Short.MAX_VALUE)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 307, Short.MAX_VALUE)
     );
-    jTabbedPane1.addTab(i18n.messages.getString("word_functions"), jPanel2);
-    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-    jPanel4.setLayout(jPanel4Layout);
+    function_panel.addTab(i18n.messages.getString("word_functions"), word_functions_panel);
+    GroupLayout jPanel4Layout = new GroupLayout(find_replace_panel);
+    find_replace_panel.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
-      jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 222, Short.MAX_VALUE)
+            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
-      jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 307, Short.MAX_VALUE)
+            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 307, Short.MAX_VALUE)
     );
-    jTabbedPane1.addTab(i18n.messages.getString("find_replace"), jPanel4);
-    javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-    jPanel5.setLayout(jPanel5Layout);
-    jPanel5Layout.setHorizontalGroup(
-      jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 222, Short.MAX_VALUE)
+    function_panel.addTab(i18n.messages.getString("find_replace"), find_replace_panel);
+
+      GroupLayout settings_panel_layout = new GroupLayout(settings_panel);
+    settings_panel.setLayout(settings_panel_layout);
+    settings_panel_layout.setHorizontalGroup(
+            settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 222, Short.MAX_VALUE)
     );
-    jPanel5Layout.setVerticalGroup(
-      jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 307, Short.MAX_VALUE)
+    settings_panel_layout.setVerticalGroup(
+            settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGap(0, 307, Short.MAX_VALUE)
     );
-    jTabbedPane1.addTab(i18n.messages.getString("settings"), jPanel5);
+    function_panel.addTab(i18n.messages.getString("settings"), settings_panel);
     ///TODO: 188nize
     jScrollPane3.setViewportView(text_input);
     text_analysis_table.setModel(new TextAnalysisTableModel());
@@ -147,163 +156,194 @@ class GUI extends javax.swing.JFrame {
     /* CTRL-Z shortcut */
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-    /*
-    undo_menu_item.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            undo_menu_itemActionPerformed(evt);
-        }
-    });
-    */
     undo_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          undo.undo();
-        } catch (CannotUndoException ex) {
-          ex.printStackTrace();
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                undo.undo();
+            } catch (CannotUndoException ex) {
+                ex.printStackTrace();
+            }
         }
-      }
     });
     jMenu2.add(undo_menu_item);
     redo_menu_item.setText(i18n.messages.getString("redo"));
     redo_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          undo.redo();
-        } catch (CannotRedoException ex) {
-          ex.printStackTrace();
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                undo.redo();
+            } catch (CannotRedoException ex) {
+                ex.printStackTrace();
+            }
         }
-      }
     });
     redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y',
-                                  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     jMenu2.add(redo_menu_item);
+
+      copy_menu_item.setText("Copy");
+      copy_menu_item.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              StringSelection stringSelection = new StringSelection (selection);
+              Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+              clpbrd.setContents(stringSelection, null);
+          }
+      });
+      copy_menu_item.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      jMenu2.add(copy_menu_item);
+
+      /*cut_menu_item.setText("Cut");
+      cut_menu_item.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+
+          }
+      }); */
+      
     jMenuBar1.add(jMenu2);
     setJMenuBar(jMenuBar1);
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+
+    GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222,
-                            javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322,
-                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(
-                        layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
-                            .addComponent(button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507,
-                            javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                    Short.MAX_VALUE)
-                                .addContainerGap())
-                            .addComponent(jLabel2)))))
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 222,
+                                                    GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(function_panel, GroupLayout.PREFERRED_SIZE, 322,
+                                            GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(
+                                            layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
+                                                    .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 40,
+                                                            GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 507,
+                                                    GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 0,
+                                                                    Short.MAX_VALUE)
+                                                            .addContainerGap())
+                                                    .addComponent(jLabel2)))))
     );
     layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_1, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_2, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_3, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_4, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_5, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_6, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_7, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_8, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
-                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 33,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 34,
+                        GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92,
-                            javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                            javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 92,
+                            GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
+                            GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTabbedPane1)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(function_panel)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 233,
+                                    GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
     );
       // maybe there's a more elegant way to do this?
       // I was thinking adding the action listener to the AccentButton's constructor
-    button_1.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {accentButtonPressed(button_1);}
+    accent_button_1.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            accentButtonPressed(accent_button_1);
+        }
     });
-      button_2.addActionListener(new ActionListener() {
+      accent_button_2.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_2);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_2);
+          }
       });
-      button_3.addActionListener(new ActionListener() {
+      accent_button_3.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_3);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_3);
+          }
       });
-      button_4.addActionListener(new ActionListener() {
+      accent_button_4.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_4);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_4);
+          }
       });
-      button_5.addActionListener(new ActionListener() {
+      accent_button_5.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_5);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_5);
+          }
       });
-      button_6.addActionListener(new ActionListener() {
+      accent_button_6.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_6);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_6);
+          }
       });
-      button_7.addActionListener(new ActionListener() {
+      accent_button_7.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_7);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_7);
+          }
       });
-      button_8.addActionListener(new ActionListener() {
+      accent_button_8.addActionListener(new ActionListener() {
           @Override
-          public void actionPerformed(ActionEvent e) {accentButtonPressed(button_8);}
+          public void actionPerformed(ActionEvent e) {
+              accentButtonPressed(accent_button_8);
+          }
       });
 
     pack();
@@ -395,6 +435,17 @@ class GUI extends javax.swing.JFrame {
   private javax.swing.JEditorPane text_input;
   private String selection = "";
   private Settings settings = new Settings();
+    private AccentButton accent_button_1;
+    private AccentButton accent_button_2;
+    private AccentButton accent_button_3;
+    private AccentButton accent_button_4;
+    private AccentButton accent_button_5;
+    private AccentButton accent_button_6;
+    private AccentButton accent_button_7;
+    private AccentButton accent_button_8;
+    private javax.swing.JLabel settings_label_1;
+    private javax.swing.JTextField display_accents;
+    private javax.swing.JButton configure_accents_button;
   private int caret_location = 0;
   // End of variables declaration
   private final UndoManager undo = new

@@ -3,6 +3,8 @@ package plainsimple.textmanipulator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+
 class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
@@ -251,6 +253,9 @@ class ManipulateText {
     //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
     return (int) Math.floor(Math.random() * (upper_bound + 1));
   }
+    public String removeExtraWhitespace(String text) { // note: removes and tabs or linebreaks
+        return text.replaceAll("\\s+", " ").trim();
+    }
   /* removes all non-letter and non-numbers, leaves spaces */
   public String removePunctuation(String text) {
     String new_text = "";

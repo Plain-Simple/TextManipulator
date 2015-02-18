@@ -6,10 +6,10 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Objects;
 
 class GUI extends javax.swing.JFrame {
@@ -68,7 +68,8 @@ class GUI extends javax.swing.JFrame {
     JLabel jLabel2 = new JLabel();
     JMenuBar jMenuBar1 = new JMenuBar();
     JMenu file_menu = new JMenu();
-    JMenuItem jMenuItem1 = new JMenuItem();
+    JMenuItem open_file_menu_item = new JMenuItem();
+      JMenuItem save_file_menu_item = new JMenuItem();
     JMenu edit_menu = new JMenu();
     JMenuItem undo_menu_item = new JMenuItem();
     JMenuItem redo_menu_item = new JMenuItem();
@@ -146,8 +147,23 @@ class GUI extends javax.swing.JFrame {
     jScrollPane1.setViewportView(text_analysis_table);
     jLabel2.setText(i18n.getString("author_notice"));
     file_menu.setText(i18n.getString("file_menu"));
-    jMenuItem1.setText("Coming Soon!");
-    file_menu.add(jMenuItem1);
+    open_file_menu_item.setText(i18n.getString("open_file_menu"));
+      open_file_menu_item.addActionListener(new ActionListener() {
+          @Override public void actionPerformed(ActionEvent e) {
+
+          }
+      });
+    open_file_menu_item.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+    file_menu.add(open_file_menu_item);
+    save_file_menu_item.setText(i18n.getString("save_file_menu"));
+      save_file_menu_item.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+
+          }
+      });
+      save_file_menu_item.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      file_menu.add(save_file_menu_item);
     jMenuBar1.add(file_menu);
     edit_menu.setText(i18n.getString("edit_menu"));
     undo_menu_item.setText(i18n.getString("undo"));
@@ -155,8 +171,7 @@ class GUI extends javax.swing.JFrame {
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     undo_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
+      @Override public void actionPerformed(ActionEvent e) {
         try {
           undo.undo();
         } catch (CannotUndoException ex) {
@@ -167,8 +182,7 @@ class GUI extends javax.swing.JFrame {
     edit_menu.add(undo_menu_item);
     redo_menu_item.setText(i18n.getString("redo"));
     redo_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
+      @Override public void actionPerformed(ActionEvent e) {
         try {
           undo.redo();
         } catch (CannotRedoException ex) {
@@ -179,10 +193,25 @@ class GUI extends javax.swing.JFrame {
     redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     edit_menu.add(redo_menu_item);
-    copy_menu_item.setText("Copy");
+      cut_menu_item.setText("Cut");
+      cut_menu_item.addActionListener(new ActionListener() {
+          @Override public void actionPerformed(ActionEvent e) {
+              StringSelection stringSelection = new StringSelection(selection);
+              Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+              clpbrd.setContents(stringSelection, null);
+              int location =
+                      caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
+              setText(getText().substring(0,
+                      caret_location) + getText().substring(caret_location + selection.length()));
+              text_input.setCaretPosition(location);
+          }
+      });
+      cut_menu_item.setAccelerator(KeyStroke.getKeyStroke('X',
+              Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      edit_menu.add(cut_menu_item);
+      copy_menu_item.setText("Copy");
     copy_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
+      @Override public void actionPerformed(ActionEvent e) {
         StringSelection stringSelection = new StringSelection(selection);
         Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
         clpbrd.setContents(stringSelection, null);
@@ -191,23 +220,32 @@ class GUI extends javax.swing.JFrame {
     copy_menu_item.setAccelerator(KeyStroke.getKeyStroke('C',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     edit_menu.add(copy_menu_item);
-    cut_menu_item.setText("Cut");
-    cut_menu_item.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        StringSelection stringSelection = new StringSelection(selection);
-        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
-        clpbrd.setContents(stringSelection, null);
-        int location =
-          caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
-        setText(getText().substring(0,
-                                    caret_location) + getText().substring(caret_location + selection.length()));
-        text_input.setCaretPosition(location);
-      }
-    });
-    cut_menu_item.setAccelerator(KeyStroke.getKeyStroke('X',
-                                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-    edit_menu.add(cut_menu_item);
+      paste_menu_item.setText("Paste");
+      paste_menu_item.addActionListener(new ActionListener() {
+          @Override public void actionPerformed(ActionEvent e) {
+              String clipboard_contents = "";
+              Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+              /* get contents from clipboard (stored in a Transferable, which manages data transfer) */
+              Transferable contents = clipboard.getContents(null);
+              /* if contents are transferable, the Transferable will not be null and will be the
+              correct DataFlavor (String). DataFlavor refers to the type of object something is */
+              boolean hasTransferableText =
+                      (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+              if (hasTransferableText) {
+                  try {
+                      clipboard_contents = (String)contents.getTransferData(DataFlavor.stringFlavor);
+                      int location = caret_location;
+                      if(location == getText().length() || getText().endsWith(selection))
+                          setText(getText().substring(0, location) + clipboard_contents);
+                      else
+                          setText(getText().substring(0, location) + clipboard_contents +
+                                  getText().substring(location + clipboard_contents.length()));
+                  } catch (UnsupportedFlavorException | IOException ex){}
+              }
+          }
+      });
+      paste_menu_item.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      edit_menu.add(paste_menu_item);
     jMenuBar1.add(edit_menu);
     setJMenuBar(jMenuBar1);
     GroupLayout layout = new GroupLayout(getContentPane());

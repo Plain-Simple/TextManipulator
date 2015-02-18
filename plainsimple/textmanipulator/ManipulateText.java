@@ -253,9 +253,10 @@ class ManipulateText {
     //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
     return (int) Math.floor(Math.random() * (upper_bound + 1));
   }
-    public String removeExtraWhitespace(String text) { // note: removes and tabs or linebreaks
-        return text.replaceAll("\\s+", " ").trim();
-    }
+  public String removeExtraWhitespace(String
+                                      text) { // note: removes and tabs or linebreaks
+    return text.replaceAll("\\s+", " ").trim();
+  }
   /* removes all non-letter and non-numbers, leaves spaces */
   public String removePunctuation(String text) {
     String new_text = "";

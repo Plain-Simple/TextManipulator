@@ -177,7 +177,7 @@ class ManipulateText {
     return text;
   }
   /* removes all instances of 'argument' from 'text' */
-  public String removeArgument(String argument, String text) {
+  public String removeArgument(String text, String argument) {
     String new_text = "";
     ArrayList<Integer> locations = new
     ArrayList<>(); /* will be used to store the indexes where argument is found */

@@ -1,10 +1,11 @@
 /* Plain+Simple TextManipulator text manipulation functions */
 package plainsimple.textmanipulator;
-import java.util.Arrays;
-import java.lang.Character; // may be unnecessary
+
 import java.util.ArrayList;
+import java.util.Arrays;
 class ManipulateText {
   /* adds prefix and suffix to each line */
+  @SuppressWarnings("HardCodedStringLiteral")
   public String addPrefixSuffix(String text, String prefix, String suffix) {
     //String delims = "[\\r\\n]+"; /* splits text into separate lines */
     //String[] lines = text.split(delims); /* create an array that holds each individual line */
@@ -17,6 +18,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String removeDuplicateLines(String
                                      text) { /// a little messy, but works. Feel free to refactor
     ArrayList<Integer> duplicates = new ArrayList<>();
@@ -49,6 +51,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String removeLinesContaining(String text, String remove) {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -60,6 +63,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String scrambleLines(String text) {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -76,6 +80,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String sortLinesAlphabetically(String text) {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -86,6 +91,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String sortLinesBySize(String text) {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */
@@ -106,6 +112,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String numberLines(String text, String prefix, String suffix) {
     /* prefix is what goes before the number itself, suffix is what goes after the number but before the line.
     For example: "1. " has no prefix and ". " as the suffix */
@@ -117,6 +124,7 @@ class ManipulateText {
     }
     return text;
   }
+  @SuppressWarnings("HardCodedStringLiteral")
   public String removeEmptyLines(String text) {
     String[] lines =
       text.split("\\r?\\n"); /* create an array that holds each individual line */

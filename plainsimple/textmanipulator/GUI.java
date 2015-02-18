@@ -1,15 +1,16 @@
 package plainsimple.textmanipulator;
+
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoManager;
 
 class GUI extends javax.swing.JFrame {
   public GUI() {
@@ -24,15 +25,15 @@ class GUI extends javax.swing.JFrame {
         int mark = e.getMark(); /* caret position where cursor ended */
         if (dot == mark) { /* no specific selection */
           selection = "";
-            caret_location = dot;
+          caret_location = dot;
           updateTable(text_analysis_table, getText());
         } else if (mark > dot) { /* user selected from left to right */
-            caret_location = dot;
-            selection = getText().substring(dot, mark);
+          caret_location = dot;
+          selection = getText().substring(dot, mark);
           updateTable(text_analysis_table, selection);
         } else { /* user selected from right to left */
-            caret_location = mark;
-            selection = getText().substring(mark, dot);
+          caret_location = mark;
+          selection = getText().substring(mark, dot);
           updateTable(text_analysis_table, selection);
         }
       }
@@ -48,20 +49,18 @@ class GUI extends javax.swing.JFrame {
     JPanel word_functions_panel = new JPanel();
     JPanel find_replace_panel = new JPanel();
     JPanel settings_panel = new JPanel();
-      settings_label_1 = new JLabel("Accents to Display: ");
-      display_accents = new JTextField();
-      configure_accents_button = new JButton("Configure");
-
+    JLabel settings_label_1 = new JLabel("Accents to Display: ");
+    JTextField display_accents = new JTextField();
+    JButton configure_accents_button = new JButton("Configure");
     // may need to make accent_button and button variables private
     accent_button_1 = new AccentButton(settings.getSettings().get(0));
     accent_button_2 = new AccentButton(settings.getSettings().get(1));
     accent_button_3 = new AccentButton(settings.getSettings().get(2));
     accent_button_4 = new AccentButton(settings.getSettings().get(3));
     accent_button_5 = new AccentButton(settings.getSettings().get(4));
-      accent_button_6 = new AccentButton(settings.getSettings().get(5));
+    accent_button_6 = new AccentButton(settings.getSettings().get(5));
     accent_button_7 = new AccentButton(settings.getSettings().get(6));
     accent_button_8 = new AccentButton(settings.getSettings().get(7));
-
     JScrollPane jScrollPane3 = new JScrollPane();
     text_input = new JEditorPane();
     JScrollPane jScrollPane1 = new JScrollPane();
@@ -73,12 +72,13 @@ class GUI extends javax.swing.JFrame {
     JMenu edit_menu = new JMenu();
     JMenuItem undo_menu_item = new JMenuItem();
     JMenuItem redo_menu_item = new JMenuItem();
-      JMenuItem copy_menu_item = new JMenuItem();
-      JMenuItem cut_menu_item = new JMenuItem();
-      JMenuItem paste_menu_item = new JMenuItem();
+    JMenuItem copy_menu_item = new JMenuItem();
+    JMenuItem cut_menu_item = new JMenuItem();
+    JMenuItem paste_menu_item = new JMenuItem();
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     //setTitle("Plain+Simple TextManipulator");
     setTitle(i18n.getString("program_full_name"));
+    //noinspection HardCodedStringLiteral
     jLabel1.setFont(new Font("Tahoma", 1, 24)); // NOI18N
     jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
     jLabel1.setText(i18n.getString("program_name"));
@@ -87,59 +87,57 @@ class GUI extends javax.swing.JFrame {
     GroupLayout jPanel3Layout = new GroupLayout(basic_tools_panel);
     basic_tools_panel.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 222, Short.MAX_VALUE)
+      jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 307, Short.MAX_VALUE)
+      jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 307, Short.MAX_VALUE)
     );
     function_panel.addTab(i18n.getString("basic_tools"), basic_tools_panel);
     GroupLayout jPanel1Layout = new GroupLayout(line_functions_panel);
     line_functions_panel.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 222, Short.MAX_VALUE)
+      jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel1Layout.setVerticalGroup(
       jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
-
-      /* adds "line functions tab to tabbed pane */
+    /* adds "line functions tab to tabbed pane */
     function_panel.addTab(i18n.getString("line_functions"), line_functions_panel);
     GroupLayout jPanel2Layout = new GroupLayout(word_functions_panel);
     word_functions_panel.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 222, Short.MAX_VALUE)
+      jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 307, Short.MAX_VALUE)
+      jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 307, Short.MAX_VALUE)
     );
     function_panel.addTab(i18n.getString("word_functions"), word_functions_panel);
     GroupLayout jPanel4Layout = new GroupLayout(find_replace_panel);
     find_replace_panel.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 222, Short.MAX_VALUE)
+      jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 222, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 307, Short.MAX_VALUE)
+      jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 307, Short.MAX_VALUE)
     );
     function_panel.addTab(i18n.getString("find_replace"), find_replace_panel);
-
-      GroupLayout settings_panel_layout = new GroupLayout(settings_panel);
+    GroupLayout settings_panel_layout = new GroupLayout(settings_panel);
     settings_panel.setLayout(settings_panel_layout);
     settings_panel_layout.setHorizontalGroup(
-            settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 222, Short.MAX_VALUE)
+      settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 222, Short.MAX_VALUE)
     );
     settings_panel_layout.setVerticalGroup(
-            settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGap(0, 307, Short.MAX_VALUE)
+      settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGap(0, 307, Short.MAX_VALUE)
     );
     function_panel.addTab(i18n.getString("settings"), settings_panel);
     ///TODO: 188nize
@@ -157,216 +155,216 @@ class GUI extends javax.swing.JFrame {
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     undo_menu_item.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                undo.undo();
-            } catch (CannotUndoException ex) {
-                ex.printStackTrace();
-            }
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          undo.undo();
+        } catch (CannotUndoException ex) {
+          ex.printStackTrace();
         }
+      }
     });
     edit_menu.add(undo_menu_item);
     redo_menu_item.setText(i18n.getString("redo"));
     redo_menu_item.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                undo.redo();
-            } catch (CannotRedoException ex) {
-                ex.printStackTrace();
-            }
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          undo.redo();
+        } catch (CannotRedoException ex) {
+          ex.printStackTrace();
         }
+      }
     });
     redo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Y',
-            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                                  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     edit_menu.add(redo_menu_item);
-
-      copy_menu_item.setText("Copy");
-      copy_menu_item.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              StringSelection stringSelection = new StringSelection(selection);
-              Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
-              clpbrd.setContents(stringSelection, null);
-          }
-      });
-      copy_menu_item.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      edit_menu.add(copy_menu_item);
-
-      cut_menu_item.setText("Cut");
-      cut_menu_item.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            StringSelection stringSelection = new StringSelection(selection);
-              Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
-              clpbrd.setContents(stringSelection, null);
-              int location = caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
-              setText(getText().substring(0, caret_location) + getText().substring(caret_location + selection.length()));
-              text_input.setCaretPosition(location);
-          }
-      });
-      cut_menu_item.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      edit_menu.add(cut_menu_item);
-      
+    copy_menu_item.setText("Copy");
+    copy_menu_item.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        StringSelection stringSelection = new StringSelection(selection);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+        clpbrd.setContents(stringSelection, null);
+      }
+    });
+    copy_menu_item.setAccelerator(KeyStroke.getKeyStroke('C',
+                                  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+    edit_menu.add(copy_menu_item);
+    cut_menu_item.setText("Cut");
+    cut_menu_item.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        StringSelection stringSelection = new StringSelection(selection);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+        clpbrd.setContents(stringSelection, null);
+        int location =
+          caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
+        setText(getText().substring(0,
+                                    caret_location) + getText().substring(caret_location + selection.length()));
+        text_input.setCaretPosition(location);
+      }
+    });
+    cut_menu_item.setAccelerator(KeyStroke.getKeyStroke('X',
+                                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+    edit_menu.add(cut_menu_item);
     jMenuBar1.add(edit_menu);
     setJMenuBar(jMenuBar1);
-
     GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 222,
-                                                    GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(function_panel, GroupLayout.PREFERRED_SIZE, 322,
-                                            GroupLayout.PREFERRED_SIZE))
+      layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                          .addGroup(layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 222,
+                                        GroupLayout.PREFERRED_SIZE))
+                          .addComponent(function_panel, GroupLayout.PREFERRED_SIZE, 322,
+                                        GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                          .addGroup(
+                            layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
+                            .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(
-                                            layout.createSequentialGroup() // will need to look at this and figure out if all of it is necessary
-                                                    .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 40,
-                                                            GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 507,
-                                                    GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 0,
-                                                                    Short.MAX_VALUE)
-                                                            .addContainerGap())
-                                                    .addComponent(jLabel2)))))
+                            .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 40,
+                                          GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
+                          .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 507,
+                                        GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 0,
+                                                Short.MAX_VALUE)
+                                            .addContainerGap())
+                                        .addComponent(jLabel2)))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 33,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 34,
-                        GroupLayout.PREFERRED_SIZE))
+                          .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 33,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_1, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_2, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_3, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_4, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_5, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_6, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_7, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE)
+                          .addComponent(accent_button_8, GroupLayout.PREFERRED_SIZE, 34,
+                                        GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 92,
-                            GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
-                            GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(function_panel)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 233,
-                                    GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                          .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 92,
+                                        GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
+                                        GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2))
+                          .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(function_panel)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 233,
+                                                GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addContainerGap())))
     );
-      // maybe there's a more elegant way to do this?
-      // I was thinking adding the action listener to the AccentButton's constructor
+    // maybe there's a more elegant way to do this?
+    // I was thinking adding the action listener to the AccentButton's constructor
     accent_button_1.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            accentButtonPressed(accent_button_1);
-        }
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_1);
+      }
     });
-      accent_button_2.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_2);
-          }
-      });
-      accent_button_3.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_3);
-          }
-      });
-      accent_button_4.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_4);
-          }
-      });
-      accent_button_5.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_5);
-          }
-      });
-      accent_button_6.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_6);
-          }
-      });
-      accent_button_7.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_7);
-          }
-      });
-      accent_button_8.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              accentButtonPressed(accent_button_8);
-          }
-      });
-
+    accent_button_2.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_2);
+      }
+    });
+    accent_button_3.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_3);
+      }
+    });
+    accent_button_4.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_4);
+      }
+    });
+    accent_button_5.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_5);
+      }
+    });
+    accent_button_6.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_6);
+      }
+    });
+    accent_button_7.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_7);
+      }
+    });
+    accent_button_8.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        accentButtonPressed(accent_button_8);
+      }
+    });
     pack();
   }
-    /* handles event that an AccentButton is pressed */
-    public void accentButtonPressed(AccentButton accent_button) {
-        /* need to copy info. over to other variables, because it will change */
-        int current_location = caret_location; // overwrites the character to the write
-        int current_length = selection.length();
-        setText(accent_button.insertAccent(selection, getText(), caret_location));
-        text_input.requestFocusInWindow(); /* give focus back to editor pane */
-        if(selection == "")
-            text_input.setCaretPosition(current_location + 1);
-        else
-            text_input.setCaretPosition(current_location);
+  /* handles event that an AccentButton is pressed */
+  public void accentButtonPressed(AccentButton accent_button) {
+    /* need to copy info. over to other variables, because it will change */
+    int current_location = caret_location; // overwrites the character to the write
+    int current_length = selection.length();
+    setText(accent_button.insertAccent(selection, getText(), caret_location));
+    text_input.requestFocusInWindow(); /* give focus back to editor pane */
+    if(Objects.equals(selection, "")) {
+      text_input.setCaretPosition(current_location + 1);
+    } else {
+      text_input.setCaretPosition(current_location);
     }
+  }
 
   /* returns text entered by user in the editor pane */
   String getText() {
@@ -444,17 +442,14 @@ class GUI extends javax.swing.JFrame {
   private javax.swing.JEditorPane text_input;
   private String selection = "";
   private Settings settings = new Settings();
-    private AccentButton accent_button_1;
-    private AccentButton accent_button_2;
-    private AccentButton accent_button_3;
-    private AccentButton accent_button_4;
-    private AccentButton accent_button_5;
-    private AccentButton accent_button_6;
-    private AccentButton accent_button_7;
-    private AccentButton accent_button_8;
-    private javax.swing.JLabel settings_label_1;
-    private javax.swing.JTextField display_accents;
-    private javax.swing.JButton configure_accents_button;
+  private AccentButton accent_button_1;
+  private AccentButton accent_button_2;
+  private AccentButton accent_button_3;
+  private AccentButton accent_button_4;
+  private AccentButton accent_button_5;
+  private AccentButton accent_button_6;
+  private AccentButton accent_button_7;
+  private AccentButton accent_button_8;
   private int caret_location = 0;
   // End of variables declaration
   private final UndoManager undo = new

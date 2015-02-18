@@ -57,6 +57,7 @@ class Settings {
                          + i18n.getString("file_loaded"));
       System.out.println(settings.toString());
     } catch (IOException e) {
+      //noinspection HardCodedStringLiteral
       System.out.println(i18n.getString("error_reading_settings") + "\n");
       read_success = false;
       setDefaultSettings(file_name);

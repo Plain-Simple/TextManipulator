@@ -3,6 +3,7 @@ package plainsimple.textmanipulator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("HardCodedStringLiteral")
 class i18n {
   static Locale currentLocale = new Locale ("en", "US");
   /* sets up all internationalization stuff */
@@ -18,6 +19,7 @@ class i18n {
     /* makes a Locale from the language and country; needed later on */
   }
   static String getString(String string) {
-    return ResourceBundle.getBundle("MessagesBundle", currentLocale).getString(string);
+    return ResourceBundle.getBundle("MessagesBundle",
+                                    currentLocale).getString(string);
   }
 }

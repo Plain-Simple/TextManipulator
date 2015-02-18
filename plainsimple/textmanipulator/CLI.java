@@ -1,9 +1,11 @@
 package plainsimple.textmanipulator;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class CLI {
+    private ManipulateText manip = new ManipulateText();
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
     Scanner scanner = new Scanner(System.in);
@@ -13,7 +15,9 @@ class CLI {
     while (true) {
       System.out.println(i18n.getString("cli_function_prompt") + " ");
       String userInput = scanner.nextLine();
+        userInput = manip.removeExtraWhitespace(userInput);
       processCommand(text, userInput);
+        Println("");
     }
   }
 
@@ -31,135 +35,107 @@ class CLI {
     }
     return text;
   }
-
+    /* prints left-justified 25 characters and 70 characters, respectively.
+     * Used to format stuff in outputFunctionsList() */
+    public void printFormatted(String function, String description) {
+        System.out.printf("\t%-25s %-70s %n", function, description);
+    }
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
-    System.out.println("\naddprefix: " +
-                       i18n.getString("addprefix_description"));
-    System.out.println("\naddsuffix: " +
-                       i18n.getString("addsuffix_description"));
-    System.out.println("\nremoveduplicatelines" +
-                       i18n.getString("removeduplicatelines_description"));
-    System.out.println("\nremovelinescontaining: " +
-                       i18n.getString("removelinescontaining_description"));
-    System.out.println("\nscramblelines: " +
-                       i18n.getString("scramblelines_description"));
-    System.out.println("\nsortlinesalphabetically" +
-                       i18n.getString("sortlinesalphabetically_description"));
-    System.out.println("\nsortlinesbysize: " +
-                       i18n.getString("sortlinesbysize_description"));
-    System.out.println("\nnumberlines: " +
-                       i18n.getString("numberlines_description"));
-    System.out.println("\nremoveemptylines: " +
-                       i18n.getString("removeemptylines_description"));
-    System.out.println("\nmergetext: " +
-                       i18n.getString("mergetext_description"));
-    System.out.println("\nfindreplace: " +
-                       i18n.getString("findreplace_description"));
-    System.out.println("\nremoveargument: " +
-                       i18n.getString("removeargument_description"));
-    System.out.println("\ncommaseparatevalues: " +
-                       i18n.getString("commaseparatevalues_description"));
-    System.out.println("\nlineseparatevalues: " +
-                       i18n.getString("lineseparatevalues_description"));
-    System.out.println("\nsplitsentences: " +
-                       i18n.getString("splitsentences_description"));
-    System.out.println("\ncomparelines: " +
-                       i18n.getString("comparelines_description"));
-    System.out.println("\nremovepunctuation: " +
-                       i18n.getString("removepunctuation_description"));
-    System.out.println("\nuppercase: " +
-                       i18n.getString("uppercase_description"));
-    System.out.println("\nlowercase: " +
-                       i18n.getString("lowercase_description"));
-    System.out.println("\nprint: " +
-                       i18n.getString("print_description"));
+      Println("Available Functions--------------------------------------------------------");
+      printFormatted("addprefix", i18n.getString("addprefix_description"));
+      printFormatted("addsuffix", i18n.getString("addsuffix_description"));
+      printFormatted("removeduplicatelines", i18n.getString("removeduplicatelines_description"));
+      printFormatted("removelinescontaining", i18n.getString("removelinescontaining_description"));
+    printFormatted("scramblelines", i18n.getString("scramblelines_description"));
+    printFormatted("sortlinesalphabetically", i18n.getString("sortlinesalphabetically_description"));
+    printFormatted("sortlinesbysize", i18n.getString("sortlinesbysize_description"));
+    printFormatted("numberlines", i18n.getString("numberlines_description"));
+    printFormatted("removeemptylines", i18n.getString("removeemptylines_description"));
+    printFormatted("mergetext", i18n.getString("mergetext_description"));
+    printFormatted("findreplace", i18n.getString("findreplace_description"));
+    printFormatted("removeargument", i18n.getString("removeargument_description"));
+    printFormatted("commaseparatevalues", i18n.getString("commaseparatevalues_description"));
+    printFormatted("lineseparatevalues", i18n.getString("lineseparatevalues_description"));
+    printFormatted("splitsentences", i18n.getString("splitsentences_description"));
+    printFormatted("comparelines", i18n.getString("comparelines_description"));
+    printFormatted("removepunctuation", i18n.getString("removepunctuation_description"));
+    printFormatted("uppercase", i18n.getString("uppercase_description"));
+    printFormatted("lowercase", i18n.getString("lowercase_description"));
+    printFormatted("print", i18n.getString("print_description"));
+      Println("-------------------------------------------------------------------------------------------");
   }
-
-  void processCommand(String text, String user_input) {
-    ManipulateText manip = new ManipulateText();
-    switch (user_input) {
-    case "help":
-      outputFunctionsList();
-      break;
-    case "exit":
-      System.exit(0);
-      break;
-    case "addprefix":
-      text = manip.addPrefixSuffix(text,
-                                   getArgument(i18n.getString("prefix")), "");
-      break;
-    case "addsuffix":
-      text = manip.addPrefixSuffix(text, "",
-                                   getArgument(i18n.getString("suffix")));
-      break;
-    case "removeduplicatelines":
-      text = manip.removeDuplicateLines(text);
-      break;
-    case "removelinescontaining":
-      text = manip.removeLinesContaining(text,
-          getArgument(i18n.getString("containing_what")));
-      break;
-    case "scramblelines":
-      text = manip.scrambleLines(text);
-      break;
-    case "sortlinesalphabetically":
-      text = manip.sortLinesAlphabetically(text);
-      break;
-    case "sortlinesbysize":
-      text = manip.sortLinesBySize(text);
-      break;
-    case "numberlines":
-      text = manip.numberLines(text,
-                               getArgument(i18n.getString("number_prefix")),
-                               getArgument(i18n.getString("number_suffix")));
-      break;
-    case "removeemptylines":
-      text = manip.removeEmptyLines(text);
-      break;
-    case "mergetext":
-      /* this isn't implemented yet because we need to figure out whether the
-         user will type in the text or specify a filename
-       */
-      break;
-    case "findreplace":
-      text = manip.findReplace(text,
-                               getArgument(i18n.getString("text_to_find")),
-                               getArgument(i18n.getString("text_for_replace")));
-      break;
-    case "removeargument":
-      text = manip.removeArgument(text,
-          getArgument(i18n.getString("argument_to_remove")));
-      break;
-    case "commaseparatevalues":
-      text = manip.commaSeparateValues(text);
-      break;
-    case "lineseparatevalues":
-      /* we'll need to figure out how to get a char */
-      break;
-    case "splitsentences":
-      text = manip.splitSentences(text);
-      break;
-    case "comparelines":
-      /* that function isn't even written yet so I'll do this later */
-      break;
-    case "removepunctuation":
-      text = manip.removePunctuation(text);
-      break;
-    case "uppercase":
-      text = manip.forceUppercase(text);
-      break;
-    case "lowercase":
-      text = manip.forceLowercase(text);
-      break;
-    case "print":
-      /* we'll probably need a different function to work in the context of a CLI */
-      break;
-    default:
-      System.out.println(i18n.getString("invalid_cli_option"));
-      outputFunctionsList();
-      break;
-    }
+/* for each command:
+check to see if it starts with the name of a command
+get an arraylist of arguments
+manipulate text using arguments
+ */
+  void processCommand(String text, String user_input) { // ToDo: improve console output
+                                                        // e.g.: "findreplace: 5 instances replaced"
+      ArrayList<String> arguments = new ArrayList<>();
+      if(user_input.equals("help"))
+          outputFunctionsList();
+      else if(user_input.equals("exit"))
+          System.exit(0);
+      else if(user_input.startsWith("addprefix ")) {
+          /* user_input.substring(10) removes the "addprefix " at the beginning of the String */
+          arguments = getArguments(1, user_input.substring(10));
+          text = manip.addPrefixSuffix(text, arguments.get(0), "");
+      } else if(user_input.startsWith("addsuffix ")) {
+          arguments = getArguments(1, user_input.substring(10));
+          text = manip.addPrefixSuffix(text, arguments.get(0), "");
+      } else if(user_input.startsWith("removeduplicatelines")) {
+          text = manip.removeDuplicateLines(text);
+      } else if(user_input.startsWith("removelinescontaining ")) {
+          arguments = getArguments(1, user_input.substring(22));
+          text = manip.removeLinesContaining(text, arguments.get(0));
+      } else if(user_input.startsWith("scramblelines")) {
+          text = manip.scrambleLines(text);
+      } else if(user_input.startsWith("sortlinesalphabetically")) {
+          text = manip.sortLinesAlphabetically(text);
+      } else if(user_input.startsWith("sortlinesbysize")) {
+          text = manip.sortLinesBySize(text);
+      } else if(user_input.startsWith("numberlines ")) {
+          arguments = getArguments(2, user_input.substring(12));
+          text = manip.numberLines(text, arguments.get(0), arguments.get(1));
+      } else if(user_input.startsWith("removeemptylines")) {
+          text = manip.removeEmptyLines(text);
+      } else if(user_input.startsWith("mergetext")) {
+          Println("Feature hasn't been implemented yet");
+      } else if(user_input.startsWith("findreplace ")) {
+          arguments = getArguments(2, user_input.substring(12));
+          text = manip.findReplace(text, arguments.get(0), arguments.get(1));
+      } else if(user_input.startsWith("removeargument ")) {
+          arguments = getArguments(1, user_input.substring(15));
+          text = manip.removeArgument(text, arguments.get(0));
+      } else if(user_input.startsWith("commaseperatevalues")) {
+          text = manip.commaSeparateValues(text);
+      } else if(user_input.startsWith("lineseparatevalues ")) {
+          arguments = getArguments(1, user_input.substring(19)); // ToDo: better error-handling?
+          text = manip.lineSeparateValues(text, arguments.get(0).charAt(0));
+      } else if(user_input.startsWith("splitsentences")) {
+          text = manip.splitSentences(text);
+      } else if(user_input.startsWith("comparelines ")) {
+          arguments = getArguments(2, user_input.substring(13));
+          try {
+              manip.compareLines(text, Integer.parseInt(arguments.get(0)), Integer.parseInt(arguments.get(1)));
+          } catch(NumberFormatException e) {
+              Println("Invalid parameter entered. Must be an int"); // ToDo: better error messages
+          }
+      } else if(user_input.startsWith("removepunctuation")) {
+          text = manip.removePunctuation(text);
+      } else if(user_input.startsWith("uppercase")) {
+          text = manip.forceUppercase(text);
+      } else if(user_input.startsWith("lowercase")) {
+          text = manip.forceLowercase(text);
+      } else {
+          int space = user_input.indexOf(" ");
+          if(space == -1)
+              Println("Did not recognize command \"" + user_input + "\"");
+          else
+            Println("Did not recognize command \"" + user_input.substring(0, space) + "\"");
+      }
+      Println("Debugging: Parameters were " + arguments.toString());
   }
   String getArgument(String requested_argument) {
     Scanner scanner = new Scanner(System.in);
@@ -167,5 +143,20 @@ class CLI {
         requested_argument + ": ");
     return scanner.nextLine();
   }
+    public ArrayList<String> getArguments(int num_arguments, String user_command) {
+        ArrayList<String> arguments = new ArrayList<String>();
+        int location = 0;
+        while(arguments.size() < num_arguments) {
+            int next_space = user_command.indexOf(" ", location);
+            if(next_space == -1)
+                arguments.add(user_command.substring(location));
+            else {
+                arguments.add(user_command.substring(location, next_space));
+                location = next_space + 1;
+            }
+        }
+        return arguments;
+    }
+    public void Println(String s) {System.out.println(s);}
 
 }

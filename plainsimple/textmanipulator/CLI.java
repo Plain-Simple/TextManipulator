@@ -4,29 +4,32 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class CLI {
-  public String text;
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println(i18n.getString("cli_welcome") + "\n\n");
+    System.out.println(i18n.getString("cli_welcome") + "\n");
+    String text = loadFile();
     /* this runs forever, because the cli keeps going until the user exits */
     while (true) {
-      System.out.println(i18n.getString("cli_function_prompt") + "\n");
+      System.out.println(i18n.getString("cli_function_prompt") + " ");
       String userInput = scanner.nextLine();
+      processCommand(text, userInput);
     }
   }
 
   @SuppressWarnings("HardCodedStringLiteral")
-  void loadFile() {
+  String loadFile() {
     System.out.println(i18n.getString("cli_file_prompt"));
     Scanner scanner = new Scanner(System.in);
     String filePath = scanner.nextLine();
+    String text = "";
     /* import file_path text file into string called text */
     try {
       text = new Scanner(filePath).useDelimiter("\\Z").next();
     } catch (NoSuchElementException e) {
       System.out.println(i18n.getString("invalid_file"));
     }
+    return text;
   }
 
   @SuppressWarnings("HardCodedStringLiteral")
@@ -73,8 +76,8 @@ class CLI {
                        i18n.getString("print_description"));
   }
 
-  void processCommand(String user_input) {
-///TODO: add functions so each case does more than just break!
+  void processCommand(String text, String user_input) {
+    ManipulateText manip = new ManipulateText();
     switch (user_input) {
     case "help":
       outputFunctionsList();
@@ -83,44 +86,74 @@ class CLI {
       System.exit(0);
       break;
     case "addprefix":
+      text = manip.addPrefixSuffix(text,
+                                   getArgument(i18n.getString("prefix")), "");
       break;
     case "addsuffix":
+      text = manip.addPrefixSuffix(text, "",
+                                   getArgument(i18n.getString("suffix")));
       break;
     case "removeduplicatelines":
+      text = manip.removeDuplicateLines(text);
       break;
     case "removelinescontaining":
+      text = manip.removeLinesContaining(text,
+          getArgument(i18n.getString("containing_what")));
       break;
     case "scramblelines":
+      text = manip.scrambleLines(text);
       break;
     case "sortlinesalphabetically":
+      text = manip.sortLinesAlphabetically(text);
       break;
     case "sortlinesbysize":
+      text = manip.sortLinesBySize(text);
       break;
     case "numberlines":
+      text = manip.numberLines(text,
+                               getArgument(i18n.getString("number_prefix")),
+                               getArgument(i18n.getString("number_suffix")));
       break;
     case "removeemptylines":
+      text = manip.removeEmptyLines(text);
       break;
     case "mergetext":
+      /* this isn't implemented yet because we need to figure out whether the
+         user will type in the text or specify a filename
+       */
       break;
     case "findreplace":
+      text = manip.findReplace(text,
+                               getArgument(i18n.getString("text_to_find")),
+                               getArgument(i18n.getString("text_for_replace")));
       break;
     case "removeargument":
+      text = manip.removeArgument(text,
+          getArgument(i18n.getString("argument_to_remove")));
       break;
     case "commaseparatevalues":
+      text = manip.commaSeparateValues(text);
       break;
     case "lineseparatevalues":
+      /* we'll need to figure out how to get a char */
       break;
     case "splitsentences":
+      text = manip.splitSentences(text);
       break;
     case "comparelines":
+      /* that function isn't even written yet so I'll do this later */
       break;
     case "removepunctuation":
+      text = manip.removePunctuation(text);
       break;
     case "uppercase":
+      text = manip.forceUppercase(text);
       break;
     case "lowercase":
+      text = manip.forceLowercase(text);
       break;
     case "print":
+      /* we'll probably need a different function to work in the context of a CLI */
       break;
     default:
       System.out.println(i18n.getString("invalid_cli_option"));
@@ -128,10 +161,10 @@ class CLI {
       break;
     }
   }
-  String argumentPrompt(String requested_argument) {
+  String getArgument(String requested_argument) {
     Scanner scanner = new Scanner(System.in);
-    System.out.println(i18n.getString("argument_prompt") + requested_argument
-                       + ": ");
+    System.out.println(i18n.getString("argument_prompt") + " " +
+        requested_argument + ": ");
     return scanner.nextLine();
   }
 

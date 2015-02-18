@@ -53,9 +53,9 @@ class Settings {
       while((line = read_settings.readLine()) != null) {
         settings.add(Integer.parseInt(line));
       }
-      System.out.println(i18n.getString("file") + " \"" + file_name + "\" "
+      /*System.out.println(i18n.getString("file") + " \"" + file_name + "\" "
                          + i18n.getString("file_loaded"));
-      System.out.println(settings.toString());
+      System.out.println(settings.toString()); */
     } catch (IOException e) {
       //noinspection HardCodedStringLiteral
       System.out.println(i18n.getString("error_reading_settings") + "\n");

@@ -14,11 +14,14 @@ public class FileBatch {
     public ArrayList<TextFile> getFiles() {
         return files;
     }
+    public String getBatchName() {
+        return batch_name;
+    }
     public ArrayList<TextFile> getFilesInDirectory(Path file_path) {
         ArrayList<TextFile> files_in_directory = new ArrayList<>();
         File[] matchingFiles = new File(file_path.toString()).listFiles(new FilenameFilter() {
             @Override public boolean accept(File dir, String file_name) {
-                return file_name.endsWith(".txt");
+                return dir.isFile();
             }
         });
         for(int i = 0; i < matchingFiles.length; i++) {
@@ -30,7 +33,7 @@ public class FileBatch {
         // File file_to_add = new File(file_path);
         files.add(new TextFile(file_path));
     }
-
-
-
+    public boolean batchExists() { // ToDo
+        return false;
+    }
 }

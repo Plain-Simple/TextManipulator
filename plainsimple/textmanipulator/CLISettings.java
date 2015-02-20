@@ -53,18 +53,18 @@ public class CLISettings {
         return read_success; /* returns whether "TextManipulator_Settings" was accessed and read */
     }
     /* updates "TextManipulator_Settings" with new values from program - will be run every time the user changes settings */
-    public boolean updateSettings(String file_name) {
+    public boolean updateSettings(String file_name, String[] updated_settings) {
         boolean write_success = true;
         try {
             FileWriter file = new FileWriter(file_name);
             BufferedWriter write_settings = new BufferedWriter(file);
-            write_settings.write("last-used file path: " + settings.get(0));
+            write_settings.write("last-used file path: " + updated_settings[0]);
             write_settings.newLine();
-            write_settings.write("last-used batch: " + settings.get(1));
+            write_settings.write("last-used batch: " + updated_settings[1]);
             write_settings.newLine();
-            write_settings.write("last-used directory: " + settings.get(2));
+            write_settings.write("last-used directory: " + updated_settings[2]);
             write_settings.newLine();
-            write_settings.write("directory prefix: " + settings.get(3));
+            write_settings.write("directory prefix: " + updated_settings[3]);
             write_settings.close();
         } catch(IOException e) {
             write_success = false;

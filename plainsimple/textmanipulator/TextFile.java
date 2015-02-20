@@ -9,16 +9,16 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TextFile {
+public class TextFile { // note: class renamed 'TextFile' to allow for usage of java.nio.file class
     private String file_name;
     private String file_text;
     private Path file_path;
-    public TextFile(String path) { // requires full path
+    public TextFile(String path) {
         file_path = Paths.get(path).toAbsolutePath();
         file_name = file_path.getFileName().toString();
     }
     public TextFile(Path path) {
-        file_path = path;
+        file_path = path.toAbsolutePath();
         file_name = file_path.getFileName().toString();
     }
     public TextFile(String name, String path) {
@@ -28,25 +28,34 @@ public class TextFile {
     public boolean fileExists() {
         try {
             file_path.toRealPath();
-        } catch(IOException e) { // NoSuchFileException may be redundant if IOException is in use
+        } catch(IOException e) {
             return false;
         }
-        return true;
+        return readFile(); /* attempt to read file */
     }
     public String getPath() {
         return file_path.toString();
     }
-    public String readFile() {
+    public void setPath(String path) {
+        file_path = Paths.get(path).toAbsolutePath();
+    }
+    public String getFileText() {
+        return file_text;
+    }
+    public String getFileName() {
+        return file_name;
+    }
+    public boolean readFile() {
         String file = "";
         try (BufferedReader reader = Files.newBufferedReader(file_path)) {
             String line = "";
             while ((line = reader.readLine()) != null) {
                 file += line;
             }
-            return file;
         } catch (IOException x) {
-            return "Error reading file";
+            return false;
         }
+        return true;
     }
     public boolean writeFile() {
         try (BufferedWriter writer = Files.newBufferedWriter(file_path)) {

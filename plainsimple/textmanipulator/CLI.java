@@ -1,6 +1,7 @@
 package plainsimple.textmanipulator;
 
 import java.io.File;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ class CLI {
           userInput = manip.removeExtraWhitespace(userInput);
           processCommand(loaded_file.getFileText(), userInput);
           Println("");
-          settings.updateSettings("TextManipulator_CLISettings");
+          // need a better way to update settings
+          String[] updated_settings = new String[] {loaded_file.getPath(), loaded_batch.getBatchName(), current_directory.toString(), settings.getSettings().get(3)};
+          settings.updateSettings("TextManipulator_CLISettings", updated_settings);
       } catch(IndexOutOfBoundsException|NoSuchElementException e) { // handle it or just ignore it?
 
       }
@@ -123,18 +126,26 @@ class CLI {
         switch(parameters.get(1)) {
             case("load"):
                 /* try creating a new file using current_directory + file_name */
-                TextFile test_file = new TextFile(current_directory.toString() + "\\" + parameters.get(2));
-                if(test_file.fileExists()) { /* file exists; load it */
-                    loaded_file = test_file;
-                    System.out.println("File \"" + loaded_file.getFileName() + "\" loaded successfully.");
-                } else { /* try again in the case user entered full path */
-                    test_file = new TextFile(parameters.get(2));
-                    if(test_file.fileExists()) {
+               try {
+                    TextFile test_file = new TextFile(current_directory.toString() + "\\" + parameters.get(2));
+                   if (test_file.fileExists()) { /* file exists; load it */
+                       loaded_file = test_file;
+                       System.out.println("File \"" + loaded_file.getFileName() + "\" loaded successfully.");
+                       break;
+                   }
+                } catch(InvalidPathException e) { // unhandled
+
+               }
+                try {/* try again in the case user entered full path */
+                    TextFile test_file = new TextFile(parameters.get(2));
+                    if (test_file.fileExists()) {
                         loaded_file = test_file;
                         System.out.println("File \"" + loaded_file.getFileName() + "\" loaded successfully.");
                     } else {
                         System.out.println("Could not load file.");
                     }
+                } catch(InvalidPathException e) {
+                    Println("Invalid path");
                 }
                 break;
             case("mergetext"):
@@ -158,7 +169,7 @@ class CLI {
             case("lowercase"):
                 break;
             case("print"):
-                Println("File Text:\n" + loaded_file.getFileText());
+                Println("File Text:\n----------" + loaded_file.getFileText() + "\n---------");
                 break;
             case("prefix"):
                 break;

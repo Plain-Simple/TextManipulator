@@ -1,30 +1,52 @@
 package plainsimple.textmanipulator;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class CLI {
   private ManipulateText manip = new ManipulateText();
-    private String current_directory = "";
+    private Path current_directory;
+    private TextFile loaded_file;
+    private FileBatch loaded_batch;
+    private CLISettings settings = new CLISettings();
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println(i18n.getString("cli_welcome") + "\n");
-    String text = loadFile();
+      settings.loadSettings("TextManipulator_CLISettings");
+      loaded_file = new TextFile(settings.getSettings().get(0));
+      loaded_batch = new FileBatch(settings.getSettings().get(1));
+      current_directory = Paths.get(settings.getSettings().get(2)).toAbsolutePath();
+      Scanner scanner = new Scanner(System.in);
+      System.out.println(i18n.getString("cli_welcome"));
+      if(loaded_file.fileExists()) { /* make sure loaded file is valid and has been read successfully */
+          Println("Current file loaded: " + loaded_file.getFileName());
+      }
+      if(loaded_batch.batchExists()) { // something weird is going on here?
+          Println("Current batch loaded: " + loaded_batch.getBatchName());
+      }
+      if(directoryExists(current_directory)) { // ToDo: make a directory class instead of using paths
+          Println("Current directory: " + current_directory);
+      }
     /* this runs forever, because the cli keeps going until the user exits */
     while (true) {
-      System.out.println(i18n.getString("cli_function_prompt") + " ");
-      String userInput = scanner.nextLine();
-      userInput = manip.removeExtraWhitespace(userInput);
-      processCommand(text, userInput);
-      Println("");
+      System.out.println(i18n.getString("cli_function_prompt") + " "); // how do we get it to say: Please enter a command:\n >>
+      try {
+          String userInput = scanner.nextLine();
+          userInput = manip.removeExtraWhitespace(userInput);
+          processCommand(loaded_file.getFileText(), userInput);
+          Println("");
+          settings.updateSettings("TextManipulator_CLISettings");
+      } catch(IndexOutOfBoundsException|NoSuchElementException e) { // handle it or just ignore it?
+
+      }
     }
   }
 
   @SuppressWarnings("HardCodedStringLiteral")
   String loadFile() {
-    System.out.println(i18n.getString("cli_file_prompt"));
     Scanner scanner = new Scanner(System.in);
     String filePath = scanner.nextLine();
     String text = "";
@@ -44,35 +66,35 @@ class CLI {
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
     Println("Available Functions--------------------------------------------------------");
-    printFormatted("mergetext", i18n.getString("mergetext_description"));
-    printFormatted("findreplace", i18n.getString("findreplace_description"));
-    printFormatted("removeargument", i18n.getString("removeargument_description"));
-    printFormatted("commaseparatevalues",
+      printFormatted("file load", i18n.getString("file_load_description"));
+    printFormatted("file mergetext", i18n.getString("mergetext_description"));
+    printFormatted("file findreplace", i18n.getString("findreplace_description"));
+    printFormatted("file removearg", i18n.getString("removeargument_description"));
+    printFormatted("file commaseparate",
                    i18n.getString("commaseparatevalues_description"));
-    printFormatted("lineseparatevalues",
+    printFormatted("file lineseparate",
                    i18n.getString("lineseparatevalues_description"));
-    printFormatted("splitsentences", i18n.getString("splitsentences_description"));
-    printFormatted("removepunctuation",
+    printFormatted("file splitsentences", i18n.getString("splitsentences_description"));
+    printFormatted("file removepunctuation",
                    i18n.getString("removepunctuation_description"));
-    printFormatted("uppercase", i18n.getString("uppercase_description"));
-    printFormatted("lowercase", i18n.getString("lowercase_description"));
-    printFormatted("print", i18n.getString("print_description"));
-      Println("\n\tLine Functions");
-      printFormatted("prefix", i18n.getString("addprefix_description"));
-      printFormatted("suffix", i18n.getString("addsuffix_description"));
-      printFormatted("removeduplicates",
+    printFormatted("file uppercase", i18n.getString("uppercase_description"));
+    printFormatted("file lowercase", i18n.getString("lowercase_description"));
+    printFormatted("file print", i18n.getString("print_description"));
+      printFormatted("file prefix", i18n.getString("addprefix_description"));
+      printFormatted("file suffix", i18n.getString("addsuffix_description"));
+      printFormatted("file removeduplicates",
               i18n.getString("removeduplicatelines_description"));
-      printFormatted("removecontaining",
+      printFormatted("file removecontaining",
               i18n.getString("removelinescontaining_description"));
-      printFormatted("scramble", i18n.getString("scramblelines_description"));
-      printFormatted("sortABC",
+      printFormatted("file scramble", i18n.getString("scramblelines_description"));
+      printFormatted("file sortABC",
               i18n.getString("sortlinesalphabetically_description"));
-      printFormatted("sortbysize",
+      printFormatted("file sortbysize",
               i18n.getString("sortlinesbysize_description"));
-      printFormatted("number", i18n.getString("numberlines_description"));
-      printFormatted("removeempty",
+      printFormatted("file number", i18n.getString("numberlines_description"));
+      printFormatted("file removeempty",
               i18n.getString("removeemptylines_description"));
-      printFormatted("compare", i18n.getString("comparelines_description"));
+      printFormatted("file compare", i18n.getString("comparelines_description"));
     Println("-------------------------------------------------------------------------------------------");
   }
   /* for each command:
@@ -83,82 +105,92 @@ class CLI {
   void processCommand(String text,
                       String user_input) { // ToDo: improve console output
     // e.g.: "findreplace: 5 instances replaced"
-    ArrayList<String> arguments = new ArrayList<>();
-    if(user_input.equals("help")) {
-      outputFunctionsList();
-    } else if(user_input.equals("exit")) {
-      System.exit(0);
-    } else if(user_input.startsWith("prefix ")) {
-      /* user_input.substring(10) removes the "addprefix " at the beginning of the String */
-      arguments = getArguments(1, user_input.substring(10));
-      text = manip.addPrefixSuffix(text, arguments.get(0), "");
-    } else if(user_input.startsWith("suffix ")) {
-      arguments = getArguments(1, user_input.substring(10));
-      text = manip.addPrefixSuffix(text, arguments.get(0), "");
-    } else if(user_input.startsWith("removeduplicates")) {
-      text = manip.removeDuplicateLines(text);
-    } else if(user_input.startsWith("removecontaining ")) {
-      arguments = getArguments(1, user_input.substring(22));
-      text = manip.removeLinesContaining(text, arguments.get(0));
-    } else if(user_input.startsWith("scramble")) {
-      text = manip.scrambleLines(text);
-    } else if(user_input.startsWith("sortABC")) {
-      text = manip.sortLinesAlphabetically(text);
-    } else if(user_input.startsWith("sortbysize")) {
-      text = manip.sortLinesBySize(text);
-    } else if(user_input.startsWith("number ")) {
-      arguments = getArguments(2, user_input.substring(12));
-      text = manip.numberLines(text, arguments.get(0), arguments.get(1));
-    } else if(user_input.startsWith("removeempty")) {
-      text = manip.removeEmptyLines(text);
-    } else if(user_input.startsWith("mergetext")) {
-      Println("Feature hasn't been implemented yet");
-    } else if(user_input.startsWith("findreplace ")) {
-      arguments = getArguments(2, user_input.substring(12));
-      text = manip.findReplace(text, arguments.get(0), arguments.get(1));
-    } else if(user_input.startsWith("removeargument ")) {
-      arguments = getArguments(1, user_input.substring(15));
-      text = manip.removeArgument(text, arguments.get(0));
-    } else if(user_input.startsWith("commaseperatevalues")) {
-      text = manip.commaSeparateValues(text);
-    } else if(user_input.startsWith("lineseparatevalues ")) {
-      arguments = getArguments(1,
-                               user_input.substring(19)); // ToDo: better error-handling?
-      text = manip.lineSeparateValues(text, arguments.get(0).charAt(0));
-    } else if(user_input.startsWith("splitsentences")) {
-      text = manip.splitSentences(text);
-    } else if(user_input.startsWith("compare ")) {
-      arguments = getArguments(2, user_input.substring(13));
-      try {
-        manip.compareLines(text, Integer.parseInt(arguments.get(0)),
-                           Integer.parseInt(arguments.get(1)));
-      } catch(NumberFormatException e) {
-        Println("Invalid parameter entered. Must be an int"); // ToDo: better error messages
-      }
-    } else if(user_input.startsWith("removepunctuation")) {
-      text = manip.removePunctuation(text);
-    } else if(user_input.startsWith("uppercase")) {
-      text = manip.forceUppercase(text);
-    } else if(user_input.startsWith("lowercase")) {
-      text = manip.forceLowercase(text);
-    } else {
-      int space = user_input.indexOf(" ");
-      if(space == -1) {
-        Println("Did not recognize command \"" + user_input + "\"");
-      } else {
-        Println("Did not recognize command \"" + user_input.substring(0,
-                space) + "\"");
-      }
+    ArrayList<String> arguments = getArguments(user_input);
+    if(arguments.get(0).equals("file")) { /* switch case all file commands */
+
+        processFileCommand(arguments, text);
+    } else if(arguments.get(0).equals("batch")) {
+        processBatchCommand(arguments);
+    } else if(arguments.get(0).equals("help")) { // expand into a full help function
+        outputFunctionsList();
+    } else if(arguments.get(0).equals("exit")) {
+        System.exit(0);
+    } else { // lookup arguments.get(0) in file directories and existing batches
+        // also try forcing first arg to lowercase and checking again?
     }
-    Println("Debugging: Parameters were " + arguments.toString());
   }
-  public ArrayList<String> getArguments(int num_arguments, String user_command) { // ToDo: remove parameter num_arguments
+    public void processFileCommand(ArrayList<String> parameters, String file_text) {
+        switch(parameters.get(1)) {
+            case("load"):
+                /* try creating a new file using current_directory + file_name */
+                TextFile test_file = new TextFile(current_directory.toString() + "\\" + parameters.get(2));
+                if(test_file.fileExists()) { /* file exists; load it */
+                    loaded_file = test_file;
+                    System.out.println("File \"" + loaded_file.getFileName() + "\" loaded successfully.");
+                } else { /* try again in the case user entered full path */
+                    test_file = new TextFile(parameters.get(2));
+                    if(test_file.fileExists()) {
+                        loaded_file = test_file;
+                        System.out.println("File \"" + loaded_file.getFileName() + "\" loaded successfully.");
+                    } else {
+                        System.out.println("Could not load file.");
+                    }
+                }
+                break;
+            case("mergetext"):
+                Println("This command hasn't been implemented yet");
+                break;
+            case("findreplace"):
+
+                break;
+            case("removearg"):
+                break;
+            case("commaseparate"):
+                break;
+            case("lineseparate"):
+                break;
+            case("splitsentences"):
+                break;
+            case("removepunctuation"):
+                break;
+            case("uppercase"):
+                break;
+            case("lowercase"):
+                break;
+            case("print"):
+                Println("File Text:\n" + loaded_file.getFileText());
+                break;
+            case("prefix"):
+                break;
+            case("suffix"):
+                break;
+            case("removeduplicates"):
+                break;
+            case("removecontaining"):
+                break;
+            case("scramble"):
+                break;
+            case("sortbysize"):
+                break;
+            case("number"):
+                break;
+            case("removeempty"):
+                break;
+            case("compare"):
+                break;
+        }
+    }
+    public void processBatchCommand(ArrayList<String> parameters) {
+
+    }
+  public ArrayList<String> getArguments(String user_command) { // ToDo: remove parameter num_arguments
     ArrayList<String> arguments = new ArrayList<String>();
     int location = 0;
-    while(arguments.size() < num_arguments) {
+    while(location < user_command.length()) {
       int next_space = user_command.indexOf(" ", location);
-      if(next_space == -1) {
+      if(next_space == -1) { /* couldn't find another space. Last argument */
         arguments.add(user_command.substring(location));
+          location = user_command.length();
       } else {
         arguments.add(user_command.substring(location, next_space));
         location = next_space + 1;
@@ -166,6 +198,9 @@ class CLI {
     }
     return arguments;
   }
+    public boolean directoryExists(Path path) { // do we want a separate object for paths that we use?
+        return new File(path.toString()).exists();
+    }
   public void Println(String s) {
     System.out.println(s);
   }

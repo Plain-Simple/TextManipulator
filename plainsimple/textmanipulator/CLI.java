@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 class CLI {
   private ManipulateText manip = new ManipulateText();
+    private String current_directory = "";
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
     Scanner scanner = new Scanner(System.in);
@@ -43,20 +44,6 @@ class CLI {
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
     Println("Available Functions--------------------------------------------------------");
-    printFormatted("addprefix", i18n.getString("addprefix_description"));
-    printFormatted("addsuffix", i18n.getString("addsuffix_description"));
-    printFormatted("removeduplicatelines",
-                   i18n.getString("removeduplicatelines_description"));
-    printFormatted("removelinescontaining",
-                   i18n.getString("removelinescontaining_description"));
-    printFormatted("scramblelines", i18n.getString("scramblelines_description"));
-    printFormatted("sortlinesalphabetically",
-                   i18n.getString("sortlinesalphabetically_description"));
-    printFormatted("sortlinesbysize",
-                   i18n.getString("sortlinesbysize_description"));
-    printFormatted("numberlines", i18n.getString("numberlines_description"));
-    printFormatted("removeemptylines",
-                   i18n.getString("removeemptylines_description"));
     printFormatted("mergetext", i18n.getString("mergetext_description"));
     printFormatted("findreplace", i18n.getString("findreplace_description"));
     printFormatted("removeargument", i18n.getString("removeargument_description"));
@@ -65,12 +52,27 @@ class CLI {
     printFormatted("lineseparatevalues",
                    i18n.getString("lineseparatevalues_description"));
     printFormatted("splitsentences", i18n.getString("splitsentences_description"));
-    printFormatted("comparelines", i18n.getString("comparelines_description"));
     printFormatted("removepunctuation",
                    i18n.getString("removepunctuation_description"));
     printFormatted("uppercase", i18n.getString("uppercase_description"));
     printFormatted("lowercase", i18n.getString("lowercase_description"));
     printFormatted("print", i18n.getString("print_description"));
+      Println("\n\tLine Functions");
+      printFormatted("prefix", i18n.getString("addprefix_description"));
+      printFormatted("suffix", i18n.getString("addsuffix_description"));
+      printFormatted("removeduplicates",
+              i18n.getString("removeduplicatelines_description"));
+      printFormatted("removecontaining",
+              i18n.getString("removelinescontaining_description"));
+      printFormatted("scramble", i18n.getString("scramblelines_description"));
+      printFormatted("sortABC",
+              i18n.getString("sortlinesalphabetically_description"));
+      printFormatted("sortbysize",
+              i18n.getString("sortlinesbysize_description"));
+      printFormatted("number", i18n.getString("numberlines_description"));
+      printFormatted("removeempty",
+              i18n.getString("removeemptylines_description"));
+      printFormatted("compare", i18n.getString("comparelines_description"));
     Println("-------------------------------------------------------------------------------------------");
   }
   /* for each command:
@@ -86,28 +88,28 @@ class CLI {
       outputFunctionsList();
     } else if(user_input.equals("exit")) {
       System.exit(0);
-    } else if(user_input.startsWith("addprefix ")) {
+    } else if(user_input.startsWith("prefix ")) {
       /* user_input.substring(10) removes the "addprefix " at the beginning of the String */
       arguments = getArguments(1, user_input.substring(10));
       text = manip.addPrefixSuffix(text, arguments.get(0), "");
-    } else if(user_input.startsWith("addsuffix ")) {
+    } else if(user_input.startsWith("suffix ")) {
       arguments = getArguments(1, user_input.substring(10));
       text = manip.addPrefixSuffix(text, arguments.get(0), "");
-    } else if(user_input.startsWith("removeduplicatelines")) {
+    } else if(user_input.startsWith("removeduplicates")) {
       text = manip.removeDuplicateLines(text);
-    } else if(user_input.startsWith("removelinescontaining ")) {
+    } else if(user_input.startsWith("removecontaining ")) {
       arguments = getArguments(1, user_input.substring(22));
       text = manip.removeLinesContaining(text, arguments.get(0));
-    } else if(user_input.startsWith("scramblelines")) {
+    } else if(user_input.startsWith("scramble")) {
       text = manip.scrambleLines(text);
-    } else if(user_input.startsWith("sortlinesalphabetically")) {
+    } else if(user_input.startsWith("sortABC")) {
       text = manip.sortLinesAlphabetically(text);
-    } else if(user_input.startsWith("sortlinesbysize")) {
+    } else if(user_input.startsWith("sortbysize")) {
       text = manip.sortLinesBySize(text);
-    } else if(user_input.startsWith("numberlines ")) {
+    } else if(user_input.startsWith("number ")) {
       arguments = getArguments(2, user_input.substring(12));
       text = manip.numberLines(text, arguments.get(0), arguments.get(1));
-    } else if(user_input.startsWith("removeemptylines")) {
+    } else if(user_input.startsWith("removeempty")) {
       text = manip.removeEmptyLines(text);
     } else if(user_input.startsWith("mergetext")) {
       Println("Feature hasn't been implemented yet");
@@ -125,7 +127,7 @@ class CLI {
       text = manip.lineSeparateValues(text, arguments.get(0).charAt(0));
     } else if(user_input.startsWith("splitsentences")) {
       text = manip.splitSentences(text);
-    } else if(user_input.startsWith("comparelines ")) {
+    } else if(user_input.startsWith("compare ")) {
       arguments = getArguments(2, user_input.substring(13));
       try {
         manip.compareLines(text, Integer.parseInt(arguments.get(0)),
@@ -150,13 +152,7 @@ class CLI {
     }
     Println("Debugging: Parameters were " + arguments.toString());
   }
-  String getArgument(String requested_argument) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println(i18n.getString("argument_prompt") + " " +
-                       requested_argument + ": ");
-    return scanner.nextLine();
-  }
-  public ArrayList<String> getArguments(int num_arguments, String user_command) {
+  public ArrayList<String> getArguments(int num_arguments, String user_command) { // ToDo: remove parameter num_arguments
     ArrayList<String> arguments = new ArrayList<String>();
     int location = 0;
     while(arguments.size() < num_arguments) {

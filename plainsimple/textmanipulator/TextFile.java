@@ -50,8 +50,9 @@ public class TextFile { // note: class renamed 'TextFile' to allow for usage of 
         try (BufferedReader reader = Files.newBufferedReader(file_path)) {
             String line = "";
             while ((line = reader.readLine()) != null) {
-                file += line;
+                file += "\n" + line;
             }
+            file_text = file;
         } catch (IOException x) {
             return false;
         }

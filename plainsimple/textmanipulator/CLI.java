@@ -121,12 +121,29 @@ class CLI {
             current_directory.setAsParent(); // do we need error-checking?
             Println("Directory successfully changed to \"" + current_directory.getPathAsString() + "\".");
         } else {
-            Directory test_directory = new Directory(Paths.get(arguments.get(1)));
-            if(test_directory.directoryExists()) {
-                current_directory = test_directory;
+            boolean change_success = current_directory.changeDirectory(arguments.get(1));
+            if(change_success) {
                 Println("Directory changed to \"" + current_directory.getPathAsString() + "\".");
             } else
-                Println("Error changing directory to \"" + test_directory.getPathAsString() + "\": Directory does not exist.");
+                Println("Error changing directory to \"" + arguments.get(1) + "\": Directory does not exist.");
+        }
+    } else if(arguments.get(0).equals("dir")) { // ToDo: Clean-up and better error-checking
+        boolean get_files_success = false;
+        ArrayList<TextFile> files_in_directory = new ArrayList<>();
+        if(arguments.size() == 1) { /* one parameter - dir in current directory */
+            files_in_directory = current_directory.getFilesInDirectory();
+            get_files_success = true;
+        } else {
+            get_files_success = current_directory.changeDirectory(arguments.get(1));
+            files_in_directory = current_directory.getFilesInDirectory();
+        }
+        if(get_files_success) {
+            Println("Files in directory \"" + current_directory.getPathAsString() + "\":");
+            for (int i = 0; i < files_in_directory.size(); i++)
+                Println(files_in_directory.get(i).getFileName());
+        } else {
+            Println("Could not access \"" + arguments.get(1) + "\"");
+
         }
     } else if(arguments.get(0).equals("exit")) {
         System.exit(0);

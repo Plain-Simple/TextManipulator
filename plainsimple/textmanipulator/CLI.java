@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 class CLI {
   private ManipulateText manip = new ManipulateText();
-    private Path current_directory;
+    private Directory current_directory;
     private TextFile loaded_file;
     private FileBatch loaded_batch;
     private CLISettings settings = new CLISettings();
@@ -19,7 +19,7 @@ class CLI {
       settings.loadSettings("TextManipulator_CLISettings");
       loaded_file = new TextFile(settings.getSettings().get(0));
       loaded_batch = new FileBatch(settings.getSettings().get(1));
-      current_directory = Paths.get(settings.getSettings().get(2)).toAbsolutePath();
+      current_directory = new Directory(Paths.get(settings.getSettings().get(2)).toAbsolutePath());
       Scanner scanner = new Scanner(System.in);
       System.out.println(i18n.getString("cli_welcome"));
       if(loaded_file.fileExists()) { /* make sure loaded file is valid and has been read successfully */
@@ -28,8 +28,8 @@ class CLI {
       if(loaded_batch.batchExists()) { // something weird is going on here?
           Println("Current batch loaded: " + loaded_batch.getBatchName());
       }
-      if(directoryExists(current_directory)) { // ToDo: make a directory class instead of using paths
-          Println("Current directory: " + current_directory);
+      if(current_directory.directoryExists()) { // ToDo: make a directory class instead of using paths
+          Println("Current directory: " + current_directory.getPathAsString());
       }
     /* this runs forever, because the cli keeps going until the user exits */
     while (true) {
@@ -40,7 +40,7 @@ class CLI {
           processCommand(loaded_file.getFileText(), userInput);
           Println("");
           // need a better way to update settings
-          String[] updated_settings = new String[] {loaded_file.getPath(), loaded_batch.getBatchName(), current_directory.toString(), settings.getSettings().get(3)};
+          String[] updated_settings = new String[] {loaded_file.getPath(), loaded_batch.getBatchName(), current_directory.getPathAsString(), settings.getSettings().get(3)};
           settings.updateSettings("TextManipulator_CLISettings", updated_settings);
       } catch(IndexOutOfBoundsException|NoSuchElementException e) { // handle it or just ignore it?
 
@@ -116,6 +116,18 @@ class CLI {
         processBatchCommand(arguments);
     } else if(arguments.get(0).equals("help")) { // expand into a full help function
         outputFunctionsList();
+    } else if(arguments.get(0).equals("cd")) {
+        if(arguments.get(1).equals("..")) {
+            current_directory.setAsParent(); // do we need error-checking?
+            Println("Directory successfully changed to \"" + current_directory.getPathAsString() + "\".");
+        } else {
+            Directory test_directory = new Directory(Paths.get(arguments.get(1)));
+            if(test_directory.directoryExists()) {
+                current_directory = test_directory;
+                Println("Directory changed to \"" + current_directory.getPathAsString() + "\".");
+            } else
+                Println("Error changing directory to \"" + test_directory.getPathAsString() + "\": Directory does not exist.");
+        }
     } else if(arguments.get(0).equals("exit")) {
         System.exit(0);
     } else { // lookup arguments.get(0) in file directories and existing batches
@@ -209,9 +221,6 @@ class CLI {
     }
     return arguments;
   }
-    public boolean directoryExists(Path path) { // do we want a separate object for paths that we use?
-        return new File(path.toString()).exists();
-    }
   public void Println(String s) {
     System.out.println(s);
   }

@@ -7,9 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class JavaFXGUI extends Application{
+public class JavaFXGUI extends Application {
   @Override
-  public void start(Stage primaryStage) throws Exception{
+  public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("TextManipulator.fxml"));
     primaryStage.setTitle(i18n.getString("program_full_name"));
     primaryStage.setScene(new Scene(root));

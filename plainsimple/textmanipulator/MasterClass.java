@@ -10,6 +10,7 @@ class MasterClass {
     if (RUN_GUI) {
       GUI gui = new GUI();
       gui.startGUI();
+      //JavaFXGUI.launch(JavaFXGUI.class, args);
     }
     CLI cli = new CLI();
     cli.startCLI();

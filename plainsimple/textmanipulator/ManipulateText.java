@@ -131,7 +131,7 @@ class ManipulateText {
     }
     if(merge_lines.length > text.length) {
       for(int i = text.length; i < merge_lines.length;
-          i++) { /* merge any remaining elements from lines2 */
+          i++) { /* merge any remaining elements from merge_lines */
         result += merge_lines[i] + "\n";
       }
     }
@@ -163,25 +163,34 @@ class ManipulateText {
   public String commaSeparateValues(String text) {
       return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
   }
-  public String lineSeparateValues(String text,
-                                   char separator) { /// mistake when 'separator' is at the beginning of a line
-    String new_text = "", word = "";
+    public String removeLineBreaks(String text) {
+        return text.replace("\n", " ").replace("\r", ""); /// weird spacing issues need to be fixed. Some spaces get lost.
+    }
+  public String splitBySeparator(String text,
+                                   String separator) { /// still not working correctly
+      String[] split_text = removeLineBreaks(text).split(separator);
+      String result = split_text[0] + "\n"; /// if split_text = "" this creates an empty line
+      for(int i = 1; i < split_text.length; i++)
+          result += separator + split_text[i] + "\n";
+      Println(result);
+      return result;
+   /*   ArrayList<String> result = new ArrayList<>();
+      String word = "";
     for(int i = 0; i < text.length(); i++) {
       if(text.charAt(i) != separator) {
         word = word + text.charAt(i);
-      } else if(
-        !word.equals("")) { /* this avoids empty line breaks when there is more than one separator in a row */
-        new_text = new_text + word + "\n"; /* add 'word' and a newline */
+      } else if(!word.equals("")) { /* this avoids empty line breaks when there is more than one separator in a row */
+    /*    result.add(word);
         word = ""; /* reset word */
-      }
+   /*  }
     }
-    return new_text + word; /* make sure to get the last word */
+      if(word != "")
+        result.add(word); /* add last word */
+   // return result.toArray();
   }
   /* puts each individual sentence on a separate line */
   public String splitSentences(String text) {
       return "";
-  }
-  public void compareLines(String text, int line_number1, int line_number2) {
   }
   /* generates a random number between 0 and 'upper_bound' inclusive */
   int generateRandomNumber(int

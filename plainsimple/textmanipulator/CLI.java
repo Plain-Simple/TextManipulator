@@ -199,6 +199,9 @@ class CLI {
       break;
     case("splitsentences"):
       break;
+        case("split"):
+            manip.splitBySeparator(file_text, parameters.get(2));
+            break;
     case("removepunctuation"):
       break;
     case("uppercase"):

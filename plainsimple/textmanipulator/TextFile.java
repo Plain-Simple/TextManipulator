@@ -35,10 +35,10 @@ public class
   public boolean fileExists() {
     try {
         BufferedReader test_reader = Files.newBufferedReader(file_path.toRealPath());
+        return true; /* exists */
     } catch(IOException e) {
       return false;
     }
-    return readFile(); /* attempt to read file */
   }
   public String getPath() {
     return file_path.toString();
@@ -57,7 +57,7 @@ public class
     try (BufferedReader reader = Files.newBufferedReader(file_path)) {
       String line = "";
       while ((line = reader.readLine()) != null) {
-        file += "\n" + line;
+        file += line + "\n"; // ToDo: fix so that a blank line is not inserted at the end
       }
       file_text = file;
     } catch (IOException x) {
@@ -79,7 +79,7 @@ public class
     boolean delete_success = file_to_delete.delete();
     return delete_success;
   }
-    public boolean pasteIntoFile() {
+    public boolean pasteIntoFile() { // Todo: fix bug where linebreaks are lost
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         /* get contents from clipboard (stored in a Transferable, which manages data transfer) */
         Transferable contents = clipboard.getContents(null);
@@ -101,5 +101,28 @@ public class
             System.out.println("Error: Clipboard is empty or does not contain writable text.");
             return false;
         }
+    }
+    public void printFile() {
+        System.out.println("File contents: ");
+        System.out.println("---------------------------------------------------------");
+        System.out.println(file_text);
+        System.out.println("---------------------------------------------------------");
+    }
+    public void printLines() {
+        ManipulateText manip = new ManipulateText();
+        System.out.println("Lines: ");
+        System.out.println("---------------------------------------------------------");
+        System.out.println(manip.numberObjects(manip.splitIntoLines(file_text), "", ". "));
+        System.out.println("---------------------------------------------------------");
+    }
+    public void printWords() {
+        ManipulateText manip = new ManipulateText();
+        System.out.println("Words: ");
+        System.out.println("---------------------------------------------------------");
+        System.out.println(manip.numberObjects(manip.splitIntoWords(file_text), "", ". "));
+        System.out.println("---------------------------------------------------------");
+    }
+    public void printChars() { /// not sure if this would ever be useful
+
     }
 }

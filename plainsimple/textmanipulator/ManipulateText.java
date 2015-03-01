@@ -1,10 +1,16 @@
 /* Plain+Simple TextManipulator text manipulation functions */
 package plainsimple.textmanipulator;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 class ManipulateText {
   /* adds prefix and suffix to each line */
@@ -137,17 +143,22 @@ class ManipulateText {
     }
     return result;
   }
-  public String findReplace(String text, String find,
-                            String replace) { /// just the basic algorithm for now. May need to be fixed.
-    int instances = 0;
-    while(text.indexOf(find) >
-          -1) { /* runs until String find is no longer found */ /// no longer sure if this will work correctly, although testing was fine.
-      text = text.substring(0,
-                            text.indexOf(find)) + replace + text.substring(text.indexOf(
-                                  find) + find.length(), text.length());
-      instances++;
-    }
-    return text;
+  public String findReplace(String text, String find, String replace) {
+      String result = "";
+      try {
+          Pattern expression_to_find = Pattern.compile(find);
+          Matcher matcher = expression_to_find.matcher(text);
+          int instances = 0;
+          boolean found = false;
+          while(matcher.find()) {
+              result = text.substring(0, matcher.start()) + text.substring(matcher.end());
+              instances++;
+              found = true;
+          }
+      } catch(PatternSyntaxException e) {
+          Println("Error: Expression to find is invalid (regex).");
+      }
+    return result;
   }
   /* removes all instances of 'argument' from 'text' */
   public String removeArgument(String text, String argument) {
@@ -163,31 +174,60 @@ class ManipulateText {
   public String commaSeparateValues(String text) {
       return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
   }
-    public String removeLineBreaks(String text) {
-        return text.replace("\n", " ").replace("\r", ""); /// weird spacing issues need to be fixed. Some spaces get lost.
+    public String removeLineBreaks(String text, boolean format_spacing) { // Todo: add a setting for this
+        if(format_spacing) /* removes line breaks and formats spacing correctly */
+            return text.replace("\n", " ").replace("\r", ""); /// weird spacing issues need to be fixed. Some spaces get lost.
+        else /* simply removes line breaks */
+            return text.replace("\n", "").replace("\r", "");
     }
   public String splitBySeparator(String text,
                                    String separator) { /// still not working correctly
-      String[] split_text = removeLineBreaks(text).split(separator);
+      String[] split_text = removeLineBreaks(text, true).split(separator);
       String result = split_text[0] + "\n"; /// if split_text = "" this creates an empty line
       for(int i = 1; i < split_text.length; i++)
           result += separator + split_text[i] + "\n";
       Println(result);
       return result;
-   /*   ArrayList<String> result = new ArrayList<>();
-      String word = "";
-    for(int i = 0; i < text.length(); i++) {
-      if(text.charAt(i) != separator) {
-        word = word + text.charAt(i);
-      } else if(!word.equals("")) { /* this avoids empty line breaks when there is more than one separator in a row */
-    /*    result.add(word);
-        word = ""; /* reset word */
-   /*  }
-    }
-      if(word != "")
-        result.add(word); /* add last word */
-   // return result.toArray();
   }
+    /* duplicates specified object (line/word/char) a specified number of times */
+    public String duplicateObject(String text[], int element_number, int num_repetitions) {
+        String result = "";
+        for(int i = 0; i < text.length; i++) {
+            result += text[i];
+            if (i == element_number)
+                for (int j = 0; j < num_repetitions; j++)
+                    result += text[element_number];
+        }
+        return result;
+    }
+    /* copies text to clipboard */
+    public void copyTextToClipboard(String text) {
+        StringSelection stringSelection = new StringSelection(text);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+        try {
+            clpbrd.setContents(stringSelection, null);
+        } catch(IllegalStateException e) {
+            System.out.println("Error: System clipboard is currently unavailable.");
+        }
+    }
+    public void find(String text, String regex) {
+        try {
+            Pattern expression_to_find = Pattern.compile(regex);
+            Matcher matcher = expression_to_find.matcher(text);
+            int instances = 0;
+            boolean found = false;
+            while(matcher.find()) {
+                Println("Instance found at " + matcher.start());
+                instances++;
+                found = true;
+            }
+            if(found) {
+                Println(instances + " of expression found.");
+            }
+        } catch(PatternSyntaxException e) {
+            Println("Error: Expression to find is invalid (regex).");
+        }
+    }
   /* puts each individual sentence on a separate line */
   public String splitSentences(String text) {
       return "";

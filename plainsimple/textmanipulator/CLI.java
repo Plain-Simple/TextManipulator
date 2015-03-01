@@ -25,6 +25,7 @@ class CLI {
     System.out.println(i18n.getString("cli_welcome"));
     if(loaded_file.fileExists()) { /* make sure loaded file is valid and has been read successfully */
       Println("Current file loaded: " + loaded_file.getFileName());
+        loaded_file.readFile();
     }
     if(loaded_batch.batchExists()) { // something weird is going on here?
       Println("Current batch loaded: " + loaded_batch.getBatchName());
@@ -190,6 +191,9 @@ class CLI {
       Println("This command hasn't been implemented yet");
       break;
     case("findreplace"):
+        String[] sentences = file_text.split("\\.|\\?|\\!(?= )");
+        for(int i = 0; i < sentences.length; i++)
+            Println(i + ") " + sentences[i]);
       break;
     case("removearg"):
       break;
@@ -205,11 +209,12 @@ class CLI {
     case("removepunctuation"):
       break;
     case("uppercase"):
+        loaded_file.pasteIntoFile();
       break;
     case("lowercase"):
       break;
     case("print"):
-      Println("File Text:\n----------" + loaded_file.getFileText() + "\n---------");
+      loaded_file.printFile();
       break;
     case("prefix"):
       break;

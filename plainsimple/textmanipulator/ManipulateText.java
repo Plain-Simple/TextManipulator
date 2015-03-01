@@ -19,6 +19,10 @@ class ManipulateText {
   public String[] splitIntoLines(String text) {
       return text.split("\\r?\\n");
   }
+    public String[] splitIntoWords(String text) {
+        return text.split("\\W+"); /* splits at non-word characters */
+    }
+
   public String addPrefixSuffix(String[] text, String prefix, String suffix) {
       String result = "";
     /* add each line to text with prefix and suffix */
@@ -27,7 +31,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String removeDuplicateLines(String text[]) {
+  public String removeDuplicateObjects(String text[]) {
     ArrayList<Integer> duplicates = new ArrayList<>();
       String result = "";
     for(int i = 0; i < text.length; i++) {
@@ -50,7 +54,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String removeLinesContaining(String text[], String remove) {
+  public String removeObjectsContaining(String text[], String remove) {
       String result = "";
     for(int i = 0; i < text.length; i++) { /* for each line... */
       if(text[i].indexOf(remove) < 0)  /* could not find String remove in line */
@@ -59,7 +63,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String scrambleLines(String text[]) {
+  public String scrambleObjects(String text[]) {
       String result = "";
     ArrayList<String> lines_list = new ArrayList<>(Arrays.asList(text));
     while(lines_list.size() > 0) { /* runs until all lines have been copied */
@@ -73,7 +77,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String sortLinesAlphabetically(String text[]) {
+  public String sortObjectsAlphabetically(String text[]) {
     String result = "";
     Arrays.sort(text);
     for(int i = 0; i < text.length; i++)
@@ -81,7 +85,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String sortLinesBySize(String text[]) {
+  public String sortObjectsBySize(String text[]) {
     String result = "";
     for(int i = 1; i < text.length; i++) { /* start at second element */
       int num = 1;
@@ -100,7 +104,7 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String numberLines(String text[], String prefix, String suffix) {
+  public String numberObjects(String text[], String prefix, String suffix) {
     String result = "";
     for(int i = 0; i < text.length; i++) {
       result += prefix + (i + 1) + suffix + text[i] + "\n";
@@ -143,8 +147,8 @@ class ManipulateText {
     }
     return result;
   }
-  public String findReplace(String text, String find, String replace) {
-      String result = "";
+  public String findReplace(String text, String find, String replace) { /* use String.replaceAll(find, replace) */
+      String result = ""; // is matcher.group() necessary?
       try {
           Pattern expression_to_find = Pattern.compile(find);
           Matcher matcher = expression_to_find.matcher(text);
@@ -229,9 +233,9 @@ class ManipulateText {
         }
     }
   /* puts each individual sentence on a separate line */
-  public String splitSentences(String text) {
-      return "";
-  }
+  //public String[] splitIntoSentences(String text) {
+      //return text.split("(\d+)");
+ // }
   /* generates a random number between 0 and 'upper_bound' inclusive */
   int generateRandomNumber(int
                            upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use

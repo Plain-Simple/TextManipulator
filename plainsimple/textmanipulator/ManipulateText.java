@@ -112,37 +112,20 @@ class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String removeEmptytext(String text[]) {
+  public String mergeText(String text[], String merge[]) {
     String result = "";
     for(int i = 0; i < text.length; i++) {
-      boolean copy = false;
-      for(int j = 0; j < text[i].length(); j++) {
-        if(!(Character.isWhitespace(text[i].charAt(
-                                      j)))) {/* condition will be true if a character in text[i] is NOT whitespace */
-          copy = true;
-          break;
-        }
-      }
-      if(copy)
-        result += text[i] + "\n";
-    }
-    return result;
-  }
-  public String mergeText(String text[], String text2) {
-    String[] merge_lines = text2.split("\\r?\\n");
-    String result = "";
-    for(int i = 0; i < text.length; i++) {
-      if(i < merge_lines.length) { /* will prevent merge_lines from going out of bounds if it is smaller than text */
-        result += text[i] + merge_lines[i] + "\n";
+      if(i < merge.length) { /* will prevent merge_lines from going out of bounds if it is smaller than text */
+        result += text[i] + merge[i] + "\n";
       } else {
         result  += text[i] +
                    "\n";  /* all elements of lines2 have been transferred */
       }
     }
-    if(merge_lines.length > text.length) {
-      for(int i = text.length; i < merge_lines.length;
-          i++) { /* merge any remaining elements from merge_lines */
-        result += merge_lines[i] + "\n";
+    if(merge.length > text.length) {
+      for(int i = text.length; i < merge.length; i++) {
+      /* merge any remaining elements from merge_lines */
+        result += merge[i] + "\n";
       }
     }
     return result;
@@ -159,6 +142,10 @@ class ManipulateText {
               instances++;
               found = true;
           }
+          if(!found)
+              Println("No instances found.");
+          else
+              Println(instances + " instances replaced.");
       } catch(PatternSyntaxException e) {
           Println("Error: Expression to find is invalid (regex).");
       }
@@ -166,14 +153,7 @@ class ManipulateText {
   }
   /* removes all instances of 'argument' from 'text' */
   public String removeArgument(String text, String argument) {
-    String result = text;
-      int arg_length = argument.length();
-      int index = result.indexOf(argument);
-      while(index > -1) {
-          result = result.substring(0, index) + result.substring(index + arg_length);
-          index = result.indexOf(argument);
-      }
-    return result;
+    return text.replaceAll(argument, "");
   }
   public String commaSeparateValues(String text) {
       return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
@@ -184,14 +164,18 @@ class ManipulateText {
         else /* simply removes line breaks */
             return text.replace("\n", "").replace("\r", "");
     }
-  public String splitBySeparator(String text,
-                                   String separator) { /// still not working correctly
-      String[] split_text = removeLineBreaks(text, true).split(separator);
-      String result = split_text[0] + "\n"; /// if split_text = "" this creates an empty line
-      for(int i = 1; i < split_text.length; i++)
-          result += separator + split_text[i] + "\n";
-      Println(result);
-      return result;
+  public String splitBySeparator(String text, String separator) {
+      try {
+          String[] split_text = text.split(separator);
+          String result = split_text[0];
+          for(int i = 1; i < split_text.length; i++) {
+              result += "\n" + separator + split_text[i];
+          }
+          return result;
+  } catch(PatternSyntaxException e) {
+        Println("Error: Expression to find is invalid (regex).");
+          return text;
+    }
   }
     /* duplicates specified object (line/word/char) a specified number of times */
     public String duplicateObject(String text[], int element_number, int num_repetitions) {
@@ -242,21 +226,12 @@ class ManipulateText {
     //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
     return (int) Math.floor(Math.random() * (upper_bound + 1));
   }
-  public String removeExtraWhitespace(String
-                                      text) { // note: removes and tabs or linebreaks
+  public String removeExtraWhitespace(String text) { // note: removes tabs and linebreaks
     return text.replaceAll("\\s+", " ").trim();
   }
   /* removes all non-letter and non-numbers, leaves spaces */
   public String removePunctuation(String text) {
-    String new_text = "";
-    for(int i = 0; i < text.length(); i++) {
-      char c = text.charAt(i);
-      if(!((c > 32 && c < 48) || (c > 57 && c < 65) || (c > 90 && c < 97) || (c > 122
-           && c < 127))) {
-        new_text = new_text + c;
-      }
-    }
-    return new_text;
+      return text.replaceAll("\\W", "");
   }
 
 

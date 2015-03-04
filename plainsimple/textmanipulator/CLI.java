@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class CLI {
   private static final Messages messages = C10N.get(Messages.class, Locale.ENGLISH);
@@ -20,7 +22,6 @@ class CLI {
   private CLISettings settings = new CLISettings();
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
-    System.out.println(messages.funkyTest());
     settings.loadSettings("TextManipulator_CLISettings");
     loaded_file = new TextFile(settings.getSettings().get(0));
     loaded_batch = new FileBatch(settings.getSettings().get(1));
@@ -243,6 +244,17 @@ class CLI {
   }
   public ArrayList<String> getArguments(String
                                         user_command) { // ToDo: remove parameter num_arguments
+      Pattern expression_to_find = Pattern.compile("[^\\s\"]+|\"([^\"]*)\""); /// not sure why quotes are kept
+      Matcher matcher = expression_to_find.matcher(user_command);
+      int instances = 0;
+      boolean found = false;
+      while(matcher.find()) {
+            Println("Instance found at " + matcher.start() + ": " + matcher.group());
+          instances++;
+          found = true;
+      }
+      if(!found)
+          Println("Could not find pattern.");
     ArrayList<String> arguments = new ArrayList<String>();
     int location = 0;
     while(location < user_command.length()) {

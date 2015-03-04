@@ -6,8 +6,4 @@ package plainsimple.textmanipulator;
   */
 class i18n{
 
-}gg
-
-
-e
-
+}

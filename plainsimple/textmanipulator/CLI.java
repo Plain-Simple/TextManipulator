@@ -244,18 +244,21 @@ class CLI {
   }
   public ArrayList<String> getArguments(String
                                         user_command) { // ToDo: remove parameter num_arguments
-      Pattern expression_to_find = Pattern.compile("[^\\s\"]+|\"([^\"]*)\""); /// not sure why quotes are kept
+      Pattern expression_to_find = Pattern.compile("([^\\s\"]+)|\"([^\"]*)\""); /// not sure why quotes are kept
       Matcher matcher = expression_to_find.matcher(user_command);
       int instances = 0;
       boolean found = false;
       while(matcher.find()) {
-            Println("Instance found at " + matcher.start() + ": " + matcher.group());
+          if(matcher.group(1) != null)
+            Println("Instance in group one found at " + matcher.start() + ": " + matcher.group(1));
+          else if(matcher.group(2) != null)
+              Println("Instance in group two found at " + matcher.start() + ": " + matcher.group(2));
           instances++;
           found = true;
       }
       if(!found)
           Println("Could not find pattern.");
-    ArrayList<String> arguments = new ArrayList<String>();
+      ArrayList<String> arguments = new ArrayList<String>();
     int location = 0;
     while(location < user_command.length()) {
       int next_space = user_command.indexOf(" ", location);

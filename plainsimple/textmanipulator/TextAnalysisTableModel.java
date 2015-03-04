@@ -1,14 +1,19 @@
 /* Table model for TextAnalysis, Plain+Simple Text Manipulator. Code taken from Oracle JavaDocs */
 package plainsimple.textmanipulator;
+import c10n.C10N;
+
 import javax.swing.table.AbstractTableModel;
+import java.util.Locale;
 
 class TextAnalysisTableModel extends AbstractTableModel {
-  private final String[] columnNames = {i18n.getString("text_analysis"), ""};
+  private static final Messages messages = C10N.get(Messages.class, Locale.getDefault());
+
+  private final String[] columnNames = {messages.text_analysis(), ""};
   private final Object[][] data = {
-    {i18n.getString("analysis_words"), 0},
-    {i18n.getString("analysis_chars"), 0},
-    {i18n.getString("analysis_sentences"), 0},
-    {i18n.getString("analysis_lines"), 0}
+    {messages.analysis_words(), 0},
+    {messages.analysis_chars(), 0},
+    {messages.analysis_sentences(), 0},
+    {messages.analysis_lines(), 0}
   };
 
   public int getColumnCount() {

@@ -1,8 +1,12 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
+import c10n.annotations.DefaultC10NAnnotations;
+
 class MasterClass {
   public static void main(String args[]) {
-    i18n.setUpi18n(args);
+    /* required for i18n */
+    C10N.configure(new DefaultC10NAnnotations());
     /* 0 = CLI, 1 = JavaFX, 2 = Swing
 
      * do not rely on Swing, it is no
@@ -16,8 +20,8 @@ class MasterClass {
     } if (RUN_INTERFACE ==1) {
       JavaFXGUI.launch(JavaFXGUI.class, args);
     } if (RUN_INTERFACE == 2) {
-      GUI gui = new GUI();
-      gui.startGUI();
+      GUI_Old guiOld = new GUI_Old();
+      guiOld.startGUI();
     }
   }
 }

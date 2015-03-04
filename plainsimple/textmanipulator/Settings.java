@@ -1,10 +1,14 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /* Plain+Simple TextManipulator settings and global variable management */
 class Settings {
+  private static final Messages messages = C10N.get(Messages.class, Locale.getDefault());
   private ArrayList<Integer> settings = new
   ArrayList<>(); // work in progress
   public ArrayList<Integer> getSettings() {
@@ -32,7 +36,7 @@ class Settings {
       write_settings.newLine();
       write_settings.close();
     } catch (IOException e) {
-      System.out.println(i18n.getString("error_writing_default_settings"));
+      System.out.println(messages.error_writing_default_settings());
     }
     settings.add(130);
     settings.add(131);
@@ -53,12 +57,12 @@ class Settings {
       while((line = read_settings.readLine()) != null) {
         settings.add(Integer.parseInt(line));
       }
-      /*System.out.println(i18n.getString("file") + " \"" + file_name + "\" "
-                         + i18n.getString("file_loaded"));
+      /*System.out.println(messages.file") + " \"" + file_name + "\" "
+                         + messages.file_loaded"));
       System.out.println(settings.toString()); */
     } catch (IOException e) {
       //noinspection HardCodedStringLiteral
-      System.out.println(i18n.getString("error_reading_settings") + "\n");
+      System.out.println(messages.error_reading_settings() + "\n");
       read_success = false;
       setDefaultSettings(file_name);
     }

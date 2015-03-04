@@ -1,14 +1,18 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
+
 import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class CLI {
+  private static final Messages messages = C10N.get(Messages.class, Locale.ENGLISH);
   private ManipulateText manip = new ManipulateText();
   private Directory current_directory;
   private TextFile loaded_file;
@@ -16,13 +20,14 @@ class CLI {
   private CLISettings settings = new CLISettings();
   @SuppressWarnings("HardCodedStringLiteral")
   public void startCLI() {
+    System.out.println(messages.funkyTest());
     settings.loadSettings("TextManipulator_CLISettings");
     loaded_file = new TextFile(settings.getSettings().get(0));
     loaded_batch = new FileBatch(settings.getSettings().get(1));
     current_directory = new Directory(Paths.get(settings.getSettings().get(
                                         2)).toAbsolutePath());
     Scanner scanner = new Scanner(System.in);
-    System.out.println(i18n.getString("cli_welcome"));
+    System.out.println(messages.cli_welcome());
     if(loaded_file.fileExists()) { /* make sure loaded file is valid and has been read successfully */
       Println("Current file loaded: " + loaded_file.getFileName());
         loaded_file.readFile();
@@ -35,13 +40,11 @@ class CLI {
     }
     /* this runs forever, because the cli keeps going until the user exits */
     while (true) {
-      System.out.println(i18n.getString("cli_function_prompt") +
-                         " "); // how do we get it to say: Please enter a command:\n >>
+      System.out.println(messages.cli_function_prompt() + " "); // how do we get it to say: Please enter a command:\n >>
       try {
         String userInput = scanner.nextLine();
         userInput = manip.removeExtraWhitespace(userInput);
         processCommand(loaded_file.getFileText(), userInput);
-        Println("");
         // need a better way to update settings
         String[] updated_settings = new String[] {loaded_file.getPath(), loaded_batch.getBatchName(), current_directory.getPathAsString(), settings.getSettings().get(3)};
         settings.updateSettings("TextManipulator_CLISettings", updated_settings);
@@ -60,7 +63,7 @@ class CLI {
     try {
       text = new Scanner(filePath).useDelimiter("\\Z").next();
     } catch (NoSuchElementException e) {
-      System.out.println(i18n.getString("invalid_file"));
+      System.out.println(messages.invalid_file());
     }
     return text;
   }
@@ -72,36 +75,36 @@ class CLI {
   @SuppressWarnings("HardCodedStringLiteral")
   void outputFunctionsList() {
     Println("Available Functions--------------------------------------------------------");
-    printFormatted("file load", i18n.getString("file_load_description"));
-    printFormatted("file mergetext", i18n.getString("mergetext_description"));
-    printFormatted("file findreplace", i18n.getString("findreplace_description"));
-    printFormatted("file removearg", i18n.getString("removeargument_description"));
+    printFormatted("file load", messages.file_load_description());
+    printFormatted("file mergetext", messages.mergetext_description());
+    printFormatted("file findreplace", messages.findreplace_description());
+    printFormatted("file removearg", messages.removeargument_description());
     printFormatted("file commaseparate",
-                   i18n.getString("commaseparatevalues_description"));
+                   messages.commaseparatevalues_description());
     printFormatted("file lineseparate",
-                   i18n.getString("lineseparatevalues_description"));
+                   messages.lineseparatevalues_description());
     printFormatted("file splitsentences",
-                   i18n.getString("splitsentences_description"));
+                   messages.splitsentences_description());
     printFormatted("file removepunctuation",
-                   i18n.getString("removepunctuation_description"));
-    printFormatted("file uppercase", i18n.getString("uppercase_description"));
-    printFormatted("file lowercase", i18n.getString("lowercase_description"));
-    printFormatted("file print", i18n.getString("print_description"));
-    printFormatted("file prefix", i18n.getString("addprefix_description"));
-    printFormatted("file suffix", i18n.getString("addsuffix_description"));
+                   messages.removepunctuation_description());
+    printFormatted("file uppercase", messages.uppercase_description());
+    printFormatted("file lowercase", messages.lowercase_description());
+    printFormatted("file print", messages.print_description());
+    printFormatted("file prefix", messages.addprefix_description());
+    printFormatted("file suffix", messages.addsuffix_description());
     printFormatted("file removeduplicates",
-                   i18n.getString("removeduplicatelines_description"));
+                   messages.removeduplicatelines_description());
     printFormatted("file removecontaining",
-                   i18n.getString("removelinescontaining_description"));
-    printFormatted("file scramble", i18n.getString("scramblelines_description"));
+                   messages.removelinescontaining_description());
+    printFormatted("file scramble", messages.scramblelines_description());
     printFormatted("file sortABC",
-                   i18n.getString("sortlinesalphabetically_description"));
+                   messages.sortlinesalphabetically_description());
     printFormatted("file sortbysize",
-                   i18n.getString("sortlinesbysize_description"));
-    printFormatted("file number", i18n.getString("numberlines_description"));
+                   messages.sortlinesbysize_description());
+    printFormatted("file number", messages.numberlines_description());
     printFormatted("file removeempty",
-                   i18n.getString("removeemptylines_description"));
-    printFormatted("file compare", i18n.getString("comparelines_description"));
+                   messages.removeemptylines_description());
+    printFormatted("file compare", messages.comparelines_description());
     Println("-------------------------------------------------------------------------------------------");
   }
   /* for each command:

@@ -1,5 +1,7 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.CannotRedoException;
@@ -10,10 +12,12 @@ import java.awt.datatransfer.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
-class GUI extends javax.swing.JFrame {
-  public GUI() {
+class GUI_Old extends javax.swing.JFrame {
+  private static final Messages messages = C10N.get(Messages.class, Locale.getDefault());
+  public GUI_Old() {
     initComponents();
     text_input.requestFocusInWindow(); /* set focus at start */
     addDocumentListener(text_input);
@@ -78,11 +82,11 @@ class GUI extends javax.swing.JFrame {
     JMenuItem paste_menu_item = new JMenuItem();
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     //setTitle("Plain+Simple TextManipulator");
-    setTitle(i18n.getString("program_full_name"));
+    setTitle(messages.program_full_name());
     //noinspection HardCodedStringLiteral
     jLabel1.setFont(new Font("Tahoma", 1, 24)); // NOI18N
     jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-    jLabel1.setText(i18n.getString("program_name"));
+    jLabel1.setText(messages.program_name());
     function_panel.setBorder(BorderFactory.createEtchedBorder());
     function_panel.setTabPlacement(JTabbedPane.LEFT);
     GroupLayout jPanel3Layout = new GroupLayout(basic_tools_panel);
@@ -95,7 +99,7 @@ class GUI extends javax.swing.JFrame {
       jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.getString("basic_tools"), basic_tools_panel);
+    function_panel.addTab(messages.basic_tools(), basic_tools_panel);
     GroupLayout jPanel1Layout = new GroupLayout(line_functions_panel);
     line_functions_panel.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
@@ -107,7 +111,7 @@ class GUI extends javax.swing.JFrame {
       .addGap(0, 307, Short.MAX_VALUE)
     );
     /* adds "line functions tab to tabbed pane */
-    function_panel.addTab(i18n.getString("line_functions"), line_functions_panel);
+    function_panel.addTab(messages.line_functions(), line_functions_panel);
     GroupLayout jPanel2Layout = new GroupLayout(word_functions_panel);
     word_functions_panel.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
@@ -118,7 +122,7 @@ class GUI extends javax.swing.JFrame {
       jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.getString("word_functions"), word_functions_panel);
+    function_panel.addTab(messages.word_functions(), word_functions_panel);
     GroupLayout jPanel4Layout = new GroupLayout(find_replace_panel);
     find_replace_panel.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
@@ -129,7 +133,7 @@ class GUI extends javax.swing.JFrame {
       jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.getString("find_replace"), find_replace_panel);
+    function_panel.addTab(messages.find_replace(), find_replace_panel);
     GroupLayout settings_panel_layout = new GroupLayout(settings_panel);
     settings_panel.setLayout(settings_panel_layout);
     settings_panel_layout.setHorizontalGroup(
@@ -140,14 +144,14 @@ class GUI extends javax.swing.JFrame {
       settings_panel_layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGap(0, 307, Short.MAX_VALUE)
     );
-    function_panel.addTab(i18n.getString("settings"), settings_panel);
+    function_panel.addTab(messages.settings(), settings_panel);
     ///TODO: 188nize
     jScrollPane3.setViewportView(text_input);
     text_analysis_table.setModel(new TextAnalysisTableModel());
     jScrollPane1.setViewportView(text_analysis_table);
-    jLabel2.setText(i18n.getString("author_notice"));
-    file_menu.setText(i18n.getString("file_menu"));
-    open_file_menu_item.setText(i18n.getString("open_file_menu"));
+    jLabel2.setText(messages.author_notice());
+    file_menu.setText(messages.file_menu());
+    open_file_menu_item.setText(messages.open_file_menu());
     open_file_menu_item.addActionListener(new ActionListener() {
       @Override public void actionPerformed(ActionEvent e) {
       }
@@ -155,7 +159,7 @@ class GUI extends javax.swing.JFrame {
     open_file_menu_item.setAccelerator(KeyStroke.getKeyStroke('O',
                                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     file_menu.add(open_file_menu_item);
-    save_file_menu_item.setText(i18n.getString("save_file_menu"));
+    save_file_menu_item.setText(messages.save_file_menu());
     save_file_menu_item.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -165,8 +169,8 @@ class GUI extends javax.swing.JFrame {
                                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     file_menu.add(save_file_menu_item);
     jMenuBar1.add(file_menu);
-    edit_menu.setText(i18n.getString("edit_menu"));
-    undo_menu_item.setText(i18n.getString("undo"));
+    edit_menu.setText(messages.edit_menu());
+    undo_menu_item.setText(messages.undo());
     /* CTRL-Z shortcut */
     undo_menu_item.setAccelerator(KeyStroke.getKeyStroke('Z',
                                   Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -180,7 +184,7 @@ class GUI extends javax.swing.JFrame {
       }
     });
     edit_menu.add(undo_menu_item);
-    redo_menu_item.setText(i18n.getString("redo"));
+    redo_menu_item.setText(messages.redo());
     redo_menu_item.addActionListener(new ActionListener() {
       @Override public void actionPerformed(ActionEvent e) {
         try {
@@ -419,7 +423,7 @@ class GUI extends javax.swing.JFrame {
     table.setValueAt(analyze_text.WordCount(text), 0, 1);
     table.setValueAt(analyze_text.CharCount(text), 1, 1);
     table.setValueAt(analyze_text.SentenceCount(text), 2, 1);
-    table.setValueAt(analyze_text.LineCount(text), 3, 1);
+    table.setValueAt(analyze_text.lineCount(text), 3, 1);
   }
   /* adds a document listener to specified editor pane */
   void addDocumentListener(final javax.swing.JEditorPane text) {
@@ -457,22 +461,22 @@ class GUI extends javax.swing.JFrame {
       UIManager.setLookAndFeel(
         UIManager.getSystemLookAndFeelClassName());
     } catch (ClassNotFoundException ex) {
-      java.util.logging.Logger.getLogger(GUI.class.getName()).log(
+      java.util.logging.Logger.getLogger(GUI_Old.class.getName()).log(
         java.util.logging.Level.SEVERE, null, ex);
     } catch (InstantiationException ex) {
-      java.util.logging.Logger.getLogger(GUI.class.getName()).log(
+      java.util.logging.Logger.getLogger(GUI_Old.class.getName()).log(
         java.util.logging.Level.SEVERE, null, ex);
     } catch (IllegalAccessException ex) {
-      java.util.logging.Logger.getLogger(GUI.class.getName()).log(
+      java.util.logging.Logger.getLogger(GUI_Old.class.getName()).log(
         java.util.logging.Level.SEVERE, null, ex);
     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(GUI.class.getName()).log(
+      java.util.logging.Logger.getLogger(GUI_Old.class.getName()).log(
         java.util.logging.Level.SEVERE, null, ex);
     }
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
-        new GUI().setVisible(true);
+        new GUI_Old().setVisible(true);
       }
     });
   }

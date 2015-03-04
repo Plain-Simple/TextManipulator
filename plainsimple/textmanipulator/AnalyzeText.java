@@ -1,5 +1,7 @@
 /* Plain+Simple Text Manipulator text analysis functions */
 
+//TODO: rename everything to comply with naming standards!!
+
 package plainsimple.textmanipulator;
 
 class AnalyzeText {
@@ -10,7 +12,7 @@ class AnalyzeText {
     return text.length()
            - text.replace(" ", "").replace("\n", "").length() + 1;
   }
-  public int LineCount(String text) {
+  public int lineCount(String text) {
     return text.length() - text.replace("\n", "").length() + 1;
   }
   public int SentenceCount(String text) {

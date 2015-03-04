@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.textmanipulator.JavaFXGUI">
    <children>
       <GridPane maxHeight="1.7976931348623157E308" prefHeight="900.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -103,7 +103,7 @@
                                                   <items>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                                          <children>
-                                                            <TextArea layoutX="-21.0" layoutY="169.0" prefHeight="383.0" prefWidth="389.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <TextArea fx:id="mainText" layoutX="-21.0" layoutY="169.0" onKeyTyped="#updateTextAnalysis" prefHeight="383.0" prefWidth="389.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                          </children>
                                                       </AnchorPane>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
@@ -135,10 +135,10 @@
                                                       <Label layoutX="10.0" layoutY="129.0" text="Chars" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                                                       <Label layoutX="10.0" layoutY="62.0" text="Sentences" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                                                       <Label layoutX="10.0" layoutY="62.0" text="Lines" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-                                                      <TextField editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                      <TextField editable="false" layoutX="87.0" layoutY="51.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                                                      <TextField editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                                      <TextField editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+                                                      <TextField fx:id="wordCount" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                                      <TextField fx:id="charCount" editable="false" layoutX="87.0" layoutY="51.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                                                      <TextField fx:id="sentenceCount" editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                                      <TextField fx:id="lineCount" editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                                                    </children>
                                                 </GridPane>
                                              </children>

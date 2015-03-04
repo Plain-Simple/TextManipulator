@@ -1,9 +1,13 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CLISettings {
+  private static final Messages messages = C10N.get(Messages.class, Locale.getDefault());
   private ArrayList<String> settings = new
   ArrayList<>(); // work in progress
   public ArrayList<String> getSettings() {
@@ -22,7 +26,7 @@ public class CLISettings {
       write_settings.write("directory prefix:");
       write_settings.close();
     } catch (IOException e) {
-      System.out.println(i18n.getString("error_writing_default_settings"));
+      System.out.println(messages.error_writing_default_settings());
     }
     settings.add("");
     settings.add("");

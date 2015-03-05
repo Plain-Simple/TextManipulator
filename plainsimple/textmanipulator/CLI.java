@@ -14,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class CLI {
+    /* make this a private member so it is only compiled once */
+    private Pattern user_command_pattern = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
   private static final Messages messages = C10N.get(Messages.class, Locale.ENGLISH);
   private ManipulateText manip = new ManipulateText();
   private Directory current_directory;
@@ -243,33 +245,21 @@ class CLI {
   public void processBatchCommand(ArrayList<String> parameters) {
   }
   public ArrayList<String> getArguments(String
-                                        user_command) { // ToDo: remove parameter num_arguments
-      Pattern expression_to_find = Pattern.compile("([^\\s\"]+)|\"([^\"]*)\""); /// not sure why quotes are kept
-      Matcher matcher = expression_to_find.matcher(user_command);
-      int instances = 0;
+                                        user_command) {
+      ArrayList<String> arguments = new ArrayList<String>();
+      Matcher matcher = user_command_pattern.matcher(user_command);
       boolean found = false;
       while(matcher.find()) {
-          if(matcher.group(1) != null)
-            Println("Instance in group one found at " + matcher.start() + ": " + matcher.group(1));
-          else if(matcher.group(2) != null)
-              Println("Instance in group two found at " + matcher.start() + ": " + matcher.group(2));
-          instances++;
+          if(matcher.group(1) != null) { /* if argument is space-separated */
+              arguments.add(matcher.group(1));
+          } else if(matcher.group(2) != null) { /* if argument is enclosed in double-quotes */
+              arguments.add(matcher.group(2));
+          } else if(matcher.group(3) != null) { /* if argument is enclosed in single-quotes */
+              arguments.add(matcher.group(3));
+          }
           found = true;
       }
-      if(!found)
-          Println("Could not find pattern.");
-      ArrayList<String> arguments = new ArrayList<String>();
-    int location = 0;
-    while(location < user_command.length()) {
-      int next_space = user_command.indexOf(" ", location);
-      if(next_space == -1) { /* couldn't find another space. Last argument */
-        arguments.add(user_command.substring(location));
-        location = user_command.length();
-      } else {
-        arguments.add(user_command.substring(location, next_space));
-        location = next_space + 1;
-      }
-    }
+      Println("Debugging: " + arguments.toString());
     return arguments;
   }
   public void Println(String s) {

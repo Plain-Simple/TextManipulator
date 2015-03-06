@@ -14,7 +14,7 @@ class AnalyzeText {
   public int CharCount(String text) {
     return text.replace("\n", "").length();
   }
-  public int WordCount(String text) {
+  public int wordCount(String text) {
       Matcher matcher = word_pattern.matcher(text);
       int instances = 0;
       while(matcher.find()) {

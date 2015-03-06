@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 class AnalyzeText {
     /* regex pattern to find words */
     private Pattern word_pattern = Pattern.compile("\\w+");
-  public int CharCount(String text) {
+  public int charCount(String text) {
     return text.replace("\n", "").length();
   }
   public int wordCount(String text) {
@@ -34,34 +34,17 @@ class AnalyzeText {
     }
     return sentence_count;
   }
-
-  public void WordFrequency(String text) { // ToDo: remains to be tested
-      String[] words = text.split("\\w+");
-      ArrayList<String> unique_words = new ArrayList<>();
-      ArrayList<Integer> frequencies = new ArrayList<>();
-      for(int i = 0; i < words.length; i++) {
+    // ToDo: testing and look into hashmaps
+  public void getObjectFrequencies(String text[], ArrayList<String> unique_words, ArrayList<Integer> frequencies) {
+      /* make sure lists are empty before adding to them */
+      unique_words.clear();
+      frequencies.clear();
+      for(int i = 0; i < text.length; i++) {
           /* get location of current word in list */
-          int index = unique_words.indexOf(words[i]);
+          int index = unique_words.indexOf(text[i]);
           if(index < 0) {
               /* add word to list */
-              unique_words.add(words[i]);
-              frequencies.add(0);
-          } else {
-              /* add one to correct index */
-              frequencies.set(index, frequencies.get(index) + 1);
-          }
-      }
-  }
-
-  public void CharFrequency(String text) {
-      ArrayList<Character> unique_chars = new ArrayList<>();
-      ArrayList<Integer> frequencies = new ArrayList<>();
-      for(int i = 0; i < text.length(); i++) {
-          /* get location of current word in list */
-          int index = unique_chars.indexOf(text.charAt(i));
-          if(index < 0) {
-              /* add char to list */
-              unique_chars.add(text.charAt(i));
+              unique_words.add(text[i]);
               frequencies.add(0);
           } else {
               /* add one to correct index */

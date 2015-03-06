@@ -16,7 +16,7 @@
           <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="575.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MenuBar maxHeight="-Infinity" prefHeight="128.0" prefWidth="800.0">
+            <MenuBar useSystemMenuBar="true">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -25,6 +25,9 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
+                    <MenuItem mnemonicParsing="false" text="Cut" accelerator="Ctrl+X" />
+                    <MenuItem mnemonicParsing="false" text="Copy" accelerator="Ctrl+C" />
+                    <MenuItem mnemonicParsing="false" text="Paste" accelerator="Ctrl+V" />
                     <MenuItem mnemonicParsing="false" text="Delete" />
                   </items>
                 </Menu>

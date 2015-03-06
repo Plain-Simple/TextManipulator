@@ -420,7 +420,7 @@ class GUI_Old extends javax.swing.JFrame {
   /* updates text_analysis_table with latest data */
   void updateTable(javax.swing.JTable table, String text) {
     AnalyzeText analyze_text = new AnalyzeText();
-    table.setValueAt(analyze_text.WordCount(text), 0, 1);
+    table.setValueAt(analyze_text.wordCount(text), 0, 1);
     table.setValueAt(analyze_text.CharCount(text), 1, 1);
     table.setValueAt(analyze_text.SentenceCount(text), 2, 1);
     table.setValueAt(analyze_text.lineCount(text), 3, 1);

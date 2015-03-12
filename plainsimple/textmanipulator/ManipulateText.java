@@ -22,6 +22,9 @@ class ManipulateText {
     public String[] splitIntoWords(String text) {
         return text.split("\\W+"); /* splits at non-word characters */
     }
+    public String[] splitIntoChars(String text) {
+        return text.split(".");
+    }
 
   public String addPrefixSuffix(String[] text, String prefix, String suffix) {
       String result = "";
@@ -217,9 +220,9 @@ class ManipulateText {
         }
     }
   /* puts each individual sentence on a separate line */
-  //public String[] splitIntoSentences(String text) {
-      //return text.split("(\d+)");
- // }
+  public String[] splitIntoSentences(String text) { // todo: fix this function
+      return text.split("(\\d+)");
+ }
   /* generates a random number between 0 and 'upper_bound' inclusive */
   int generateRandomNumber(int
                            upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use

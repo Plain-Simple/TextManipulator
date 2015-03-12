@@ -2,21 +2,17 @@ package plainsimple.textmanipulator;
 
 import org.apache.commons.cli.*;
 
+import java.util.ArrayList;
+
 public class Shell {
     Options options = new Options();
+    ManipulateText manip = new ManipulateText();
     public Shell(String[] args) {
         CommandLineParser parser = new BasicParser(); // todo: try implementing defaultparser
         setUpOptions();
         try {
             CommandLine cmd = parser.parse(options, args);
-            if(cmd.hasOption("findreplace")) {
-                String[] arguments = cmd.getOptionValues("findreplace");
-                Println("findreplace " + arguments[0] + ", " + arguments[1]);
-
-            }
-            if(cmd.hasOption("f")) {
-                Println("File to manipulate: " + cmd.getOptionValue("f"));
-            }
+            executeCommand(cmd);
         } catch(ParseException e) {
             Println("Error parsing command.");
             Println(e.getMessage());
@@ -73,6 +69,42 @@ public class Shell {
         new_batch.setArgs(1);
         batch_commands.addOption(new_batch);
         return batch_commands;
+    }
+    /* executes command using command line object */
+    private void executeCommand(CommandLine cmd) {
+        ArrayList<TextFile> files = new ArrayList<>();
+        /* need to know if function is executed on file or batch */
+        if(cmd.hasOption("f")) { /* read in the file */
+            TextFile read_file = new TextFile(cmd.getOptionValue("f"));
+            if(read_file.fileExists()) {
+                files.add(read_file);
+            } else {
+                Println("Error: file does not exist or could not be accessed");
+            }
+        } else if(cmd.hasOption("b")) { /* load batch */
+
+        } else { /* cannot execute function if file/batch is not specified */
+            Println("Error: no file or batch specified");
+        }
+        /* text objects to be manipulated */
+
+        for(int i = 0; i < files.size(); i++) {
+            String[] manipulated_text;
+            if (cmd.hasOption("w")) {
+                manipulated_text = manip.splitIntoWords(files.get(i).getFileText());
+            } else if(cmd.hasOption("l")) {
+                manipulated_text = manip.splitIntoLines(files.get(i).getFileText());
+            } else if(cmd.hasOption("c")) {
+                manipulated_text = manip.splitIntoChars(files.get(i).getFileText());
+            } else if(cmd.hasOption("s")) {
+                manipulated_text = manip.splitIntoSentences(files.get(i).getFileText());
+            }
+            if (cmd.hasOption("findreplace")) {
+                String[] arguments = cmd.getOptionValues("findreplace");
+                Println("findreplace " + arguments[0] + ", " + arguments[1]);
+
+            } 
+        }
     }
     public void Println(String s) {
         System.out.println(s);

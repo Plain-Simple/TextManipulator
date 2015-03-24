@@ -31,6 +31,11 @@ public class
     file_name = name;
     file_path = Paths.get(path).toAbsolutePath();
   }
+    public void setText(String[] text) {
+        file_text = "";
+        for(int i = 0; i < text.length; i++)
+            file_text += text[i];
+    }
     /* tries to create a bufferedreader object using this file's path */
   public boolean fileExists() {
     try {

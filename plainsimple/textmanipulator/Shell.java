@@ -3,12 +3,15 @@ package plainsimple.textmanipulator;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Shell {
     Options options = new Options();
     ManipulateText manip = new ManipulateText();
     public Shell(String[] args) {
-        CommandLineParser parser = new BasicParser(); // todo: try implementing defaultparser
+        // debugging only
+        Println("Command entered is " + new ArrayList<String>(Arrays.asList(args)).toString());
+        CommandLineParser parser = new BasicParser();
         setUpOptions();
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -17,8 +20,8 @@ public class Shell {
             Println("Error parsing command.");
             Println(e.getMessage());
         }
-        HelpFormatter help = new HelpFormatter();
-        help.printHelp("TextManipulator", options);
+        //HelpFormatter help = new HelpFormatter();
+        //help.printHelp("TextManipulator", options);
         System.exit(0);
     }
     public void setUpOptions() {
@@ -37,6 +40,30 @@ public class Shell {
         Option remove = new Option("remove", false, "remove all instances of specified String");
         remove.setArgs(1);
         function.addOption(remove);
+        Option merge = new Option("merge", false, "merge two text objects"); // todo: finish this
+        merge.setArgs(2);
+        merge.setValueSeparator(' ');
+        function.addOption(merge);
+        Option uppercase = new Option("uppercase", false, "upercase all characters");
+        function.addOption(uppercase);
+        Option lowercase = new Option("lowercase", false, "lowercase all characters");
+        function.addOption(lowercase);
+        Option print = new Option("print", false, "prints text object(s)");
+        function.addOption(print);
+        Option prefix = new Option("prefix", false, "adds specified prefix before each object");
+        prefix.setArgs(1);
+        function.addOption(prefix);
+        Option suffix = new Option("suffix", false, "adds specified suffix after each object");
+        suffix.setArgs(1);
+        function.addOption(suffix);
+        Option sort = new Option("sort", false, "sorts text objects alphabetically or by size");
+        sort.setArgs(1);
+        function.addOption(sort);
+        Option scramble = new Option("scramble", false, "scrambles specified text objects");
+        function.addOption(scramble);
+        Option number = new Option("number", false, "numbers specified objects using user preferences");
+        number.setArgs(2);
+        function.addOption(number);
         return function;
     }
     /* set up option group to get batch or file name */
@@ -61,6 +88,9 @@ public class Shell {
         object_type.addOption(chars);
         Option sentences = new Option("s", false, "split text into sentences before manipulation");
         object_type.addOption(sentences);
+        Option custom_separator = new Option("sep", false, "split text using user-specified separator");
+        custom_separator.setArgs(1);
+        object_type.addOption(sentences);
         return object_type;
     }
     private OptionGroup getBatchGroup() {
@@ -75,9 +105,12 @@ public class Shell {
         ArrayList<TextFile> files = new ArrayList<>();
         /* need to know if function is executed on file or batch */
         if(cmd.hasOption("f")) { /* read in the file */
+            Println("Reading in file...");
             TextFile read_file = new TextFile(cmd.getOptionValue("f"));
             if(read_file.fileExists()) {
+                read_file.readFile();
                 files.add(read_file);
+                Println("File exists and was added successfully");
             } else {
                 Println("Error: file does not exist or could not be accessed");
             }
@@ -90,6 +123,8 @@ public class Shell {
 
         for(int i = 0; i < files.size(); i++) {
             String[] manipulated_text;
+            String[] function_args;
+            boolean text_split = true; /* true if user designated to split text */
             if (cmd.hasOption("w")) {
                 manipulated_text = manip.splitIntoWords(files.get(i).getFileText());
             } else if(cmd.hasOption("l")) {
@@ -98,13 +133,67 @@ public class Shell {
                 manipulated_text = manip.splitIntoChars(files.get(i).getFileText());
             } else if(cmd.hasOption("s")) {
                 manipulated_text = manip.splitIntoSentences(files.get(i).getFileText());
+            } else {
+                manipulated_text = manip.getAsArray(files.get(i).getFileText());
+                text_split = false;
             }
             if (cmd.hasOption("findreplace")) {
-                String[] arguments = cmd.getOptionValues("findreplace");
-                Println("findreplace " + arguments[0] + ", " + arguments[1]);
+                function_args = cmd.getOptionValues("findreplace");
+                manipulated_text = manip.findReplace(manipulated_text, function_args[0], function_args[1]);
+            } else if (cmd.hasOption("remove")) {
+                function_args = cmd.getOptionValues("remove");
+                switch(cmd.getOptionValue("remove")) {
+                    case "puctuation":
+                        break;
+                    case "duplicates":
 
-            } 
+                        break;
+                    case "containing":
+                        break;
+                    case "empty":
+                        break;
+                    default: /* user has specified a regex pattern */
+
+                }
+            } else if (cmd.hasOption("merge")) {
+                function_args = cmd.getOptionValues("merge"); // todo: error handling, batch merge?
+                TextFile merge_file = new TextFile(function_args[0]);
+                if(merge_file.fileExists()) {
+                   // manipulated_text = manip.mergeText(manipulated_text, )
+                }
+
+            } else if (cmd.hasOption("uppercase")) {
+                manipulated_text = manip.forceUppercase(manipulated_text);
+            } else if (cmd.hasOption("lowercase")) {
+                manipulated_text = manip.forceLowercase(manipulated_text);
+            } else if (cmd.hasOption("print")) {
+
+            } else if (cmd.hasOption("prefix")) {
+                function_args = cmd.getOptionValues("prefix");
+                manipulated_text = manip.addPrefixSuffix(manipulated_text, function_args[0], "");
+            } else if (cmd.hasOption("suffix")) {
+                function_args = cmd.getOptionValues("suffix");
+                manipulated_text = manip.addPrefixSuffix(manipulated_text, "", function_args[0]);
+            } else if (cmd.hasOption("sort")) {
+                function_args = cmd.getOptionValues("sort");
+                if(function_args[0].equals("123"))
+                    manipulated_text = manip.sortObjectsBySize(manipulated_text);
+                else if(function_args[0].equals("ABC"))
+                    manipulated_text = manip.sortObjectsAlphabetically(manipulated_text);
+            } else if (cmd.hasOption("scramble")) {
+                manipulated_text = manip.scrambleObjects(manipulated_text);
+            } else if (cmd.hasOption("number")) {
+                function_args = cmd.getOptionValues("number");
+                manipulated_text = manip.numberObjects(manipulated_text, function_args[0], function_args[1]);
+            }
+            files.get(i).setText(manipulated_text);
+            if(files.get(i).writeFile()) { /* file overwritten successfully */
+                Println("Success!");
+            } else {
+                Println("An error occurred");
+            }
         }
+
     }
     public void Println(String s) {
         System.out.println(s);

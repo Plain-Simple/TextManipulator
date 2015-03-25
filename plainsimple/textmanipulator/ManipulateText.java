@@ -25,8 +25,8 @@ class ManipulateText {
       int location = 0;
       while (matcher.find()) {
           delimiters.add(text.substring(location, matcher.start()));
-          location = matcher.end() + 1;
-        objects.add(matcher.group());
+          location = matcher.end();
+          objects.add(matcher.group());
       }
       delimiters.add(text.substring(location));
       Println(delimiters.toString());
@@ -62,10 +62,11 @@ class ManipulateText {
         //return text.split("\\W+"); /* splits at non-word characters */
     }
     public ArrayList<String[]> splitIntoChars(String text) {
-        String[] objects = text.split(".");
+        String[] objects = new String[text.length()];
         String[] delimiters = new String[text.length()];
         for(int i = 0; i < text.length(); i++) {
             delimiters[i] = "";
+            objects[i] = Character.toString(text.charAt(i));
         }
         ArrayList<String[]> result = new ArrayList<>();
         result.add(delimiters);

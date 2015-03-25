@@ -122,21 +122,29 @@ public class Shell {
         /* text objects to be manipulated */
 
         for(int i = 0; i < files.size(); i++) {
+            ArrayList<String[]> split_result;
             String[] manipulated_text;
+            String[] delimiters = new String[] {""};
             String[] function_args;
             boolean text_split = true; /* true if user designated to split text */
             if (cmd.hasOption("w")) {
-                manipulated_text = manip.splitIntoWords(files.get(i).getFileText());
+                split_result = manip.splitIntoWords(files.get(i).getFileText());
             } else if(cmd.hasOption("l")) {
-                manipulated_text = manip.splitIntoLines(files.get(i).getFileText());
+                split_result = manip.splitIntoLines(files.get(i).getFileText());
             } else if(cmd.hasOption("c")) {
-                manipulated_text = manip.splitIntoChars(files.get(i).getFileText());
-            } else if(cmd.hasOption("s")) {
-                manipulated_text = manip.splitIntoSentences(files.get(i).getFileText());
-            } else {
-                manipulated_text = manip.getAsArray(files.get(i).getFileText());
+                split_result = manip.splitIntoChars(files.get(i).getFileText());
+            } //else if(cmd.hasOption("s")) {
+                //split_result = manip.splitIntoSentences(files.get(i).getFileText());
+            //}
+            //else if(cmd.hasOption("sep")) {
+
+            //}
+            else{
+                split_result = manip.getAsArray(files.get(i).getFileText());
                 text_split = false;
             }
+            delimiters = split_result.get(0);
+            manipulated_text = split_result.get(1);
             if (cmd.hasOption("findreplace")) {
                 function_args = cmd.getOptionValues("findreplace");
                 manipulated_text = manip.findReplace(manipulated_text, function_args[0], function_args[1]);
@@ -186,6 +194,7 @@ public class Shell {
                 function_args = cmd.getOptionValues("number");
                 manipulated_text = manip.numberObjects(manipulated_text, function_args[0], function_args[1]);
             }
+            manipulated_text = manip.mergeText(delimiters, manipulated_text);
             files.get(i).setText(manipulated_text);
             if(files.get(i).writeFile()) { /* file overwritten successfully */
                 Println("Success!");

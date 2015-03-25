@@ -16,27 +16,69 @@ class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
   /* create an array that holds each individual line */
-  public String[] splitIntoLines(String text) { // todo: non-destructive split. One array for objects, one for delimiters
+  public ArrayList<String[]> splitIntoLines(String text) { // todo: non-destructive split. One array for objects, one for delimiters
       // todo: that can later be merged
-      Pattern lines_pattern = Pattern.compile("\\r?\\n");
-    //  Matcher matcher = lines_pattern.matcher(text);
-    //  while (matcher.find()) {
-
-    //  }
-      return text.split("\\r?\\n");
+      ArrayList<String> objects = new ArrayList<>();
+      ArrayList<String> delimiters = new ArrayList<>();
+      Pattern lines_pattern = Pattern.compile("[^\\r\\n]+");
+      Matcher matcher = lines_pattern.matcher(text);
+      int location = 0;
+      while (matcher.find()) {
+          delimiters.add(text.substring(location, matcher.start()));
+          location = matcher.end() + 1;
+        objects.add(matcher.group());
+      }
+      delimiters.add(text.substring(location));
+      Println(delimiters.toString());
+      Println(objects.toString());
+      Println(objects.size() + " lines detected");
+      ArrayList<String[]> result = new ArrayList<>();
+      result.add(delimiters.toArray(new String[delimiters.size()]));
+      result.add(objects.toArray(new String[objects.size()]));
+      return result;
   }
-    public String[] splitIntoWords(String text) {
-        return text.split("\\W+"); /* splits at non-word characters */
+    public ArrayList<String[]> splitIntoWords(String text) {
+        ArrayList<String> objects = new ArrayList<>();
+        ArrayList<String> delimiters = new ArrayList<>();
+        Pattern lines_pattern = Pattern.compile("\\S+");
+        Matcher matcher = lines_pattern.matcher(text);
+        int location = 0;
+        while (matcher.find()) {
+            delimiters.add(text.substring(location, matcher.start()));
+            location = matcher.end() + 1;
+            objects.add(matcher.group());
+        }
+        delimiters.add(text.substring(location));
+        Println(delimiters.toString());
+        Println(objects.toString());
+        Println(objects.size() + " lines detected");
+        ArrayList<String[]> result = new ArrayList<>();
+        result.add(delimiters.toArray(new String[delimiters.size()]));
+        result.add(objects.toArray(new String[objects.size()]));
+        return result;
+        //return text.split("\\W+"); /* splits at non-word characters */
     }
-    public String[] splitIntoChars(String text) {
-        return text.split(".");
+    public ArrayList<String[]> splitIntoChars(String text) {
+        String[] objects = text.split(".");
+        String[] delimiters = new String[text.length()];
+        for(int i = 0; i < text.length(); i++) {
+            delimiters[i] = "";
+        }
+        ArrayList<String[]> result = new ArrayList<>();
+        result.add(delimiters);
+        result.add(objects);
+        return result;
+        //return text.split(".");
     }
     /* puts each individual sentence on a separate line */
-    public String[] splitIntoSentences(String text) { // todo: fix this function
-        return text.split("(\\d+)");
-    }
-    public String[] getAsArray(String text) {
-        return new String[] {text};
+    //public ArrayList<String[]> splitIntoSentences(String text) { // todo: fix this function
+    //    return text.split("(\\d+)");
+    //}
+    public ArrayList<String[]> getAsArray(String text) {
+        ArrayList<String[]> result = new ArrayList<>();
+        result.add(new String[] {""});
+        result.add(new String[] {text});
+        return result;
     }
   public String[] addPrefixSuffix(String[] text, String prefix, String suffix) {
     /* add each line to text with prefix and suffix */

@@ -40,16 +40,19 @@ class ManipulateText {
     public ArrayList<String[]> splitIntoWords(String text) {
         ArrayList<String> objects = new ArrayList<>();
         ArrayList<String> delimiters = new ArrayList<>();
-        Pattern lines_pattern = Pattern.compile("\\S+");
+        Pattern lines_pattern = Pattern.compile("[\\w']+");
         Matcher matcher = lines_pattern.matcher(text);
         int location = 0;
         while (matcher.find()) {
+            Println(matcher.start() + " - " + matcher.end() + " = " + matcher.group());
             delimiters.add(text.substring(location, matcher.start()));
-            location = matcher.end() + 1;
+            location = matcher.end();
             objects.add(matcher.group());
         }
-        delimiters.add(text.substring(location));
-        Println(delimiters.toString());
+        if(location < text.length())
+            delimiters.add(text.substring(location));
+        for(int i = 0; i < delimiters.size(); i++)
+            Println("delimiters.get(" + i + ") = " + delimiters.get(i));
         Println(objects.toString());
         Println(objects.size() + " lines detected");
         ArrayList<String[]> result = new ArrayList<>();
@@ -83,7 +86,7 @@ class ManipulateText {
   public String[] addPrefixSuffix(String[] text, String prefix, String suffix) {
     /* add each line to text with prefix and suffix */
     for(int i = 0; i < text.length; i++)
-      text[i] = prefix + text[i] + suffix + "\n";
+      text[i] = prefix + text[i] + suffix;
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")

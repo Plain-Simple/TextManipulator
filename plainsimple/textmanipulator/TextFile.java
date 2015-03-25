@@ -117,14 +117,14 @@ public class
         ManipulateText manip = new ManipulateText();
         System.out.println("Lines: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(manip.numberObjects(manip.splitIntoLines(file_text), "", ". "));
+        System.out.println(manip.numberObjects(manip.splitIntoLines(file_text).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
     public void printWords() {
         ManipulateText manip = new ManipulateText();
         System.out.println("Words: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(manip.numberObjects(manip.splitIntoWords(file_text), "", ". "));
+        System.out.println(manip.numberObjects(manip.splitIntoWords(file_text).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
     public void printChars() { /// not sure if this would ever be useful

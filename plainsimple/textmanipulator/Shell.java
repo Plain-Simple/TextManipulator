@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Shell {
     Options options = new Options();
     ManipulateText manip = new ManipulateText();
+    Settings settings = new Settings();
     public Shell(String[] args) {
         // debugging only
         Println("Command entered is " + new ArrayList<String>(Arrays.asList(args)).toString());
@@ -102,20 +103,21 @@ public class Shell {
     }
     /* executes command using command line object */
     private void executeCommand(CommandLine cmd) {
+        /* contains files to be manipulated */
         ArrayList<TextFile> files = new ArrayList<>();
-        /* need to know if function is executed on file or batch */
-        if(cmd.hasOption("f")) { /* read in the file */
-            Println("Reading in file...");
+        if(cmd.hasOption("f")) { /* read in file */
             TextFile read_file = new TextFile(cmd.getOptionValue("f"));
-            if(read_file.fileExists()) {
-                read_file.readFile();
+            if(read_file.isValid()) {
                 files.add(read_file);
-                Println("File exists and was added successfully");
             } else {
                 Println("Error: file does not exist or could not be accessed");
             }
-        } else if(cmd.hasOption("b")) { /* load batch */
-
+        } else if(cmd.hasOption("b")) { /* read in batch */
+            String batch_name = cmd.getOptionValue("b");
+            if(settings.batchExists(batch_name)) {
+                files = settings.getBatch("TextManipulator_Settings", batch_name).getFiles();
+            } else
+                Println("Error: batch does not exist or could not be accessed");
         } else { /* cannot execute function if file/batch is not specified */
             Println("Error: no file or batch specified");
         }
@@ -166,7 +168,7 @@ public class Shell {
             } else if (cmd.hasOption("merge")) {
                 function_args = cmd.getOptionValues("merge"); // todo: error handling, batch merge?
                 TextFile merge_file = new TextFile(function_args[0]);
-                if(merge_file.fileExists()) {
+                if(merge_file.isValid()) {
                    // manipulated_text = manip.mergeText(manipulated_text, )
                 }
 

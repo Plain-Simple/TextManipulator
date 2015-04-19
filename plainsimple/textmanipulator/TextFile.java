@@ -15,76 +15,85 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class
-  TextFile { // note: class renamed 'TextFile' to allow for usage of java.nio.file class
-  private String file_name;
-  private String file_text;
+  TextFile {
+  private String file_name = "";
+  private String file_text = "";
   private Path file_path;
+  public String getPath() {
+        return file_path.toString();
+    }
+  public String getFileText() {
+        return file_text;
+    }
+  public String getFileName() {
+        return file_name;
+    }
+  /* constructs textfile using path as a String */
   public TextFile(String path) {
     file_path = Paths.get(path).toAbsolutePath();
     file_name = file_path.getFileName().toString();
+    if(isValid())
+        readFile();
   }
+  /* constructs textfile using path */
   public TextFile(Path path) {
     file_path = path.toAbsolutePath();
     file_name = file_path.getFileName().toString();
+    if(isValid())
+        readFile();
   }
-  public TextFile(String name, String path) {
-    file_name = name;
-    file_path = Paths.get(path).toAbsolutePath();
+  /* sets text in textfile and rewrites */
+  public void setText(String[] text) {
+    file_text = "";
+    for(int i = 0; i < text.length; i++)
+        file_text += text[i];
+    writeFile();
   }
-    public void setText(String[] text) {
-        file_text = "";
-        for(int i = 0; i < text.length; i++)
-            file_text += text[i];
-    }
-    /* tries to create a bufferedreader object using this file's path */
-  public boolean fileExists() {
+  /* returns whether this file is a valid text file that exists and can be accessed */
+  public boolean isValid() {
     try {
-        BufferedReader test_reader = Files.newBufferedReader(file_path.toRealPath());
+        Files.newBufferedReader(file_path.toRealPath());
         return true; /* exists */
-    } catch(IOException e) {
+    } catch(IOException|SecurityException e) {
       return false;
     }
   }
-  public String getPath() {
-    return file_path.toString();
-  }
-  public void setPath(String path) {
-    file_path = Paths.get(path).toAbsolutePath();
-  }
-  public String getFileText() {
-    return file_text;
-  }
-  public String getFileName() {
-    return file_name;
-  }
+  /* reads file and returns whether it was read successfully */
   public boolean readFile() {
     String file = "";
     try (BufferedReader reader = Files.newBufferedReader(file_path)) {
-      String line = "";
+      String line;
+      int line_counter = 0;
       while ((line = reader.readLine()) != null) {
-        file += line + "\n"; // ToDo: fix so that a blank line is not inserted at the end
+        if(line_counter == 0)
+            file = line;
+        else
+            file += "\n" + line;
+        line_counter++;
       }
       file_text = file;
-    } catch (IOException x) {
+      return true;
+    } catch (IOException e) {
       return false;
     }
-    return true;
   }
-    /* writes file_text object to file */
+  /* writes file_text to file */
   public boolean writeFile() {
     try (BufferedWriter writer = Files.newBufferedWriter(file_path)) {
       writer.write(file_text, 0, file_text.length());
       return true;
-    } catch (IOException x) {
+    } catch (IOException e) {
       return false;
     }
   }
-  public boolean deleteFile() {
+  /* deletes file */
+  public boolean delete() {
     File file_to_delete = new File(file_path.toString());
     boolean delete_success = file_to_delete.delete();
     return delete_success;
   }
-    public boolean pasteIntoFile() { // Todo: fix bug where linebreaks are lost
+  /* pastes clipboard contents into file */
+  public boolean pasteIntoFile() { // Todo: fix bug where linebreaks are lost
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         /* get contents from clipboard (stored in a Transferable, which manages data transfer) */
         Transferable contents = clipboard.getContents(null);
@@ -94,12 +103,10 @@ public class
                 (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
         if (hasTransferableText) {
             try {
-                String clipboard_contents = (String)contents.getTransferData(DataFlavor.stringFlavor);
-                file_text = clipboard_contents;
-                boolean write_success = writeFile();
-                return write_success; /* returns true or false for whole operation */
-            } catch (UnsupportedFlavorException | IOException ex) {
-                System.out.println("Error: Could not paste contents into file. Operation aborted.");
+                file_text = (String)contents.getTransferData(DataFlavor.stringFlavor);
+                return writeFile(); /* returns true or false for file writing */
+            } catch (UnsupportedFlavorException|IOException e) {
+                System.out.println("Error: Could not access clipboard contents.");
                 return false;
             }
         } else {
@@ -107,12 +114,14 @@ public class
             return false;
         }
     }
+    /* prints contents of file in a presentable fashion */
     public void printFile() {
         System.out.println("File contents: ");
         System.out.println("---------------------------------------------------------");
         System.out.println(file_text);
         System.out.println("---------------------------------------------------------");
     }
+    /* prints contents of file with numbered lines */
     public void printLines() {
         ManipulateText manip = new ManipulateText();
         System.out.println("Lines: ");
@@ -120,6 +129,7 @@ public class
         System.out.println(manip.numberObjects(manip.splitIntoLines(file_text).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
+    /* prints contents of file with words numbered and on separate lines */
     public void printWords() {
         ManipulateText manip = new ManipulateText();
         System.out.println("Words: ");
@@ -127,7 +137,12 @@ public class
         System.out.println(manip.numberObjects(manip.splitIntoWords(file_text).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
-    public void printChars() { /// not sure if this would ever be useful
-
+    /* prints contents of file with chars numbered and on separate lines */
+    public void printChars() { // todo: improve this function
+        ManipulateText manip = new ManipulateText();
+        System.out.println("Chars: ");
+        System.out.println("---------------------------------------------------------");
+        System.out.println(manip.numberObjects(manip.splitIntoChars(file_text).get(1), "", ". "));
+        System.out.println("---------------------------------------------------------");
     }
 }

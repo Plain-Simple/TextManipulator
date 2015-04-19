@@ -16,8 +16,7 @@ class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
   /* create an array that holds each individual line */
-  public ArrayList<String[]> splitIntoLines(String text) { // todo: non-destructive split. One array for objects, one for delimiters
-      // todo: that can later be merged
+  public ArrayList<String[]> splitIntoLines(String text) {
       ArrayList<String> objects = new ArrayList<>();
       ArrayList<String> delimiters = new ArrayList<>();
       Pattern lines_pattern = Pattern.compile("[^\\r\\n]+");

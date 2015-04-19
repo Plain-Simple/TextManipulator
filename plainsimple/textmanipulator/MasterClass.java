@@ -13,15 +13,9 @@ class MasterClass {
      * longer in development and will
      * be discontinued by us soon  */
 
-    int RUN_INTERFACE = 3;
-    if (RUN_INTERFACE == 0) {
-      CLI cli = new CLI();
-      cli.startCLI();
-    } if (RUN_INTERFACE ==1) {
+    int RUN_INTERFACE = 1;
+    if (RUN_INTERFACE ==1) {
       JavaFXGUI.launch(JavaFXGUI.class, args);
-    } if (RUN_INTERFACE == 2) {
-      GUI_Old guiOld = new GUI_Old();
-      guiOld.startGUI();
     } if (RUN_INTERFACE == 3) {
           Shell shell = new Shell(args);
       }

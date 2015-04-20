@@ -10,8 +10,6 @@ public class Shell {
     ManipulateText manip = new ManipulateText();
     Settings settings = new Settings();
     public Shell(String[] args) {
-        // debugging only
-        Println("Command entered is " + new ArrayList<String>(Arrays.asList(args)).toString());
         CommandLineParser parser = new BasicParser();
         setUpOptions();
         try {
@@ -29,11 +27,14 @@ public class Shell {
         options.addOptionGroup(getFunctionGroup());
         options.addOptionGroup(getTextTypeGroup());
         options.addOptionGroup(getObjectGroup());
+        options.addOptionGroup(getBatchGroup());
+        options.addOption(getDestructiveOption());
+        options.addOption(getDoEmptyOption());
     }
     /* set up option group for main function */
     public OptionGroup getFunctionGroup() {
         OptionGroup function = new OptionGroup();
-        function.setRequired(true);
+        //function.setRequired(true);
         Option findreplace = new Option("findreplace", false, "regex find and replace");
         findreplace.setArgs(2);
         findreplace.setValueSeparator(' ');
@@ -70,7 +71,7 @@ public class Shell {
     /* set up option group to get batch or file name */
     private OptionGroup getTextTypeGroup() {
         OptionGroup object_type = new OptionGroup();
-        object_type.setRequired(true);
+        //object_type.setRequired(true);
         Option file = new Option("f", false, "file to manipulate");
         file.setArgs(1);
         object_type.addOption(file);
@@ -99,7 +100,16 @@ public class Shell {
         Option new_batch = new Option("new", false, "create a new batch with specified name");
         new_batch.setArgs(1);
         batch_commands.addOption(new_batch);
+        Option add_file = new Option("add", false, "add specified file to specified batch");
+        add_file.setArgs(2);
+        batch_commands.addOption(add_file);
         return batch_commands;
+    }
+    private Option getDestructiveOption() {
+        return new Option("destructive", false, "destroy delimiters?");
+    }
+    private Option getDoEmptyOption() {
+        return new Option("doEmpty", false, "execute on empty textobjects");
     }
     /* executes command using command line object */
     private void executeCommand(CommandLine cmd) {
@@ -118,6 +128,29 @@ public class Shell {
                 files = settings.getBatch("TextManipulator_Settings", batch_name).getFiles();
             } else
                 Println("Error: batch does not exist or could not be accessed");
+        } else if(cmd.hasOption("new")) {
+            FileBatch new_batch = new FileBatch(cmd.getOptionValue("new"));
+            settings.addBatch(new_batch);
+            Println("Created new filebatch \"" + new_batch.getName() + "\"");
+        } else if(cmd.hasOption("add")) {
+            String[] options = cmd.getOptionValues("add");
+            if(settings.batchExists(options[0])) { /* batch exists */
+                /* retrieve batch */
+                FileBatch specified_batch = settings.getBatch("TextManipulator_Settings", options[0]);
+                FileBatch new_batch = specified_batch;
+                Println(specified_batch.toString());
+                TextFile add_file = new TextFile(options[1]);
+                if (new_batch.addFile(add_file)) { /* false if textfile is invalid */
+                    Println(new_batch.toString());
+                    Println("File " + options[1] + " added successfully");
+                    if(settings.replaceBatch(specified_batch, new_batch))
+                        Println("updated");
+                    else
+                        Println("error updating");
+                } else
+                    Println("Error adding file. Please check to make sure it exists");
+            } else
+                Println("Error: specified batch does not exist");
         } else { /* cannot execute function if file/batch is not specified */
             Println("Error: no file or batch specified");
         }
@@ -126,9 +159,8 @@ public class Shell {
         for(int i = 0; i < files.size(); i++) {
             ArrayList<String[]> split_result;
             String[] manipulated_text;
-            String[] delimiters = new String[] {""};
+            String[] delimiters;
             String[] function_args;
-            boolean text_split = true; /* true if user designated to split text */
             if (cmd.hasOption("w")) {
                 split_result = manip.splitIntoWords(files.get(i).getFileText());
             } else if(cmd.hasOption("l")) {
@@ -143,7 +175,6 @@ public class Shell {
             //}
             else{
                 split_result = manip.getAsArray(files.get(i).getFileText());
-                text_split = false;
             }
             delimiters = split_result.get(0);
             manipulated_text = split_result.get(1);

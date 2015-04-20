@@ -9,6 +9,12 @@ import java.util.ArrayList;
 public class FileBatch {
   private ArrayList<TextFile> files = new ArrayList<>();
   private String name = "";
+  public FileBatch() {
+
+  }
+  public FileBatch(String name) {
+      this.name = name;
+  }
   /* constructs batch from String */
   public String constructBatch(String constructor) {
     if(constructor.equals(""))
@@ -58,11 +64,19 @@ public class FileBatch {
     } else
         return false;
   }
+  /* attempts to add textfile to batch */
+  public boolean addFile(TextFile add_file) {
+      if(add_file.isValid()) {
+          files.add(add_file);
+          return true;
+      } else
+          return false;
+  }
   /* returns String representation of batch */
   @Override public String toString() {
       String batch = name;
       for(int i = 0; i < files.size(); i++) {
-          batch += files.get(i).getPath() + "\n";
+          batch += "\n" + files.get(i).getPath();
       }
       return batch;
   }

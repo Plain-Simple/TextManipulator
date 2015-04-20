@@ -17,6 +17,16 @@ class Settings {
         batches.add(add);
         updateSettings("TextManipulator_Settings");
     }
+    /* replaces batch with updated batch */
+    public boolean replaceBatch(FileBatch old, FileBatch updated) {
+        System.out.println("batches.size() = " + batches.size());
+        if(batches.contains(old)) {
+            batches.remove(old);
+            addBatch(updated);
+            return true;
+        } else
+            return false;
+    }
     /* creates file with blank values */
     public void setDefaultSettings(String file_name) {
         try {
@@ -95,6 +105,7 @@ class Settings {
                 write_settings.write("----------");
                 write_settings.newLine();
                 write_settings.write(batches.get(i).toString());
+                write_settings.newLine();
             }
             write_settings.close();
         } catch(IOException e) {

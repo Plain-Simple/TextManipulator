@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class
   TextFile {
@@ -35,7 +37,7 @@ public class
     if(isValid())
         readFile();
   }
-  /* constructs textfile using path */
+  /* constructs textfile using path */ // todo: constructor should create the file
   public TextFile(Path path) {
     file_path = path.toAbsolutePath();
     file_name = file_path.getFileName().toString();
@@ -59,13 +61,18 @@ public class
   }
   /* sets text in textfile and rewrites */
   public void setText(String text) {
-      file_text = text;
-      writeFile();
+    file_text = text;
+    writeFile();
   }
   /* appends text to textfile and rewrites */
   public void appendText(String append) {
-      file_text += append;
-      writeFile();
+    file_text += append;
+    writeFile();
+  }
+  /* removes all text from file */
+  public boolean clear() {
+    file_text = "";
+    return writeFile();
   }
   /* returns whether this file is a valid text file that exists and can be accessed */
   public boolean isValid() {
@@ -97,6 +104,7 @@ public class
   }
   /* writes file_text to file */
   public boolean writeFile() {
+      System.out.println("File contents to write:\n" + file_text);
     try (BufferedWriter writer = Files.newBufferedWriter(file_path)) {
       writer.write(file_text, 0, file_text.length());
       return true;
@@ -109,6 +117,11 @@ public class
     File file_to_delete = new File(file_path.toString());
     boolean delete_success = file_to_delete.delete();
     return delete_success;
+  }
+  /* returns text of data file in an arraylist of lines */
+  public ArrayList<String> getLines() {
+      readFile();
+      return new ArrayList<>(Arrays.asList(file_text.split("\\r?\\n")));
   }
   /* pastes clipboard contents into file */
   public boolean pasteIntoFile() { // Todo: fix bug where linebreaks are lost

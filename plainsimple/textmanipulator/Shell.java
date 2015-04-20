@@ -125,7 +125,7 @@ public class Shell {
         } else if(cmd.hasOption("b")) { /* read in batch */
             String batch_name = cmd.getOptionValue("b");
             if(settings.batchExists(batch_name)) {
-                files = settings.getBatch("TextManipulator_Settings", batch_name).getFiles();
+                files = settings.getBatch(batch_name).getFiles();
             } else
                 Println("Error: batch does not exist or could not be accessed");
         } else if(cmd.hasOption("new")) {
@@ -136,17 +136,14 @@ public class Shell {
             String[] options = cmd.getOptionValues("add");
             if(settings.batchExists(options[0])) { /* batch exists */
                 /* retrieve batch */
-                FileBatch specified_batch = settings.getBatch("TextManipulator_Settings", options[0]);
+                FileBatch specified_batch = settings.getBatch(options[0]);
                 FileBatch new_batch = specified_batch;
-                Println(specified_batch.toString());
                 TextFile add_file = new TextFile(options[1]);
                 if (new_batch.addFile(add_file)) { /* false if textfile is invalid */
-                    Println(new_batch.toString());
-                    Println("File " + options[1] + " added successfully");
-                    if(settings.replaceBatch(specified_batch, new_batch))
-                        Println("updated");
+                    if(settings.replaceBatch(specified_batch, new_batch)) /* overwrite old batch */
+                        Println("File " + options[1] + " added successfully");
                     else
-                        Println("error updating");
+                        Println("Error adding file");
                 } else
                     Println("Error adding file. Please check to make sure it exists");
             } else

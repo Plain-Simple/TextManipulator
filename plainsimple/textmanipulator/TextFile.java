@@ -42,12 +42,30 @@ public class
     if(isValid())
         readFile();
   }
+  /* constructs textfile using path and writes text to it */
+  public TextFile(String path, String text) {
+      file_path = Paths.get(path).toAbsolutePath();
+      file_name = file_path.getFileName().toString();
+      file_text = text;
+      if(isValid())
+          writeFile();
+  }
   /* sets text in textfile and rewrites */
   public void setText(String[] text) {
     file_text = "";
     for(int i = 0; i < text.length; i++)
         file_text += text[i];
     writeFile();
+  }
+  /* sets text in textfile and rewrites */
+  public void setText(String text) {
+      file_text = text;
+      writeFile();
+  }
+  /* appends text to textfile and rewrites */
+  public void appendText(String append) {
+      file_text += append;
+      writeFile();
   }
   /* returns whether this file is a valid text file that exists and can be accessed */
   public boolean isValid() {

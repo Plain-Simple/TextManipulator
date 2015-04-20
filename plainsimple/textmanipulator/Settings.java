@@ -10,25 +10,57 @@ import java.util.Locale;
 class Settings {
     private final Messages messages = C10N.get(Messages.class, Locale.getDefault());
     private ArrayList<String> settings = new ArrayList<>();
-    private ArrayList<FileBatch> batches = new ArrayList<>();
+    /* name of file where data is stored */
+    private String file_name = "TextManipulator_Settings";
     public ArrayList<String> getSettings() { return settings; }
-    /* adds batch to stored batches and updates settings file */
-    public void addBatch(FileBatch add) {
-        batches.add(add);
-        updateSettings("TextManipulator_Settings");
+    public Settings() { /* checks to see if data file exists */
+        if(!new File(file_name).isFile())
+            setDefaultSettings(); /* if not, creates default data file */
     }
-    /* replaces batch with updated batch */
+    /* adds batch to data file */
+    public void addBatch(FileBatch add) {
+        TextFile data_file = new TextFile(file_name);
+        if(data_file.isValid()) {
+            data_file.appendText(add.toString());
+        } else
+            setDefaultSettings();
+    }
+    /* finds batch in data file and replaces it with updated batch */
     public boolean replaceBatch(FileBatch old, FileBatch updated) {
-        System.out.println("batches.size() = " + batches.size());
-        if(batches.contains(old)) {
-            batches.remove(old);
+        /* read in text from file, ignoring text that has to do with old file */
+        String to_keep = "";
+        try {
+            FileReader file = new FileReader(file_name);
+            BufferedReader read_settings = new BufferedReader(file);
+            String line;
+            int line_counter = 0;
+            boolean batch_found = false; /* batch to replace found */
+            while((line = read_settings.readLine()) != null) {
+                if (line.equals("----------")) /* signifies new batch */
+                    line_counter = 0;
+                if(line_counter == 1) { /* name of batch */
+                    if (line.equals(old.getName()))
+                        batch_found = true;
+                    else {
+                        batch_found = false;
+                        to_keep += "\n----------"; /* only add line if batch has not been found */
+                    }
+                }
+                if(!batch_found && !line.equals("----------"))
+                    to_keep += line;
+                line_counter++;
+            }
+            /* now need to write back to file */
+            TextFile data_file = new TextFile(file_name, to_keep);
             addBatch(updated);
             return true;
-        } else
+        } catch (IOException e) {
+            System.out.println(messages.error_writing_default_settings());
             return false;
+        }
     }
     /* creates file with blank values */
-    public void setDefaultSettings(String file_name) {
+    public void setDefaultSettings() {
         try {
             FileWriter file = new FileWriter(file_name);
             BufferedWriter write_settings = new BufferedWriter(file);
@@ -37,10 +69,9 @@ class Settings {
         } catch (IOException e) {
             System.out.println(messages.error_writing_default_settings());
         }
-        settings.add("");
     }
     /* returns arraylist containing names of all stored batches */
-    public ArrayList<String> getSavedBatches(String file_name) {
+    public ArrayList<String> getSavedBatches() {
         ArrayList<String> batch_names = new ArrayList<>();
         try {
             FileReader file = new FileReader(file_name);
@@ -56,17 +87,17 @@ class Settings {
                 line_counter++;
             }
         } catch (IOException e) {
-            setDefaultSettings(file_name);
+            setDefaultSettings();
         }
         return batch_names;
     }
     /* returns whether specified batch exists */
     public boolean batchExists(String batch_name) {
         return
-            getSavedBatches("TextManipulator_Settings").contains(batch_name);
+            getSavedBatches().contains(batch_name);
     }
     /* returns filebatch of specified name from storage */
-    public FileBatch getBatch(String file_name, String batch_name) {
+    public FileBatch getBatch(String batch_name) {
         try {
             FileReader file = new FileReader(file_name);
             BufferedReader read_settings = new BufferedReader(file);
@@ -79,9 +110,12 @@ class Settings {
                 if (line.equals("----------")) { /* signifies new batch */
                     line_counter = 0;
                 }
-                if (line_counter == 1)
+                if (line_counter == 1) {
                     if (line.equals(batch_name))
                         batch_found = true;
+                    else
+                        batch_found = false;
+                }
                 if (batch_found)
                     constructor += line;
                 line_counter++;
@@ -89,29 +123,9 @@ class Settings {
             System.out.println(batch.constructBatch(constructor));
             return batch;
         } catch (IOException e) {
-            setDefaultSettings(file_name);
+            setDefaultSettings();
             return new FileBatch();
         }
-    }
-    /* updates "TextManipulator_Settings" with new values from program - will be run every time the user changes settings */
-    public boolean updateSettings(String file_name) {
-        boolean write_success = true;
-        try {
-            FileWriter file = new FileWriter(file_name);
-            BufferedWriter write_settings = new BufferedWriter(file);
-            write_settings.write("Stored Batches:");
-            write_settings.newLine();
-            for(int i = 0; i < batches.size(); i++) {
-                write_settings.write("----------");
-                write_settings.newLine();
-                write_settings.write(batches.get(i).toString());
-                write_settings.newLine();
-            }
-            write_settings.close();
-        } catch(IOException e) {
-            write_success = false;
-        }
-        return write_success;
     }
 }
 

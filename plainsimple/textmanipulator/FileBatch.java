@@ -15,8 +15,8 @@ public class FileBatch {
   public FileBatch(String name) {
       this.name = name;
   }
-  /* constructs batch from String */
-  public String constructBatch(String constructor) {
+  /* constructs batch from String and sets this batch equal to it */
+  public String constructBatch(String constructor) { // todo: needs to be improved
     if(constructor.equals(""))
         return "Error: Batch does not exist";
     ArrayList<String> failed_paths = new ArrayList<>();

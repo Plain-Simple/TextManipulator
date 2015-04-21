@@ -1,14 +1,20 @@
 package plainsimple.textmanipulator;
 
+import c10n.C10N;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Shell {
-    Options options = new Options();
-    ManipulateText manip = new ManipulateText();
-    Settings settings = new Settings();
+    /* used to configure Apache cli */
+    private Options options = new Options();
+    /* used to access textmanipulation methods */
+    private static final ManipulateText manip = new ManipulateText();
+    /* used to access and write settings/data */
+    private Settings settings = new Settings();
+    /* used to access C10N messages */
+    private static final Messages msg = C10N.get(Messages.class);
     public Shell(String[] args) {
         CommandLineParser parser = new BasicParser();
         setUpOptions();
@@ -66,6 +72,9 @@ public class Shell {
         Option number = new Option("number", false, "numbers specified objects using user preferences");
         number.setArgs(2);
         function.addOption(number);
+        Option count = new Option("count", false, "counts number of specified textobject (use -w,-l,-c,-sep, etc.");
+        count.setArgs(1);
+        function.addOption(count);
         return function;
     }
     /* set up option group to get batch or file name */
@@ -95,7 +104,7 @@ public class Shell {
         object_type.addOption(sentences);
         return object_type;
     }
-    private OptionGroup getBatchGroup() {
+    private OptionGroup getBatchGroup() { // todo: many of these functions should be extended to files
         OptionGroup batch_commands = new OptionGroup();
         Option new_batch = new Option("new", false, "create a new batch with specified name");
         new_batch.setArgs(1);
@@ -103,6 +112,15 @@ public class Shell {
         Option add_file = new Option("add", false, "add specified file to specified batch");
         add_file.setArgs(2);
         batch_commands.addOption(add_file);
+        Option remove_duplicates = new Option("removeduplicates", false, "removes duplicate files from batch");
+        remove_duplicates.setArgs(1);
+        batch_commands.addOption(remove_duplicates);
+        Option rename = new Option("rename", false, "renames batch");
+        rename.setArgs(2);
+        batch_commands.addOption(rename);
+        Option delete = new Option("delete", false, "deletes batch");
+        delete.setArgs(1);
+        batch_commands.addOption(delete);
         return batch_commands;
     }
     private Option getDestructiveOption() {
@@ -120,18 +138,18 @@ public class Shell {
             if(read_file.isValid()) {
                 files.add(read_file);
             } else {
-                Println("Error: file does not exist or could not be accessed");
+                Println(msg.file_error(read_file.getFileName()));
             }
         } else if(cmd.hasOption("b")) { /* read in batch */
             String batch_name = cmd.getOptionValue("b");
             if(settings.batchExists(batch_name)) {
                 files = settings.getBatch(batch_name).getFiles();
             } else
-                Println("Error: batch does not exist or could not be accessed");
+                Println(msg.batch_error(batch_name));
         } else if(cmd.hasOption("new")) {
             FileBatch new_batch = new FileBatch(cmd.getOptionValue("new"));
             settings.addBatch(new_batch);
-            Println("Created new filebatch \"" + new_batch.getName() + "\"");
+            Println(msg.batch_created(new_batch.getName()));
         } else if(cmd.hasOption("add")) {
             String[] options = cmd.getOptionValues("add");
             if(settings.batchExists(options[0])) { /* batch exists */
@@ -141,15 +159,34 @@ public class Shell {
                 TextFile add_file = new TextFile(options[1]);
                 if (new_batch.addFile(add_file)) { /* false if textfile is invalid */
                     if(settings.replaceBatch(specified_batch, new_batch)) /* overwrite old batch */
-                        Println("File " + options[1] + " added successfully");
+                        Println(msg.file_added(add_file.getFileName(), new_batch.getName()));
                     else
                         Println("Error adding file");
                 } else
-                    Println("Error adding file. Please check to make sure it exists");
+                    Println(msg.file_error(add_file.getFileName()));
             } else
-                Println("Error: specified batch does not exist");
-        } else { /* cannot execute function if file/batch is not specified */
-            Println("Error: no file or batch specified");
+                Println(msg.batch_error(options[0]));
+        } else if(cmd.hasOption("removeduplicates")) {
+            String batch_name = cmd.getOptionValue("removeduplicates");
+            if(settings.batchExists(batch_name)) {
+                settings.replaceBatch(settings.getBatch(batch_name), settings.getBatch(batch_name).removeDuplicates());
+            } else
+                Println(msg.batch_error(batch_name));
+        } else if(cmd.hasOption("rename")) {
+            String[] batches = cmd.getOptionValues("rename");
+            if(settings.batchExists(batches[0])) {
+                settings.replaceBatch(settings.getBatch(batches[0]), settings.getBatch(batches[0]).rename(batches[1]));
+            } else
+                Println(msg.batch_error(batches[0]));
+        } else if(cmd.hasOption("delete")) {
+            String batch_name = cmd.getOptionValue("delete");
+            if(settings.batchExists(batch_name))
+                settings.removeBatch(settings.getBatch(batch_name));
+            else
+                Println(msg.batch_error(batch_name));
+        }
+        else { /* cannot execute function if file/batch is not specified */
+            Println(msg.no_target());
         }
         /* text objects to be manipulated */
 

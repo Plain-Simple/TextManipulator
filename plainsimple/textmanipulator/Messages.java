@@ -184,7 +184,18 @@ public interface Messages {
   @En("Error writing default settings")
   String error_writing_default_settings();
 
-  @En("Error: File does not exist in specified path or could not be accessed")
-  String error_reading_file();
+  @En("Error: file \"{0}\" does not exist in specified path or could not be accessed")
+  String file_error(String file_name);
 
+    @En("Error: batch \"{0}\" does not exist or could not be accessed")
+    String batch_error(String batch_name);
+
+    @En("Created new filebatch \"{0}\"")
+    String batch_created(String batch_name);
+
+    @En("File \"{0}\" added successfully to batch \"{1}\"")
+    String file_added(String file_name, String batch_name);
+
+    @En("Error: no file or batch specified")
+    String no_target();
 }

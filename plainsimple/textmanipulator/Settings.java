@@ -40,38 +40,23 @@ class Settings {
         else {
             data.remove(index - 1); /* remove "----------" in line above */
             index--;
-            while(index <= data.size() - 1 && (!data.get(index).equals("----------"))) {
+            while(index <= data.size() - 1 && (!data.get(index).equals("----------"))) { // todo: removerange
                 data.remove(index);
             }
+            for(int i = 0; i < data.size() - 1; i++) // todo: testing. Why are linebreaks lost without this?
+                data.set(i, data.get(i) + "\n");
             data_file.setText(data.toArray(new String[data.size()]));
-            data_file.appendText("\n----------\n" + remove.toString());
             return true;
         }
     }
     /* finds batch in data file and replaces it with updated batch */
     public boolean replaceBatch(FileBatch old, FileBatch updated) {
-        TextFile data_file = new TextFile(file_name);
-        /* read in data file and split into an array of lines */
-        ArrayList<String> data = data_file.getLines();
-        System.out.println("\nStarting data: \n" + data.toString());
-        int old_index = data.indexOf(old.getName());
-        if(old_index <= 0) /* old filebatch not found in data file */
-            return false;
-        else {
-            data.remove(old_index - 1); /* remove "----------" in line above */
-            System.out.println("\nRemoved line break:\n" + data.toString());
-            old_index--;
-            while(old_index <= data.size() - 1 && (!data.get(old_index).equals("----------"))) {
-                data.remove(old_index);
-                System.out.println("\nRemoved line:\n" + data.toString());
-            }
-            System.out.println("\nFinal file before addition:\n");
-            for(int i = 0; i < data.size() - 1; i++) // todo: testing. Why are linebreaks lost without this?
-                data.set(i, data.get(i) + "\n");
-            data_file.setText(data.toArray(new String[data.size()]));
+        if(removeBatch(old)) {
+            TextFile data_file = new TextFile(file_name);
             data_file.appendText("\n----------\n" + updated.toString());
             return true;
-        }
+        } else
+            return false;
     }
     /* creates file with blank values */
     public void setDefaultSettings() {
@@ -95,23 +80,6 @@ class Settings {
             data.remove(index); /* remove separator */
             index = data.indexOf("----------");
         }
-        /*ArrayList<String> batch_names = new ArrayList<>();
-        try {
-            FileReader file = new FileReader(file_name);
-            BufferedReader read_settings = new BufferedReader(file);
-            String line;
-            int line_counter = 0;
-            while((line = read_settings.readLine()) != null) {
-                if (line.equals("----------")) { /* signifies new batch */
-        /*            line_counter = 0;
-                }
-                if(line_counter == 1) /* name of batch */
-        /*            batch_names.add(line);
-                line_counter++;
-            }
-        } catch (IOException e) {
-            setDefaultSettings();
-        } */
         return batch_names;
     }
     /* returns whether specified batch exists */
@@ -133,39 +101,10 @@ class Settings {
                 constructor += "\n" + data.get(index);
                 index++;
             }
-            System.out.println("Constructor is :\n" + constructor);
             FileBatch constructed_batch = new FileBatch();
-            constructed_batch.constructBatch(constructor);
+            System.out.println(constructed_batch.constructBatch(constructor));
             return constructed_batch;
         }
-        /*try {
-            FileReader file = new FileReader(file_name);
-            BufferedReader read_settings = new BufferedReader(file);
-            String line;
-            String constructor = "";
-            FileBatch batch = new FileBatch();
-            boolean batch_found = false;
-            int line_counter = 0;
-            while((line = read_settings.readLine()) != null) { // todo: far from perfect
-                if (line.equals("----------")) { /* signifies new batch */
-        /*            line_counter = 0;
-                }
-                if (line_counter == 1) {
-                    if (line.equals(batch_name))
-                        batch_found = true;
-                    else
-                        batch_found = false;
-                }
-                if (batch_found)
-                    constructor += line;
-                line_counter++;
-            }
-            System.out.println(batch.constructBatch(constructor));
-            return batch;
-        } catch (IOException e) {
-            setDefaultSettings();
-            return new FileBatch();
-        } */
     }
 }
 

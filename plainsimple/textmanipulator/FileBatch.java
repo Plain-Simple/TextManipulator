@@ -2,6 +2,7 @@ package plainsimple.textmanipulator;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class FileBatch {
   public FileBatch(String name) {
       this.name = name;
   }
+  /* sets name to new value */
+  public FileBatch rename(String new_name) { name = new_name; return this; }
   /* constructs batch from String and sets this batch equal to it */
   public String constructBatch(String constructor) { // todo: needs to be improved
     if(constructor.equals(""))
@@ -23,8 +26,11 @@ public class FileBatch {
     String[] lines = constructor.split("\\n|\\r");
     name = lines[0];
     for(int i = 1; i < lines.length; i++) {
-        if(!addFile(Paths.get(lines[i]))) /* couldn't add file */
-            failed_paths.add(lines[i]);
+        try{
+            addFile(Paths.get(lines[i]));
+        } catch(InvalidPathException e) {
+            failed_paths.add(lines[i]); /* invalid path */
+        }
     }
     if(failed_paths.size() == 0)
         return "Batch " + name + " loaded successfully";
@@ -71,6 +77,16 @@ public class FileBatch {
           return true;
       } else
           return false;
+  }
+  /* removes all duplicate files in batch */
+  public FileBatch removeDuplicates() {
+      for(int i = 0; i < files.size(); i++) {
+          for(int j = 1; j < files.size(); j++) {
+              if (files.get(j).getPath().equals(files.get(i).getPath()))
+                  files.remove(j);
+          }
+      }
+      return this;
   }
   /* returns String representation of batch */
   @Override public String toString() {

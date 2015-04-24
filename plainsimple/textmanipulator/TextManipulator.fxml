@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.textmanipulator.GUI">
    <bottom>
       <Pane prefHeight="55.0" prefWidth="937.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,7 +44,7 @@
                               <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" prefHeight="25.0" prefWidth="136.0" />
                               <TextField fx:id="to_replace" layoutX="71.0" layoutY="47.0" prefHeight="25.0" prefWidth="116.0" />
                               <TextField fx:id="to_remove" layoutX="71.0" layoutY="81.0" prefHeight="25.0" prefWidth="117.0" />
-                              <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" text="Force Uppercase" />
+                              <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" onAction="#uppercaseAction" text="Force Uppercase" />
                               <Button fx:id="to_lowercase" layoutX="13.0" layoutY="149.0" mnemonicParsing="false" text="Force Lowercase" />
                            </children>
                         </AnchorPane>
@@ -57,7 +57,7 @@
                               <Button fx:id="prefix" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Prefix" />
                               <Button fx:id="suffix" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Suffix" />
                               <Button fx:id="remove_punctuation" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" text="Remove Punctuation" />
-                              <Button fx:id="remove_extra_spaces" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" text="Remove Extra Spaces" />
+                              <Button fx:id="remove_extra_spaces" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" text="Remove Extra Whitespace" />
                               <Button fx:id="remove_whitespace" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" text="Remove All Whitespace" />
                               <TextField fx:id="to_prefix" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="121.0" />
                               <TextField fx:id="to_suffix" layoutX="60.0" layoutY="46.0" prefHeight="25.0" prefWidth="121.0" />
@@ -90,7 +90,7 @@
                               <Button fx:id="configure_accents" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Configure Accents" />
                               <CheckBox fx:id="wrap_text" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" text="Wrap Text" />
                               <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting:" />
-                              <RadioButton fx:id="sort_highlow" layoutX="57.0" layoutY="70.0" mnemonicParsing="false" text="High to Low" />
+                              <RadioButton fx:id="sort_highlow" layoutX="57.0" layoutY="70.0" mnemonicParsing="false" selected="true" text="High to Low" />
                               <RadioButton fx:id="sort_lowhigh" layoutX="57.0" layoutY="95.0" mnemonicParsing="false" text="Low to High" />
                            </children>
                         </AnchorPane>

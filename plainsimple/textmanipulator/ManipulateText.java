@@ -15,7 +15,7 @@ import java.util.regex.PatternSyntaxException;
 class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
-  /* create an array that holds each individual line */
+  /* split into lines */
   public ArrayList<String[]> splitIntoLines(String text) {
       ArrayList<String> objects = new ArrayList<>();
       ArrayList<String> delimiters = new ArrayList<>();
@@ -36,6 +36,7 @@ class ManipulateText {
       result.add(objects.toArray(new String[objects.size()]));
       return result;
   }
+    /* split into words */
     public ArrayList<String[]> splitIntoWords(String text) {
         ArrayList<String> objects = new ArrayList<>();
         ArrayList<String> delimiters = new ArrayList<>();
@@ -60,6 +61,7 @@ class ManipulateText {
         return result;
         //return text.split("\\W+"); /* splits at non-word characters */
     }
+    /* split into chars */
     public ArrayList<String[]> splitIntoChars(String text) {
         String[] objects = new String[text.length()];
         String[] delimiters = new String[text.length()];
@@ -72,6 +74,25 @@ class ManipulateText {
         result.add(objects);
         return result;
         //return text.split(".");
+    }
+    public ArrayList<String[]> splitBySeparator(String text, String separator) {
+        // String[] split_text = text.split(separator);
+        ArrayList<String> objects = new ArrayList<>();
+        ArrayList<String> delimiters = new ArrayList<>();
+            Pattern separator_pattern = Pattern.compile(separator);
+            Matcher matcher = separator_pattern.matcher(text);
+            int location = 0;
+            while(matcher.find()) {
+                delimiters.add(text.substring(location, matcher.start() - 1));
+                objects.add(matcher.group());
+                location = matcher.end();
+            }
+            if(location != text.length() - 1)
+                delimiters.add(text.substring(location));
+            ArrayList<String[]> result = new ArrayList<>();
+            result.add(delimiters.toArray(new String[delimiters.size()]));
+            result.add(objects.toArray(new String[objects.size()]));
+            return result;
     }
     /* puts each individual sentence on a separate line */
     //public ArrayList<String[]> splitIntoSentences(String text) { // todo: fix this function
@@ -90,7 +111,7 @@ class ManipulateText {
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] removeDuplicateObjects(String text[]) {
+  public String[] removeDuplicateObjects(String text[]) { // todo: refactor this
     ArrayList<Integer> duplicates = new ArrayList<>();
     ArrayList<String> result = new ArrayList<>();
     for(int i = 0; i < text.length; i++) {
@@ -188,7 +209,7 @@ class ManipulateText {
           for(int i = 0; i < text.length; i++) {
               Matcher matcher = expression_to_find.matcher(text[i]);
               while (matcher.find()) {
-                  result[i] = text[i].substring(0, matcher.start()) + text[i].substring(matcher.end());
+                  result[i] = text[i].substring(0, matcher.start()) + result + text[i].substring(matcher.end());
                   instances++;
                   found = true;
               }
@@ -209,28 +230,15 @@ class ManipulateText {
       }
       return text;
   }
-  public String commaSeparateValues(String text) {
-      return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
-  }
+  //public String commaSeparateValues(String text) {
+  //    return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
+  //}
     public String removeLineBreaks(String text, boolean format_spacing) { // Todo: add a setting for this
         if(format_spacing) /* removes line breaks and formats spacing correctly */
             return text.replace("\n", " ").replace("\r", ""); /// weird spacing issues need to be fixed. Some spaces get lost.
         else /* simply removes line breaks */
             return text.replace("\n", "").replace("\r", "");
     }
-  public String splitBySeparator(String text, String separator) {
-      try {
-          String[] split_text = text.split(separator);
-          String result = split_text[0];
-          for(int i = 1; i < split_text.length; i++) {
-              result += "\n" + separator + split_text[i];
-          }
-          return result;
-  } catch(PatternSyntaxException e) {
-        Println("Error: Expression to find is invalid (regex).");
-          return text;
-    }
-  }
     /* duplicates specified object (line/word/char) a specified number of times */
     public String duplicateObject(String text[], int element_number, int num_repetitions) {
         String result = "";
@@ -281,8 +289,10 @@ class ManipulateText {
       return text.replaceAll("\\s+", " ").trim();
   }
   /* removes all non-letter and non-numbers, leaves spaces */
-  public String removePunctuation(String text) {
-      return text.replaceAll("\\W", "");
+  public String[] removePunctuation(String text[]) {
+      for(int i = 0; i < text.length; i++)
+          text[i] = text[i].replaceAll("\\W", "");
+      return text;
   }
 
 

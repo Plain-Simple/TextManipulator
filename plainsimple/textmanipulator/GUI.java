@@ -2,6 +2,7 @@ package plainsimple.textmanipulator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
@@ -11,8 +12,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class GUI {
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+public class GUI implements Initializable {
+    private ManipulateText manip = new ManipulateText();
+    private int caret_location = 0; /* cursor location in textarea */
     @FXML private Button prefix;
     @FXML private Button replace;
     @FXML private Button accent_9;
@@ -67,8 +73,120 @@ public class GUI {
     @FXML private Button configure_accents;
     @FXML private Button frequencies;
     @FXML private TextField to_prefix;
-    @FXML void ff0808(ActionEvent event) {
+    @FXML void ff0808(ActionEvent event) {}
 
+    @Override // This method is called by the FXMLLoader when initialization is complete
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
+    }
+    /* returns text as a simple String (no processing) */
+    private String[] getSimpleText() { return new String[] {text.getText()}; }
+    /* returns processed and split text */
+    private ArrayList<String[]> getText() {
+        String[] manipulated_text;
+        String[] delimiters;
+        ArrayList<String[]> split_result;
+        switch(getTarget()) {
+            case "words":
+                split_result = manip.splitIntoWords(text.getText());
+                break;
+            case "lines":
+                split_result = manip.splitIntoLines(text.getText());
+                break;
+            case "chars":
+                split_result = manip.splitIntoChars(text.getText());
+                break;
+            case "sep":
+                split_result = manip.splitBySeparator(text.getText(), getSeparator());
+                break;
+            default:
+                split_result = manip.getAsArray(text.getText());
+        }
+        return split_result;
+    }
+    /* returns "target" of function (words, lines, chars, etc.) */
+    private String getTarget() {
+        if(exec_w.isSelected())
+            return "words";
+        else if(exec_l.isSelected())
+            return "lines";
+        else if(exec_c.isSelected())
+            return "chars";
+        else if(exec_sep.isSelected())
+            return "sep";
+        else
+            return "all";
+    }
+    /* returns user-defined separator */
+    private String getSeparator() { return separator.getText(); }
+    /* returns user-defined prefix */
+    private String getPrefix() { return to_prefix.getText(); }
+    /* returns user-defined suffix */
+    private String getSuffix() { return to_suffix.getText(); }
+    /* sets text in textarea */
+    private void setText(String s) { text.setText(s); }
+    /* sets text in textarea from String array */
+    private void setText(String[] s) {
+        String result = "";
+        for(int i = 0; i < s.length; i++)
+            result += s[i];
+        text.setText(result);
+    }
+    /* returns focus to textarea and puts caret in proper place */
+    private void returnFocus() { text.requestFocus(); text.positionCaret(caret_location); }
+    /* find */
+    @FXML private void findAction() {
+        returnFocus();
+    }
+    @FXML private void replaceAction() {
+        returnFocus();
+    }
+    @FXML private void removeAction() {
+        returnFocus();
+    }
+    @FXML private void uppercaseAction() {
+        setText(manip.forceUppercase(getSimpleText()));
+        returnFocus();
+    }
+    @FXML private void lowercaseAction() {
+        setText(manip.forceLowercase(getSimpleText()));
+        returnFocus();
+    }
+    @FXML private void prefixAction() { // todo: get this working
+        ArrayList<String[]> objects = getText();
+        objects.set(1, manip.addPrefixSuffix(getText().get(1), getPrefix(), ""));
+        setText(manip.mergeText(objects.get(0), objects.get(1)));
+        returnFocus();
+    }
+    @FXML private void suffixAction() {
+        ArrayList<String[]> objects = getText();
+        objects.set(1, manip.addPrefixSuffix(getText().get(1), "", getSuffix()));
+        setText(manip.mergeText(objects.get(0), objects.get(1)));
+        returnFocus();
+    }
+    @FXML private void removePunctuationAction() {
+        setText(manip.removePunctuation(getSimpleText()));
+        returnFocus();
+    }
+    /* remove extra whitespace */
+    @FXML private void trimAction() {
+
+        returnFocus();
+    }
+    @FXML private void scrambleAction() {
+        returnFocus();
+    }
+    @FXML private void sortAction() {
+        returnFocus();
+    }
+    @FXML private void countAction() {
+        returnFocus();
+    }
+    @FXML private void numberAction() {
+        returnFocus();
+    }
+    @FXML private void frequenciesAction() {
+        returnFocus();
     }
 
 }

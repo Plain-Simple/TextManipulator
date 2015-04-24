@@ -1,22 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.textmanipulator.JavaFXGUI">
-   <children>
-      <GridPane maxHeight="1.7976931348623157E308" prefHeight="900.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="32.0" minHeight="32.0" prefHeight="32.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="575.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <Pane prefHeight="55.0" prefWidth="937.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar useSystemMenuBar="true">
+            <HBox layoutX="199.0" layoutY="-1.0" prefHeight="31.0" prefWidth="610.0">
+               <children>
+                  <Button fx:id="import_file" mnemonicParsing="false" text="Import File" />
+                  <TextField editable="false" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </bottom>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="177.0" prefWidth="202.0">
+               <children>
+                  <Text fx:id="title" fill="#ff0808" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TextManipulator" wrappingWidth="201.9892578125">
+                     <font>
+                        <Font name="Arial Black" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Accordion prefHeight="412.0" prefWidth="202.0">
+              <panes>
+                <TitledPane prefHeight="210.0" prefWidth="202.0" text="Standard Functions">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="find" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" text="Find" />
+                              <Button fx:id="replace" layoutX="12.0" layoutY="47.0" mnemonicParsing="false" text="Replace" />
+                              <Button fx:id="remove" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" text="Remove" />
+                              <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" prefHeight="25.0" prefWidth="136.0" />
+                              <TextField fx:id="to_replace" layoutX="71.0" layoutY="47.0" prefHeight="25.0" prefWidth="116.0" />
+                              <TextField fx:id="to_remove" layoutX="71.0" layoutY="81.0" prefHeight="25.0" prefWidth="117.0" />
+                              <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" text="Force Uppercase" />
+                              <Button fx:id="to_lowercase" layoutX="13.0" layoutY="149.0" mnemonicParsing="false" text="Force Lowercase" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane text="More Functions">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="prefix" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Prefix" />
+                              <Button fx:id="suffix" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Suffix" />
+                              <Button fx:id="remove_punctuation" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" text="Remove Punctuation" />
+                              <Button fx:id="remove_extra_spaces" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" text="Remove Extra Spaces" />
+                              <Button fx:id="remove_whitespace" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" text="Remove All Whitespace" />
+                              <TextField fx:id="to_prefix" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="121.0" />
+                              <TextField fx:id="to_suffix" layoutX="60.0" layoutY="46.0" prefHeight="25.0" prefWidth="121.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane text="Advanced Functions">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="261.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="scramble" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Scramble" />
+                              <Button fx:id="sort" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Sort" />
+                              <Button fx:id="count" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" text="Count" />
+                              <Button fx:id="number" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" text="Number" />
+                              <Button fx:id="frequencies" layoutX="13.0" layoutY="145.0" mnemonicParsing="false" text="Get Frequencies" />
+                              <TextField fx:id="number_prefix" layoutX="73.0" layoutY="113.0" prefHeight="25.0" prefWidth="28.0" />
+                              <TextField fx:id="number_suffix" layoutX="152.0" layoutY="113.0" prefHeight="25.0" prefWidth="30.0" />
+                              <Text layoutX="101.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Number]" />
+                              <RadioButton fx:id="alphabetic_sort" layoutX="64.0" layoutY="40.0" mnemonicParsing="false" text="Alphabetically" />
+                              <RadioButton fx:id="numeric_sort" layoutX="64.0" layoutY="65.0" mnemonicParsing="false" text="By Size" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Settings">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="configure_accents" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Configure Accents" />
+                              <CheckBox fx:id="wrap_text" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" text="Wrap Text" />
+                              <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting:" />
+                              <RadioButton fx:id="sort_highlow" layoutX="57.0" layoutY="70.0" mnemonicParsing="false" text="High to Low" />
+                              <RadioButton fx:id="sort_lowhigh" layoutX="57.0" layoutY="95.0" mnemonicParsing="false" text="Low to High" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+            <Line endX="100.0" startX="-100.0" />
+            <FlowPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Execute on...." wrappingWidth="183.044921875">
+                     <font>
+                        <Font name="Arial Black" size="15.0" />
+                     </font>
+                  </Text>
+                  <CheckBox fx:id="exec_w" mnemonicParsing="false" prefHeight="17.0" prefWidth="135.0" text="Words" />
+                  <CheckBox fx:id="exec_l" mnemonicParsing="false" prefHeight="17.0" prefWidth="132.0" text="Lines" />
+                  <CheckBox fx:id="exec_c" mnemonicParsing="false" prefHeight="17.0" prefWidth="135.0" text="Chars" />
+                  <CheckBox fx:id="exec_sep" mnemonicParsing="false" text="Separator" />
+                  <TextField fx:id="separator" prefHeight="0.0" prefWidth="126.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </TextField>
+                  <Line endX="100.0" startX="-100.0" />
+                  <CheckBox fx:id="remove_delims" mnemonicParsing="false" text="Remove Delimiters" />
+                  <Line endX="100.0" startX="-100.0" />
+               </children>
+            </FlowPane>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="405.0" prefWidth="129.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="38.0" prefWidth="129.0" />
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="col_1" prefWidth="75.0" text="Analytics" />
+                  <TableColumn fx:id="col_2" prefWidth="75.0" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <FlowPane prefHeight="462.0" prefWidth="646.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="accent_1" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="a" />
+            <Button fx:id="accent_2" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="b" />
+            <Button fx:id="accent_3" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="c" />
+            <Button fx:id="accent_4" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="d" />
+            <Button fx:id="accent_5" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="e" />
+            <Button fx:id="accent_6" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="f" />
+            <Button fx:id="accent_7" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="g" />
+            <Button fx:id="accent_8" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="h" />
+            <Button fx:id="accent_9" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="i" />
+            <Button fx:id="accent_10" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="j" />
+            <Button fx:id="accent_11" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="k" />
+            <Button fx:id="accent_12" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="l" />
+            <Button fx:id="accent_13" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="m" />
+            <Button fx:id="accent_14" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="n" />
+            <TextArea fx:id="text" prefHeight="386.0" prefWidth="616.0" />
+         </children>
+      </FlowPane>
+   </center>
+   <top>
+      <FlowPane prefHeight="25.0" prefWidth="937.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="937.0">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -25,10 +169,10 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Cut" accelerator="Ctrl+X" />
-                    <MenuItem mnemonicParsing="false" text="Copy" accelerator="Ctrl+C" />
-                    <MenuItem mnemonicParsing="false" text="Paste" accelerator="Ctrl+V" />
                     <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -38,125 +182,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <SplitPane dividerPositions="0.20351758793969849" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-              <items>
-                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="64.0" prefWidth="160.0">
-                     <children>
-                        <GridPane minHeight="-Infinity" prefHeight="64.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text Manipulator" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                     <children>
-                        <SplitPane dividerPositions="0.29797979797979796" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                 <children>
-                                    <Accordion maxHeight="1.7976931348623157E308">
-                                      <panes>
-                                        <TitledPane animated="false" text="Basic Tools">
-                                          <content>
-                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                          </content>
-                                        </TitledPane>
-                                        <TitledPane animated="false" text="Line Functions">
-                                          <content>
-                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                          </content>
-                                        </TitledPane>
-                                        <TitledPane animated="false" text="Word Functions">
-                                          <content>
-                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                          </content>
-                                        </TitledPane>
-                                          <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Find &amp; Replace">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                             </content>
-                                          </TitledPane>
-                                          <TitledPane animated="false" layoutX="10.0" layoutY="85.0" text="Settings">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                             </content>
-                                          </TitledPane>
-                                      </panes>
-                                    </Accordion>
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                 <children>
-                                    <SplitPane dividerPositions="0.7142857142857143" prefHeight="311.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                             <children>
-                                                <SplitPane dividerPositions="0.8304721030042919" layoutX="36.0" layoutY="44.0" orientation="VERTICAL" prefHeight="468.0" prefWidth="391.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <items>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                                         <children>
-                                                            <TextArea fx:id="mainText" layoutX="-21.0" layoutY="169.0" onKeyTyped="#updateTextAnalysis" prefHeight="383.0" prefWidth="389.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                         </children>
-                                                      </AnchorPane>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                                                  </items>
-                                                </SplitPane>
-                                             </children>
-                                          </AnchorPane>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                             <children>
-                                                <GridPane prefHeight="207.0" prefWidth="154.0" AnchorPane.bottomAnchor="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
-                                                    <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints maxHeight="92.0" minHeight="0.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
-                                                   <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text Analysis" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                                         <font>
-                                                            <Font size="20.0" />
-                                                         </font>
-                                                      </Text>
-                                                      <Label text="Words" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                      <Label layoutX="10.0" layoutY="129.0" text="Chars" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                                                      <Label layoutX="10.0" layoutY="62.0" text="Sentences" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                                      <Label layoutX="10.0" layoutY="62.0" text="Lines" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-                                                      <TextField fx:id="wordCount" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                      <TextField fx:id="charCount" editable="false" layoutX="87.0" layoutY="51.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                                                      <TextField fx:id="sentenceCount" editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                                      <TextField fx:id="lineCount" editable="false" layoutX="10.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="64.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-                                                   </children>
-                                                </GridPane>
-                                             </children>
-                                          </AnchorPane>
-                                      </items>
-                                    </SplitPane>
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
          </children>
-      </GridPane>
-   </children>
-</AnchorPane>
+      </FlowPane>
+   </top>
+</BorderPane>

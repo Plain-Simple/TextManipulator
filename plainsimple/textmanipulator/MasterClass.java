@@ -13,7 +13,7 @@ class MasterClass {
      * longer in development and will
      * be discontinued by us soon  */
 
-    int RUN_INTERFACE = 3;
+    int RUN_INTERFACE = 1;
     if (RUN_INTERFACE ==1) {
       JavaFXGUI.launch(JavaFXGUI.class, args);
     } if (RUN_INTERFACE == 3) {

@@ -18,11 +18,10 @@ import java.util.Locale;
 public class JavaFXGUI extends Application {
   private static final Messages messages = C10N.get(Messages.class, Locale.getDefault());
   /* code to start GUI: */
-  @Override
-  public void start(Stage primaryStage) throws Exception {
+  @Override public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("TextManipulator.fxml"));
     primaryStage.setTitle(messages.program_full_name());
-        primaryStage.setScene(new Scene(root));
+    primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
 
@@ -37,7 +36,7 @@ public class JavaFXGUI extends Application {
   @FXML private TextField charCount;
   @FXML private TextField lineCount;
   @FXML private TextField sentenceCount;
-  AnalyzeText textStats = new AnalyzeText();
+  AnalyzeText analyze = new AnalyzeText();
   @FXML private void updateTextAnalysis(ActionEvent e) {
     /* gets wordcount using AnalyzeText class, converts it to a string, and sets
        the text of the wordcount box to that string */

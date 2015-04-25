@@ -1,5 +1,7 @@
 package plainsimple.textmanipulator;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -78,6 +80,35 @@ public class GUI implements Initializable {
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
+        /* set up target checkboxes to be mutually exclusive */
+        exec_w.selectedProperty().addListener(new ChangeListener<Boolean>() { // todo: fix!
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                exec_c.setSelected(false);
+                exec_sep.setSelected(false);
+                exec_l.setSelected(false);
+            }
+        });
+        exec_c.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                exec_w.setSelected(false);
+                exec_sep.setSelected(false);
+                exec_l.setSelected(false);
+            }
+        });
+        exec_l.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                exec_c.setSelected(false);
+                exec_sep.setSelected(false);
+                exec_w.setSelected(false);
+            }
+        });
+        exec_sep.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                exec_c.setSelected(false);
+                exec_w.setSelected(false);
+                exec_l.setSelected(false);
+            }
+        });
     }
     /* returns text as a simple String (no processing) */
     private String[] getSimpleText() { return new String[] {text.getText()}; }
@@ -168,9 +199,13 @@ public class GUI implements Initializable {
         setText(manip.removePunctuation(getSimpleText()));
         returnFocus();
     }
+    @FXML private void removeAllWhitespaceAction() {
+        setText(manip.removeWhitespace(getSimpleText()));
+        returnFocus();
+    }
     /* remove extra whitespace */
     @FXML private void trimAction() {
-
+        setText(manip.removeExtraWhitespace(getSimpleText()));
         returnFocus();
     }
     @FXML private void scrambleAction() {

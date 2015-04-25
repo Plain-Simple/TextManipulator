@@ -285,16 +285,29 @@ class ManipulateText {
     //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
     return (int) Math.floor(Math.random() * (upper_bound + 1));
   }
-  public String removeExtraWhitespace(String text) { // note: removes tabs and linebreaks
-      return text.replaceAll("\\s+", " ").trim();
+  public String[] removeExtraWhitespace(String[] text) { // note: removes tabs and linebreaks
+      for(int i = 0; i < text.length; i++)
+          text[i] = text[i].replaceAll("\\s+", " ").trim();
+      return text;
+  }
+  /* removes all whitespace */
+  public String[] removeWhitespace(String[] text) {
+      for(int i = 0; i < text.length; i++)
+          text[i] = text[i].replaceAll("\\s", "");
+      return text;
   }
   /* removes all non-letter and non-numbers, leaves spaces */
   public String[] removePunctuation(String text[]) {
       for(int i = 0; i < text.length; i++)
-          text[i] = text[i].replaceAll("\\W", "");
+          text[i] = text[i].replaceAll("[^\\w\\s]", "");
       return text;
   }
-
+  /* reverses chars of each textobject */
+  public String[] reverse(String[] text) {
+      for(int i = 0; i < text.length; i++)
+          text[i] = new StringBuilder(text[i]).reverse().toString();
+      return text;
+  }
 
   public String[] forceUppercase(String text[]) {
     for(int i = 0; i < text.length; i++)

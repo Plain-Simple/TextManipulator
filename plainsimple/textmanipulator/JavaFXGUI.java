@@ -24,26 +24,4 @@ public class JavaFXGUI extends Application {
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
-
-  /* actual GUI logic: */
-
-  @FXML private TextArea mainText;
-
-  /* Text Analysis: */
-
-
-  @FXML private TextField wordCount;
-  @FXML private TextField charCount;
-  @FXML private TextField lineCount;
-  @FXML private TextField sentenceCount;
-  AnalyzeText analyze = new AnalyzeText();
-  @FXML private void updateTextAnalysis(ActionEvent e) {
-    /* gets wordcount using AnalyzeText class, converts it to a string, and sets
-       the text of the wordcount box to that string */
-    /*wordCount.setText(Integer.toString(textStats.wordCount(mainText.getText())));
-    charCount.setText(Integer.toString(textStats.CharCount(mainText.getText())));
-    lineCount.setText(Integer.toString(textStats.lineCount(mainText.getText())));
-    sentenceCount.setText(Integer.toString(textStats.SentenceCount(mainText.getText()))); */
-  }
-
 }

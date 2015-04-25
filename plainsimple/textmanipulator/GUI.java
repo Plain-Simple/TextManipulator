@@ -76,37 +76,15 @@ public class GUI implements Initializable {
     @FXML private Button frequencies;
     @FXML private TextField to_prefix;
     @FXML void ff0808(ActionEvent event) {}
-
-    @Override // This method is called by the FXMLLoader when initialization is complete
-    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+    /* This method is called by the FXMLLoader when initialization is complete */
+    @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
-        /* set up target checkboxes to be mutually exclusive */
-        exec_w.selectedProperty().addListener(new ChangeListener<Boolean>() { // todo: fix!
-            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                exec_c.setSelected(false);
-                exec_sep.setSelected(false);
-                exec_l.setSelected(false);
-            }
-        });
-        exec_c.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                exec_w.setSelected(false);
-                exec_sep.setSelected(false);
-                exec_l.setSelected(false);
-            }
-        });
-        exec_l.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                exec_c.setSelected(false);
-                exec_sep.setSelected(false);
-                exec_w.setSelected(false);
-            }
-        });
-        exec_sep.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                exec_c.setSelected(false);
-                exec_w.setSelected(false);
-                exec_l.setSelected(false);
+        /* add change listener to textarea */
+        text.textProperty().addListener(new ChangeListener<String>() {
+            @Override public void changed(ObservableValue<? extends String> observable,
+                                          String oldValue, String newValue) {
+                caret_location = text.getCaretPosition(); // todo: improve. Caret location should be smart
+                // todo: diffs and undo/redo?
             }
         });
     }
@@ -114,8 +92,6 @@ public class GUI implements Initializable {
     private String[] getSimpleText() { return new String[] {text.getText()}; }
     /* returns processed and split text */
     private ArrayList<String[]> getText() {
-        String[] manipulated_text;
-        String[] delimiters;
         ArrayList<String[]> split_result;
         switch(getTarget()) {
             case "words":
@@ -154,6 +130,12 @@ public class GUI implements Initializable {
     private String getPrefix() { return to_prefix.getText(); }
     /* returns user-defined suffix */
     private String getSuffix() { return to_suffix.getText(); }
+    /* returns user-defined expression to replace */
+    private String getReplace() { return to_replace.getText(); }
+    /* returns user-defined expression to find */
+    private String getFind() { return to_find.getText(); }
+    /* returns user-defined expression to remove */
+    private String getRemove() { return to_remove.getText(); }
     /* sets text in textarea */
     private void setText(String s) { text.setText(s); }
     /* sets text in textarea from String array */
@@ -164,15 +146,19 @@ public class GUI implements Initializable {
         text.setText(result);
     }
     /* returns focus to textarea and puts caret in proper place */
-    private void returnFocus() { text.requestFocus(); text.positionCaret(caret_location); }
-    /* find */
+    private void returnFocus() { // todo: improve
+        text.requestFocus();
+        if(caret_location < text.getText().length())
+            text.positionCaret(caret_location);
+        else
+            text.positionCaret(text.getText().length() - 1);
+    }
     @FXML private void findAction() {
         returnFocus();
     }
-    @FXML private void replaceAction() {
-        returnFocus();
-    }
+    @FXML private void replaceAction() {returnFocus(); }
     @FXML private void removeAction() {
+        setText(manip.remove(getSimpleText(), getRemove())); // todo: not working??
         returnFocus();
     }
     @FXML private void uppercaseAction() {

@@ -40,10 +40,10 @@
                            <children>
                               <Button fx:id="find" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" text="Find" />
                               <Button fx:id="replace" layoutX="12.0" layoutY="47.0" mnemonicParsing="false" text="Replace" />
-                              <Button fx:id="remove" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" text="Remove" />
-                              <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" prefHeight="25.0" prefWidth="136.0" />
-                              <TextField fx:id="to_replace" layoutX="71.0" layoutY="47.0" prefHeight="25.0" prefWidth="116.0" />
-                              <TextField fx:id="to_remove" layoutX="71.0" layoutY="81.0" prefHeight="25.0" prefWidth="117.0" />
+                              <Button fx:id="remove" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
+                              <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" onAction="#findAction" prefHeight="25.0" prefWidth="136.0" />
+                              <TextField fx:id="to_replace" layoutX="71.0" layoutY="47.0" onAction="#replaceAction" prefHeight="25.0" prefWidth="116.0" />
+                              <TextField fx:id="to_remove" layoutX="71.0" layoutY="81.0" onAction="#removeAction" prefHeight="25.0" prefWidth="117.0" />
                               <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" onAction="#uppercaseAction" text="Force Uppercase" />
                               <Button fx:id="to_lowercase" layoutX="13.0" layoutY="149.0" mnemonicParsing="false" onAction="#lowercaseAction" text="Force Lowercase" />
                            </children>
@@ -59,8 +59,8 @@
                               <Button fx:id="remove_punctuation" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#removePunctuationAction" text="Remove Punctuation" />
                               <Button fx:id="remove_extra_spaces" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" onAction="#trimAction" text="Remove Extra Whitespace" />
                               <Button fx:id="remove_whitespace" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" onAction="#removeAllWhitespaceAction" text="Remove All Whitespace" />
-                              <TextField fx:id="to_prefix" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="121.0" />
-                              <TextField fx:id="to_suffix" layoutX="60.0" layoutY="46.0" prefHeight="25.0" prefWidth="121.0" />
+                              <TextField fx:id="to_prefix" layoutX="60.0" layoutY="14.0" onAction="#prefixAction" prefHeight="25.0" prefWidth="121.0" />
+                              <TextField fx:id="to_suffix" layoutX="60.0" layoutY="46.0" onAction="#suffixAction" prefHeight="25.0" prefWidth="121.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -77,7 +77,7 @@
                               <TextField fx:id="number_prefix" layoutX="73.0" layoutY="113.0" prefHeight="25.0" prefWidth="28.0" />
                               <TextField fx:id="number_suffix" layoutX="152.0" layoutY="113.0" prefHeight="25.0" prefWidth="30.0" />
                               <Text layoutX="101.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Number]" />
-                              <RadioButton fx:id="alphabetic_sort" layoutX="64.0" layoutY="40.0" mnemonicParsing="false" text="Alphabetically" />
+                              <RadioButton fx:id="alphabetic_sort" layoutX="64.0" layoutY="40.0" mnemonicParsing="false" selected="true" text="Alphabetically" />
                               <RadioButton fx:id="numeric_sort" layoutX="64.0" layoutY="65.0" mnemonicParsing="false" text="By Size" />
                            </children>
                         </AnchorPane>

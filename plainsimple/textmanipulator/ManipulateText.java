@@ -16,8 +16,25 @@ class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
   /* split into lines */
-  public ArrayList<String[]> splitIntoLines(String text) {
+  public ArrayList<String[]> splitIntoLines(String text) { // todo: fix to recognize empty lines
+      /* in this case objects are technically the line breaks */
       ArrayList<String> objects = new ArrayList<>();
+      ArrayList<String> delimiters = new ArrayList<>();
+      Pattern lines_pattern = Pattern.compile("[^\\r\\n]+");
+      Matcher matcher = lines_pattern.matcher(text);
+      int location = 0;
+      while (matcher.find()) {
+          delimiters.add(text.substring(location, matcher.start()));
+          location = matcher.end();
+          objects.add(matcher.group());
+      }
+      if(location <= text.length() - 1) /* get any remaining text */
+          delimiters.add(text.substring(location));
+      ArrayList<String[]> result = new ArrayList<>();
+      result.add(delimiters.toArray(new String[delimiters.size()]));
+      result.add(objects.toArray(new String[objects.size()]));
+      return result;
+      /*ArrayList<String> objects = new ArrayList<>();
       ArrayList<String> delimiters = new ArrayList<>();
       Pattern lines_pattern = Pattern.compile("[^\\r\\n]+");
       Matcher matcher = lines_pattern.matcher(text);
@@ -34,11 +51,27 @@ class ManipulateText {
       ArrayList<String[]> result = new ArrayList<>();
       result.add(delimiters.toArray(new String[delimiters.size()]));
       result.add(objects.toArray(new String[objects.size()]));
-      return result;
+      return result;*/
   }
     /* split into words */
     public ArrayList<String[]> splitIntoWords(String text) {
         ArrayList<String> objects = new ArrayList<>();
+        ArrayList<String> delimiters = new ArrayList<>();
+        Pattern words_pattern = Pattern.compile("\\w+");
+        Matcher matcher = words_pattern.matcher(text);
+        int location = 0;
+        while (matcher.find()) {
+            delimiters.add(text.substring(location, matcher.start()));
+            location = matcher.end();
+            objects.add(matcher.group());
+        }
+        if(location <= text.length() - 1) /* get any remaining text */
+            delimiters.add(text.substring(location));
+        ArrayList<String[]> result = new ArrayList<>();
+        result.add(delimiters.toArray(new String[delimiters.size()]));
+        result.add(objects.toArray(new String[objects.size()]));
+        return result;
+        /*ArrayList<String> objects = new ArrayList<>();
         ArrayList<String> delimiters = new ArrayList<>();
         Pattern lines_pattern = Pattern.compile("[\\w']+");
         Matcher matcher = lines_pattern.matcher(text);
@@ -58,7 +91,7 @@ class ManipulateText {
         ArrayList<String[]> result = new ArrayList<>();
         result.add(delimiters.toArray(new String[delimiters.size()]));
         result.add(objects.toArray(new String[objects.size()]));
-        return result;
+        return result;*/
         //return text.split("\\W+"); /* splits at non-word characters */
     }
     /* split into chars */
@@ -83,11 +116,11 @@ class ManipulateText {
             Matcher matcher = separator_pattern.matcher(text);
             int location = 0;
             while(matcher.find()) {
-                delimiters.add(text.substring(location, matcher.start() - 1));
-                objects.add(matcher.group());
+                delimiters.add(text.substring(location, matcher.start()));
+                objects.add(separator);
                 location = matcher.end();
             }
-            if(location != text.length() - 1)
+            if(location <= text.length() - 1)
                 delimiters.add(text.substring(location));
             ArrayList<String[]> result = new ArrayList<>();
             result.add(delimiters.toArray(new String[delimiters.size()]));
@@ -111,36 +144,24 @@ class ManipulateText {
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] removeDuplicateObjects(String text[]) { // todo: refactor this
-    ArrayList<Integer> duplicates = new ArrayList<>();
-    ArrayList<String> result = new ArrayList<>();
-    for(int i = 0; i < text.length; i++) {
-      for(int j = i + 1; j < text.length;
-          j++) { /* check to see if any of the later elements match */
-        if(text[j].equals(text[i])) /* duplicate found */
-          duplicates.add(j); /* add element position to list */
-      }
+  public String[] removeDuplicates(String text[]) { // todo: test
+    ArrayList<String> result = new ArrayList<>(Arrays.asList(text));
+    for(int i = 0; i < result.size(); i++) {
+        for(int j = 1; j < result.size(); j++) {
+            if(result.get(j).equals(result.get(i)))
+                result.remove(j);
+        }
     }
-    for(int i = 0; i < text.length; i++) {
-      boolean copy_element = true; /* true if element is not a duplicate */
-      for(int j = 0; j < duplicates.size(); j++) {
-        if(i == duplicates.get(j))
-          copy_element = false;
-      }
-      if(copy_element) {
-          result.add(text[i]);
-      }
-    }
-    return result.toArray(new String[result.size()]); /* return String array */
+    return result.toArray(new String[result.size()]);
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String removeObjectsContaining(String text[], String remove) {
-      String result = "";
-    for(int i = 0; i < text.length; i++) { /* for each line... */
-      if(text[i].indexOf(remove) < 0)  /* could not find String remove in line */
-        result += text[i] + "\n";
+  public String[] removeContaining(String text[], String remove) {
+    ArrayList<String> result = new ArrayList<>(Arrays.asList(text));
+    for(int i = 0; i < result.size(); i++) {
+      if(result.get(i).contains(remove))
+          result.remove(i);
     }
-    return result;
+    return result.toArray(new String[result.size()]);
   }
   @SuppressWarnings("HardCodedStringLiteral")
   public String[] scrambleObjects(String text[]) {
@@ -185,15 +206,15 @@ class ManipulateText {
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
+  /* merges merge with text */
   public String[] mergeText(String text[], String merge[]) {
     if(text.length >= merge.length) {
           for(int i = 0; i < merge.length; i++) {
               text[i] = text[i] + merge[i];
           }
         return text;
-    }
-    else { /* merge.length > text.length */
-        String[] result = merge;
+    } else { /* merge.length > text.length */
+      String[] result = merge;
       for(int i = 0; i < text.length; i++) {
           result[i] = text[i] + merge[i];
       }
@@ -201,59 +222,44 @@ class ManipulateText {
     }
   }
   public String[] findReplace(String text[], String find, String replace) { /* use String.replaceAll(find, replace) */
-      String[] result = text;
-      try {
-          Pattern expression_to_find = Pattern.compile(find);
-          int instances = 0;
-          boolean found = false;
-          for(int i = 0; i < text.length; i++) {
-              Matcher matcher = expression_to_find.matcher(text[i]);
-              while (matcher.find()) {
-                  result[i] = text[i].substring(0, matcher.start()) + result + text[i].substring(matcher.end());
-                  instances++;
-                  found = true;
-              }
-          }
-          if(!found)
-              Println("No instances found.");
-          else
-              Println(instances + " instances replaced.");
-      } catch(PatternSyntaxException e) {
-          Println("Error: Expression to find is invalid (regex).");
-      }
-    return result;
+      for(int i = 0; i < text.length; i++)
+          text[i] = text[i].replaceAll(find, replace);
+      return text;
   }
   /* removes all instances of 'argument' from 'text' */
-  public String[] removeArgument(String text[], String argument) {
-      for(int i = 0; i < text.length; i++) {
+  public String[] remove(String text[], String argument) {
+      for(int i = 0; i < text.length; i++)
           text[i].replaceAll(argument, "");
-      }
       return text;
   }
   //public String commaSeparateValues(String text) {
   //    return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
   //}
-    public String removeLineBreaks(String text, boolean format_spacing) { // Todo: add a setting for this
-        if(format_spacing) /* removes line breaks and formats spacing correctly */
-            return text.replace("\n", " ").replace("\r", ""); /// weird spacing issues need to be fixed. Some spaces get lost.
-        else /* simply removes line breaks */
-            return text.replace("\n", "").replace("\r", "");
+  public String[] removeLineBreaks(String text[]) {
+    for(int i = 0; i < text.length; i++)
+        text[i] = text[i].replaceAll("\\n|\\r", "");
+    return text;
+  }
+  /* duplicates specified object (line/word/char) a specified number of times */
+  public String[] duplicateObject(String text[], int element_number, int num_repetitions) throws NumberFormatException {
+    if(num_repetitions < 0)
+        throw new NumberFormatException("Error: Number of repetitions must be a positive integer");
+    ArrayList<String> result = new ArrayList<>();
+    for(int i = 0; i < text.length; i++) {
+        result.add(text[i]);
+        if (i == element_number)
+            for (int j = 0; j < num_repetitions; j++)
+                result.add(text[element_number]);
     }
-    /* duplicates specified object (line/word/char) a specified number of times */
-    public String duplicateObject(String text[], int element_number, int num_repetitions) {
-        String result = "";
-        for(int i = 0; i < text.length; i++) {
-            result += text[i];
-            if (i == element_number)
-                for (int j = 0; j < num_repetitions; j++)
-                    result += text[element_number];
-        }
-        return result;
-    }
+    return result.toArray(new String[result.size()]);
+  }
     /* copies text to clipboard */
-    public void copyTextToClipboard(String text) {
-        StringSelection stringSelection = new StringSelection(text);
-        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
+    public void copyTextToClipboard(String text[]) {
+        String as_string = "";
+        for(int i = 0; i < text.length; i++)
+            as_string += text[i];
+        StringSelection stringSelection = new StringSelection(as_string);
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
         try {
             clpbrd.setContents(stringSelection, null);
         } catch(IllegalStateException e) {
@@ -308,7 +314,6 @@ class ManipulateText {
           text[i] = new StringBuilder(text[i]).reverse().toString();
       return text;
   }
-
   public String[] forceUppercase(String text[]) {
     for(int i = 0; i < text.length; i++)
         text[i] = text[i].toUpperCase();
@@ -318,9 +323,6 @@ class ManipulateText {
     for(int i = 0; i < text.length; i++)
         text[i] = text[i].toLowerCase();
       return text;
-  }
-  public void Print(String s) {
-      System.out.print(s);
   }
   public void Println(String s) {
       System.out.println(s);

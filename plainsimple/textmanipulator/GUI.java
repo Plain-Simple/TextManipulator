@@ -16,7 +16,9 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class GUI implements Initializable {
     private ManipulateText manip = new ManipulateText();
@@ -25,7 +27,7 @@ public class GUI implements Initializable {
     @FXML private Button replace;
     @FXML private Button accent_9;
     @FXML private TextField number_suffix;
-    @FXML private CheckBox exec_sep;
+    @FXML private RadioButton exec_sep;
     @FXML private Button accent_6;
     @FXML private Button suffix;
     @FXML private Button accent_5;
@@ -38,12 +40,12 @@ public class GUI implements Initializable {
     @FXML private TableColumn<?, ?> col_2;
     @FXML private TableColumn<?, ?> col_1;
     @FXML private Button find;
-    @FXML private CheckBox exec_c;
+    @FXML private RadioButton exec_c;
     @FXML private TextField to_remove;
     @FXML private TextArea text;
     @FXML private Button accent_11;
     @FXML private Button accent_10;
-    @FXML private CheckBox exec_l;
+    @FXML private RadioButton exec_l;
     @FXML private Button accent_13;
     @FXML private RadioButton alphabetic_sort;
     @FXML private Button accent_12;
@@ -67,7 +69,7 @@ public class GUI implements Initializable {
     @FXML private TableView<?> table;
     @FXML private CheckBox wrap_text;
     @FXML private TextField to_suffix;
-    @FXML private CheckBox exec_w;
+    @FXML private RadioButton exec_w;
     @FXML private Button accent_2;
     @FXML private Button accent_1;
     @FXML private Button accent_4;
@@ -81,35 +83,37 @@ public class GUI implements Initializable {
         assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
         /* add change listener to textarea */
         text.textProperty().addListener(new ChangeListener<String>() {
-            @Override public void changed(ObservableValue<? extends String> observable,
-                                          String oldValue, String newValue) {
+                @Override public void changed(ObservableValue<? extends String> observable,
+                                              String oldValue, String newValue) {
                 caret_location = text.getCaretPosition(); // todo: improve. Caret location should be smart
                 // todo: diffs and undo/redo?
+
             }
         });
     }
     /* returns text as a simple String (no processing) */
-    private String[] getSimpleText() { return new String[] {text.getText()}; }
+    private String[] getSimpleText() { return new String[] {getSelectedText()}; }
+    /* basically the simple .getText() method except gets user selection */
+    private String getSelectedText() {
+        if(text.getSelectedText().equals(""))
+            return text.getText(); /* no selection - return all */
+        else
+            return text.getSelectedText();
+    }
     /* returns processed and split text */
     private ArrayList<String[]> getText() {
-        ArrayList<String[]> split_result;
         switch(getTarget()) {
             case "words":
-                split_result = manip.splitIntoWords(text.getText());
-                break;
+                return manip.splitIntoWords(getSelectedText());
             case "lines":
-                split_result = manip.splitIntoLines(text.getText());
-                break;
+                return manip.splitIntoLines(getSelectedText());
             case "chars":
-                split_result = manip.splitIntoChars(text.getText());
-                break;
+                return manip.splitIntoChars(getSelectedText());
             case "sep":
-                split_result = manip.splitBySeparator(text.getText(), getSeparator());
-                break;
+                return manip.splitBySeparator(getSelectedText(), getSeparator());
             default:
-                split_result = manip.getAsArray(text.getText());
+                return manip.getAsArray(getSelectedText());
         }
-        return split_result;
     }
     /* returns "target" of function (words, lines, chars, etc.) */
     private String getTarget() {
@@ -131,19 +135,17 @@ public class GUI implements Initializable {
     /* returns user-defined suffix */
     private String getSuffix() { return to_suffix.getText(); }
     /* returns user-defined expression to replace */
-    private String getReplace() { return to_replace.getText(); }
+    private String getReplace() { return Pattern.quote(to_replace.getText()); } // todo: look into pattern.quote
     /* returns user-defined expression to find */
-    private String getFind() { return to_find.getText(); }
+    private String getFind() { return Pattern.quote(to_find.getText()); }
     /* returns user-defined expression to remove */
-    private String getRemove() { return to_remove.getText(); }
-    /* sets text in textarea */
-    private void setText(String s) { text.setText(s); }
+    private String getRemove() { return Pattern.quote(to_remove.getText()); }
     /* sets text in textarea from String array */
     private void setText(String[] s) {
-        String result = "";
+        StringBuilder builder = new StringBuilder();
         for(int i = 0; i < s.length; i++)
-            result += s[i];
-        text.setText(result);
+            builder.append(s[i]);
+        text.setText(builder.toString());
     }
     /* returns focus to textarea and puts caret in proper place */
     private void returnFocus() { // todo: improve
@@ -154,6 +156,10 @@ public class GUI implements Initializable {
             text.positionCaret(text.getText().length() - 1);
     }
     @FXML private void findAction() {
+        String to_find = getFind();
+        System.out.println("regex is " + to_find);
+        ArrayList<Integer> locations = manip.find(getSimpleText(), getFind());
+        System.out.println(locations.toString());
         returnFocus();
     }
     @FXML private void replaceAction() {returnFocus(); }
@@ -169,7 +175,7 @@ public class GUI implements Initializable {
         setText(manip.forceLowercase(getSimpleText()));
         returnFocus();
     }
-    @FXML private void prefixAction() { // todo: get this working
+    @FXML private void prefixAction() {
         ArrayList<String[]> objects = getText();
         objects.set(1, manip.addPrefixSuffix(getText().get(1), getPrefix(), ""));
         setText(manip.mergeText(objects.get(0), objects.get(1)));

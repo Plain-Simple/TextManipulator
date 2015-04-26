@@ -266,23 +266,19 @@ class ManipulateText {
             System.out.println("Error: System clipboard is currently unavailable.");
         }
     }
-    public void find(String text[], String regex) {
+    public ArrayList<Integer> find(String text[], String regex) throws PatternSyntaxException { // todo: improve
+        ArrayList<Integer> locations = new ArrayList<>();
         try {
             Pattern expression_to_find = Pattern.compile(regex);
-            int instances = 0;
-            boolean found = false;
             for (int i = 0; i < text.length; i++) {
                 Matcher matcher = expression_to_find.matcher(text[i]);
                 while (matcher.find()) {
-                    Println("Instance found at " + matcher.start());
-                    instances++;
-                    found = true;
+                    locations.add(matcher.start());
                 }
             }
-            if(found)
-                Println(instances + " of expression found.");
+            return locations;
         }catch(PatternSyntaxException e) {
-            Println("Error: Expression to find is invalid (regex).");
+            throw e;
         }
     }
   /* generates a random number between 0 and 'upper_bound' inclusive */

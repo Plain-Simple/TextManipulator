@@ -38,7 +38,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="find" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" text="Find" />
+                              <Button fx:id="find" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#findAction" text="Find" />
                               <Button fx:id="replace" layoutX="12.0" layoutY="47.0" mnemonicParsing="false" text="Replace" />
                               <Button fx:id="remove" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                               <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" onAction="#findAction" prefHeight="25.0" prefWidth="136.0" />
@@ -109,11 +109,15 @@
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Text>
-                  <CheckBox fx:id="exec_w" mnemonicParsing="false" prefHeight="17.0" prefWidth="135.0" text="Words" />
-                  <CheckBox fx:id="exec_l" mnemonicParsing="false" prefHeight="17.0" prefWidth="132.0" text="Lines" />
-                  <CheckBox fx:id="exec_c" mnemonicParsing="false" prefHeight="17.0" prefWidth="135.0" text="Chars" />
-                  <CheckBox fx:id="exec_sep" mnemonicParsing="false" text="Separator" />
-                  <TextField fx:id="separator" prefHeight="0.0" prefWidth="126.0">
+                  <RadioButton fx:id="exec_w" mnemonicParsing="false" prefHeight="17.0" prefWidth="120.0" text="Words">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="exec_group" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="exec_l" mnemonicParsing="false" prefHeight="17.0" prefWidth="156.0" text="Lines" toggleGroup="$exec_group" />
+                  <RadioButton fx:id="exec_c" mnemonicParsing="false" prefHeight="17.0" prefWidth="135.0" text="Chars" toggleGroup="$exec_group" />
+                  <RadioButton fx:id="exec_sep" mnemonicParsing="false" text="Separator" toggleGroup="$exec_group" />
+                  <TextField fx:id="separator" prefHeight="24.0" prefWidth="120.0">
                      <font>
                         <Font size="11.0" />
                      </font>

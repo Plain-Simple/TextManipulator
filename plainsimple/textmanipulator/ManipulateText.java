@@ -229,7 +229,7 @@ class ManipulateText {
   /* removes all instances of 'argument' from 'text' */
   public String[] remove(String text[], String argument) {
       for(int i = 0; i < text.length; i++)
-          text[i].replaceAll(argument, "");
+          text[i] = text[i].replaceAll(argument, "");
       return text;
   }
   //public String commaSeparateValues(String text) {

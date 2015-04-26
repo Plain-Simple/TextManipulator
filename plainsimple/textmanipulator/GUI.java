@@ -13,11 +13,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GUI implements Initializable {
@@ -135,11 +138,22 @@ public class GUI implements Initializable {
     /* returns user-defined suffix */
     private String getSuffix() { return to_suffix.getText(); }
     /* returns user-defined expression to replace */
-    private String getReplace() { return Pattern.quote(to_replace.getText()); } // todo: look into pattern.quote
+    private String getReplace() { return to_replace.getText(); } // todo: look into pattern.quote to use user-defined tokens
     /* returns user-defined expression to find */
-    private String getFind() { return Pattern.quote(to_find.getText()); }
+    private String getFind() { return toRegex(to_find.getText()); }
     /* returns user-defined expression to remove */
-    private String getRemove() { return Pattern.quote(to_remove.getText()); }
+    private String getRemove() { return toRegex(to_remove.getText()); }
+    /* takes user regex token and escapes any necessary characters */
+    private String toRegex(String s) {
+        /* negative look-behind of ?, */
+        Pattern to_escape = Pattern.compile("(?<![\\?\\!\\^])"); // todo: fix
+        Matcher matcher = to_escape.matcher(s);
+        while(matcher.find()) {
+            s = s.substring(0, matcher.start()) + "\\" + matcher.group(0) + s.substring(matcher.end());
+        }
+        System.out.println("escaped string: " + s);
+        return s;
+    }
     /* sets text in textarea from String array */
     private void setText(String[] s) {
         StringBuilder builder = new StringBuilder();
@@ -156,15 +170,14 @@ public class GUI implements Initializable {
             text.positionCaret(text.getText().length() - 1);
     }
     @FXML private void findAction() {
-        String to_find = getFind();
-        System.out.println("regex is " + to_find);
         ArrayList<Integer> locations = manip.find(getSimpleText(), getFind());
-        System.out.println(locations.toString());
         returnFocus();
     }
-    @FXML private void replaceAction() {returnFocus(); }
+    @FXML private void replaceAction() {
+        setText(manip.findReplace(getSimpleText(), getFind(), getReplace()));
+        returnFocus(); }
     @FXML private void removeAction() {
-        setText(manip.remove(getSimpleText(), getRemove())); // todo: not working??
+        setText(manip.remove(getSimpleText(), getRemove()));
         returnFocus();
     }
     @FXML private void uppercaseAction() {
@@ -214,6 +227,13 @@ public class GUI implements Initializable {
     }
     @FXML private void frequenciesAction() {
         returnFocus();
+    }
+    @FXML private void import_action() {
+        import_file.setDisable(true); // todo: custom filechooser class
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.showOpenDialog(new Stage());
+
     }
 
 }

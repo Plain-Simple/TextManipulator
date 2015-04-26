@@ -13,7 +13,7 @@
          <children>
             <HBox layoutX="199.0" layoutY="-1.0" prefHeight="31.0" prefWidth="610.0">
                <children>
-                  <Button fx:id="import_file" mnemonicParsing="false" text="Import File" />
+                  <Button fx:id="import_file" mnemonicParsing="false" onAction="#import_action" text="Import File" />
                   <TextField editable="false" />
                </children>
             </HBox>

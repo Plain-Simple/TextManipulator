@@ -5,17 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,6 +76,14 @@ public class GUI implements Initializable {
     @FXML private Button configure_accents;
     @FXML private Button frequencies;
     @FXML private TextField to_prefix;
+    @FXML private MenuItem menu_open;
+    @FXML private MenuItem menu_save;
+    @FXML private MenuItem menu_close;
+    @FXML private MenuItem menu_delete;
+    @FXML private MenuItem menu_cut;
+    @FXML private MenuItem menu_copy;
+    @FXML private MenuItem menu_paste;
+    @FXML private TextField imported_filename;
     @FXML void ff0808(ActionEvent event) {}
     /* This method is called by the FXMLLoader when initialization is complete */
     @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -93,6 +97,7 @@ public class GUI implements Initializable {
 
             }
         });
+        returnFocus();
     }
     /* returns text as a simple String (no processing) */
     private String[] getSimpleText() { return new String[] {getSelectedText()}; }
@@ -154,6 +159,8 @@ public class GUI implements Initializable {
         System.out.println("escaped string: " + s);
         return s;
     }
+    /* sets text in textarea from String */
+    private void setText(String s) { text.setText(s); }
     /* sets text in textarea from String array */
     private void setText(String[] s) {
         StringBuilder builder = new StringBuilder();
@@ -208,6 +215,7 @@ public class GUI implements Initializable {
         setText(manip.removeWhitespace(getSimpleText()));
         returnFocus();
     }
+
     /* remove extra whitespace */
     @FXML private void trimAction() {
         setText(manip.removeExtraWhitespace(getSimpleText()));
@@ -232,8 +240,29 @@ public class GUI implements Initializable {
         import_file.setDisable(true); // todo: custom filechooser class
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
-        fileChooser.showOpenDialog(new Stage());
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))); // todo: set initial directory to last-used directory
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        try {
+            File imported_file = fileChooser.showOpenDialog(new Stage());
+            TextFile text_file = new TextFile(imported_file);
+            setText(text_file.getFileText());
+            imported_filename.setText(text_file.getFileName());
+        } catch(NullPointerException e) { /* no file selected. Do nothing */ }
+        import_file.setDisable(false);
+    }
+    @FXML private void cut_action() {
 
+    }
+    @FXML private void copy_action() {
+
+    }
+    @FXML private void paste_action() {
+
+    }
+    @FXML private void save_action() {
+        
     }
 
 }

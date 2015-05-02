@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -14,7 +15,7 @@
             <HBox layoutX="199.0" layoutY="-1.0" prefHeight="31.0" prefWidth="610.0">
                <children>
                   <Button fx:id="import_file" mnemonicParsing="false" onAction="#import_action" text="Import File" />
-                  <TextField editable="false" />
+                  <TextField fx:id = "imported_filename" editable="false" />
                </children>
             </HBox>
          </children>
@@ -171,15 +172,32 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem fx:id="menu_open" mnemonicParsing="false" onAction="#import_action" text="Open">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="menu_save" mnemonicParsing="false" onAction="#save_action" text="Save">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                    <MenuItem fx:id="menu_close" mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
+                    <MenuItem fx:id="menu_delete" mnemonicParsing="false" text="Delete" />
+                        <MenuItem fx:id="menu_cut" mnemonicParsing="false" onAction="#cut_action" text="Cut">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="X" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="menu_copy" mnemonicParsing="false" onAction="#copy_action" text="Copy">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="C" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="menu_paste" mnemonicParsing="false" onAction="#paste_action" text="Paste">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="V" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

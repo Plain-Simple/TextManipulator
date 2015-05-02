@@ -44,13 +44,20 @@ public class
     if(isValid())
         readFile();
   }
-  /* constructs textfile using path and writes text to it */
+  /* constructs textfile using path and WRITES text to it */
   public TextFile(String path, String text) {
       file_path = Paths.get(path).toAbsolutePath();
       file_name = file_path.getFileName().toString();
       file_text = text;
       if(isValid())
           writeFile();
+  }
+  /* constructs textfile from file */
+  public TextFile(File file) {
+      file_name = file.getName();
+      file_path = Paths.get(file.getPath()).toAbsolutePath();
+      if(isValid())
+        readFile();
   }
   /* sets text in textfile and rewrites */
   public void setText(String[] text) {

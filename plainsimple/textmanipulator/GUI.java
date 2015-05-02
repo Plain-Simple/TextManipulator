@@ -55,7 +55,6 @@ public class GUI implements Initializable {
     @FXML private Button accent_13;
     @FXML private RadioButton alphabetic_sort;
     @FXML private Button accent_12;
-    @FXML private RadioButton sort_highlow;
     @FXML private CheckBox remove_delims;
     @FXML private RadioButton numeric_sort;
     @FXML private Button count;
@@ -68,19 +67,16 @@ public class GUI implements Initializable {
     @FXML private Text title;
     @FXML private Button remove;
     @FXML private TextField to_replace;
-    @FXML private RadioButton sort_lowhigh;
     @FXML private Button to_lowercase;
     @FXML private TextField to_find;
     @FXML private Button import_file;
     @FXML private TableView<?> table;
-    @FXML private CheckBox wrap_text;
     @FXML private TextField to_suffix;
     @FXML private RadioButton exec_w;
     @FXML private Button accent_2;
     @FXML private Button accent_1;
     @FXML private Button accent_4;
     @FXML private Button accent_3;
-    @FXML private Button configure_accents;
     @FXML private Button frequencies;
     @FXML private TextField to_prefix;
     @FXML private MenuItem menu_open;

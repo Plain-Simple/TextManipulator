@@ -260,25 +260,32 @@ public class GUI implements Initializable {
         import_file.setDisable(false);
     }
     @FXML private void cut_action() {
-        copyToClipboard(getSelectedText());
-        int location =
-                caret_location; /* make a copy of current location (caret_location changes when "setText()" is used */
-        setText(getSimpleText()[0].substring(0,
-                caret_location) + getSimpleText()[0].substring(caret_location + getSelectedText().length()));
-        caret_location = location;
+        String selected_text = text.getSelectedText();
+        if(!selected_text.equals("")) {
+            int location = text.getCaretPosition();
+            copyToClipboard(text.getSelectedText());
+            String text = getSimpleText()[0];
+            setText(text.substring(0, location) + text.substring(location + selected_text.length()));
+        }
         returnFocus();
     }
     @FXML private void copy_action() {
-        copyToClipboard(getSelectedText());
+        if(!text.getSelectedText().equals(""))
+            copyToClipboard(text.getSelectedText());
+        returnFocus();
     }
     @FXML private void paste_action() {
         String clipboard_contents = getClipboardContents();
-        int location = caret_location;
-        if(location == getSimpleText()[0].length() - 1 || getSimpleText()[0].endsWith(getSelectedText())) {
-            setText(getSimpleText()[0].substring(0, location) + clipboard_contents);
-        } else
-            setText(getSimpleText()[0].substring(0, location) + clipboard_contents +
-                    getSimpleText()[0].substring(location + clipboard_contents.length()));
+        int location = text.getCaretPosition();
+        String text = getSimpleText()[0];
+        if(location == text.length() - 1)
+            setText(text + clipboard_contents);
+        else if(text.endsWith(getSelectedText()))
+            setText(text.substring(0, location) + clipboard_contents);
+        else
+            setText(text.substring(0, location) + clipboard_contents +
+                    text.substring(location));
+        returnFocus();
     }
     @FXML private void save_action() {
 
@@ -292,16 +299,12 @@ public class GUI implements Initializable {
     /* gets clipboard contents. Returns empty String if contents are innaccessible  */
     private String getClipboardContents() {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        /* get contents from clipboard (stored in a Transferable, which manages data transfer) */
         Transferable contents = clipboard.getContents(null);
-        /* if contents are transferable, the Transferable will not be null and will be the
-        correct DataFlavor (String). DataFlavor refers to the type of object something is */
-        boolean hasTransferableText =
-                (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
-        if (hasTransferableText) {
+        /* make sure clipboard contains String */
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             try {
                 return (String)contents.getTransferData(DataFlavor.stringFlavor);
-            } catch (UnsupportedFlavorException | IOException ex) {
+            } catch (UnsupportedFlavorException | IOException e) {
                 return "";
             }
         } else

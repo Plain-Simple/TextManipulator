@@ -5,11 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -256,54 +258,18 @@ public class GUI implements Initializable {
         import_file.setDisable(false);
     }
     @FXML private void cut_action() {
-        String selected_text = text.getSelectedText();
-        if(!selected_text.equals("")) {
-            int location = text.getCaretPosition();
-            copyToClipboard(text.getSelectedText());
-            String text = getSimpleText()[0];
-            setText(text.substring(0, location) + text.substring(location + selected_text.length()));
-        }
+        setText((new ClipboardManager()).cut(text));
         returnFocus();
     }
     @FXML private void copy_action() {
-        if(!text.getSelectedText().equals(""))
-            copyToClipboard(text.getSelectedText());
+        (new ClipboardManager()).copy(text);
         returnFocus();
     }
     @FXML private void paste_action() {
-        String clipboard_contents = getClipboardContents();
-        int location = text.getCaretPosition();
-        String text = getSimpleText()[0];
-        if(location == text.length() - 1)
-            setText(text + clipboard_contents);
-        else if(text.endsWith(getSelectedText()))
-            setText(text.substring(0, location) + clipboard_contents);
-        else
-            setText(text.substring(0, location) + clipboard_contents +
-                    text.substring(location));
+        setText((new ClipboardManager().paste(text)));
         returnFocus();
     }
     @FXML private void save_action() {
 
-    }
-    /* copies String to clipboard */
-    private void copyToClipboard(String to_copy) {
-        StringSelection stringSelection = new StringSelection(to_copy);
-        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard ();
-        clpbrd.setContents(stringSelection, null);
-    }
-    /* gets clipboard contents. Returns empty String if contents are innaccessible  */
-    private String getClipboardContents() {
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        Transferable contents = clipboard.getContents(null);
-        /* make sure clipboard contains String */
-        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-            try {
-                return (String)contents.getTransferData(DataFlavor.stringFlavor);
-            } catch (UnsupportedFlavorException | IOException e) {
-                return "";
-            }
-        } else
-            return "";
     }
 }

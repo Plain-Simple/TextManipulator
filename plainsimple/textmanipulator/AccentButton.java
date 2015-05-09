@@ -1,23 +1,26 @@
 package plainsimple.textmanipulator;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-class AccentButton extends Button {
+class AccentButton extends AnchorPane {
   private char accent; /* accent associated with button */
+  @FXML protected Button button;
   /* constructor with ascii value */
   public AccentButton(int ascii_value) {
     initialize();
     accent = (char) ascii_value;
-    setText(toString()); /* sets button text to display accent */
+    button.setText(toString()); /* sets button text to display accent */
   }
   /* constructor with char */
   public AccentButton(char accent) {
       initialize();
       this.accent = accent;
-      setText(toString());
+      button.setText(toString());
   }
   /* sets this as controller class for fxml button */
   private void initialize() {

@@ -15,7 +15,7 @@
             <HBox layoutX="199.0" layoutY="-1.0" prefHeight="31.0" prefWidth="610.0">
                <children>
                   <Button fx:id="import_file" mnemonicParsing="false" onAction="#import_action" text="Import File" />
-                  <TextField fx:id = "imported_filename" editable="false" />
+                  <TextField fx:id="imported_filename" editable="false" />
                </children>
             </HBox>
          </children>
@@ -72,7 +72,6 @@
                            <children>
                               <Button fx:id="scramble" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Scramble" />
                               <Button fx:id="sort" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Sort" />
-                              <Button fx:id="count" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" text="Count" />
                               <Button fx:id="number" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" text="Number" />
                               <Button fx:id="frequencies" layoutX="13.0" layoutY="145.0" mnemonicParsing="false" text="Get Frequencies" />
                               <TextField fx:id="number_prefix" layoutX="73.0" layoutY="113.0" prefHeight="25.0" prefWidth="28.0" />
@@ -84,20 +83,9 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Settings">
+                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Even More Functions">
                      <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="configure_accents" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Configure Accents" />
-                              <CheckBox fx:id="wrap_text" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" text="Wrap Text" />
-                              <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorting:" />
-                              <RadioButton fx:id="sort_highlow" layoutX="57.0" layoutY="70.0" mnemonicParsing="false" selected="true" text="High to Low">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="sort_group" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="sort_lowhigh" layoutX="57.0" layoutY="95.0" mnemonicParsing="false" text="Low to High" toggleGroup="$sort_group" />
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
               </panes>

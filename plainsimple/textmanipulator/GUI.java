@@ -11,8 +11,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -52,7 +50,6 @@ public class GUI implements Initializable {
     @FXML private Button accent_12;
     @FXML private CheckBox remove_delims;
     @FXML private RadioButton numeric_sort;
-    @FXML private Button count;
     @FXML private Button remove_punctuation;
     @FXML private Button sort;
     @FXML private TextField separator;
@@ -99,7 +96,7 @@ public class GUI implements Initializable {
     }
     /* returns text as a simple String (no processing) */
     private String[] getSimpleText() { return new String[] {getSelectedText()}; }
-    /* basically the simple .getText() method except gets user selection */
+    /* special function to return selected text (returns all if no selection) */
     private String getSelectedText() {
         if(text.getSelectedText().equals(""))
             return text.getText(); /* no selection - return all */
@@ -107,7 +104,7 @@ public class GUI implements Initializable {
             return text.getSelectedText();
     }
     /* returns processed and split text */
-    private ArrayList<String[]> getText() {
+    private ArrayList<String[]> getSplitText() {
         switch(getTarget()) {
             case "words":
                 return manip.splitIntoWords(getSelectedText());
@@ -194,14 +191,14 @@ public class GUI implements Initializable {
         returnFocus();
     }
     @FXML private void prefixAction() {
-        ArrayList<String[]> objects = getText();
-        objects.set(1, manip.addPrefixSuffix(getText().get(1), getPrefix(), ""));
+        ArrayList<String[]> objects = getSplitText();
+        objects.set(1, manip.addPrefixSuffix(getSplitText().get(1), getPrefix(), ""));
         setText(manip.mergeText(objects.get(0), objects.get(1)));
         returnFocus();
     }
     @FXML private void suffixAction() {
-        ArrayList<String[]> objects = getText();
-        objects.set(1, manip.addPrefixSuffix(getText().get(1), "", getSuffix()));
+        ArrayList<String[]> objects = getSplitText();
+        objects.set(1, manip.addPrefixSuffix(getSplitText().get(1), "", getSuffix()));
         setText(manip.mergeText(objects.get(0), objects.get(1)));
         returnFocus();
     }
@@ -223,9 +220,6 @@ public class GUI implements Initializable {
         returnFocus();
     }
     @FXML private void sortAction() {
-        returnFocus();
-    }
-    @FXML private void countAction() {
         returnFocus();
     }
     @FXML private void numberAction() {

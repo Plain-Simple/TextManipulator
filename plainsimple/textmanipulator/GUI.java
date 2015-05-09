@@ -3,6 +3,7 @@ package plainsimple.textmanipulator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,10 +79,10 @@ public class GUI implements Initializable {
     @FXML private MenuItem menu_open;
     @FXML private MenuItem menu_save;
     @FXML private MenuItem menu_close;
-    @FXML private MenuItem menu_delete;
     @FXML private MenuItem menu_cut;
     @FXML private MenuItem menu_copy;
     @FXML private MenuItem menu_paste;
+    @FXML private MenuItem menu_findreplace;
     @FXML private TextField imported_filename;
     /* following 4 objects used in textanalysis table */
     private ObjectFrequency words_frequency = new ObjectFrequency("Words", 0);
@@ -93,6 +94,11 @@ public class GUI implements Initializable {
     @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
         /* initialize textanalysis table columns */
+        /*data.addListener(new ListChangeListener<ObjectFrequency>() {
+            @Override public void onChanged(Change<? extends ObjectFrequency> c) {
+                System.out.println("hello");
+            }
+        });*/
         col_1.setCellValueFactory(new PropertyValueFactory<>("string"));
         col_2.setCellValueFactory(new PropertyValueFactory<>("int"));
         table.setItems(data);
@@ -226,7 +232,6 @@ public class GUI implements Initializable {
         setText(manip.removeWhitespace(getSimpleText()));
         returnFocus();
     }
-
     /* remove extra whitespace */
     @FXML private void trimAction() {
         setText(manip.removeExtraWhitespace(getSimpleText()));
@@ -267,5 +272,8 @@ public class GUI implements Initializable {
     }
     @FXML private void save_action() {
 
+    }
+    @FXML private void quit_action() {
+        System.exit(0);
     }
 }

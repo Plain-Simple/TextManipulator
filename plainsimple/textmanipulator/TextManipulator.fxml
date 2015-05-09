@@ -162,29 +162,36 @@
                   <items>
                         <MenuItem fx:id="menu_open" mnemonicParsing="false" onAction="#import_action" text="Open">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem fx:id="menu_save" mnemonicParsing="false" onAction="#save_action" text="Save">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="S" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
-                    <MenuItem fx:id="menu_close" mnemonicParsing="false" text="Close" />
+                    <MenuItem fx:id="menu_close" mnemonicParsing="false" onAction="#quit_action" text="Quit">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem fx:id="menu_delete" mnemonicParsing="false" text="Delete" />
+                        <MenuItem fx:id="menu_findreplace" mnemonicParsing="false" text="Find/Replace">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
                         <MenuItem fx:id="menu_cut" mnemonicParsing="false" onAction="#cut_action" text="Cut">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="X" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem fx:id="menu_copy" mnemonicParsing="false" onAction="#copy_action" text="Copy">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="C" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem fx:id="menu_paste" mnemonicParsing="false" onAction="#paste_action" text="Paste">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="V" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                   </items>
                 </Menu>

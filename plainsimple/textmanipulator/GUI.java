@@ -7,7 +7,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -15,8 +18,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -45,7 +51,6 @@ public class GUI implements Initializable {
     @FXML private TableColumn col_1 = new TableColumn("Analytics");
     @FXML private Button find;
     @FXML private RadioButton exec_c;
-    @FXML private TextField to_remove;
     @FXML private TextArea text;
     @FXML private Button accent_11;
     @FXML private Button accent_10;
@@ -62,7 +67,6 @@ public class GUI implements Initializable {
     @FXML private Button remove_extra_spaces;
     @FXML private Button remove_whitespace;
     @FXML private Text title;
-    @FXML private Button remove;
     @FXML private TextField to_replace;
     @FXML private Button to_lowercase;
     @FXML private TextField to_find;
@@ -163,8 +167,6 @@ public class GUI implements Initializable {
     private String getReplace() { return to_replace.getText(); } // todo: look into pattern.quote to use user-defined tokens
     /* returns user-defined expression to find */
     private String getFind() { return toRegex(to_find.getText()); }
-    /* returns user-defined expression to remove */
-    private String getRemove() { return toRegex(to_remove.getText()); }
     /* takes user regex token and escapes any necessary characters */
     private String toRegex(String s) {
         /* negative look-behind of ?, */
@@ -200,10 +202,6 @@ public class GUI implements Initializable {
     @FXML private void replaceAction() {
         setText(manip.findReplace(getSimpleText(), getFind(), getReplace()));
         returnFocus(); }
-    @FXML private void removeAction() {
-        setText(manip.remove(getSimpleText(), getRemove()));
-        returnFocus();
-    }
     @FXML private void uppercaseAction() {
         setText(manip.forceUppercase(getSimpleText()));
         returnFocus();
@@ -275,5 +273,18 @@ public class GUI implements Initializable {
     }
     @FXML private void quit_action() {
         System.exit(0);
+    }
+    @FXML private void show_findreplacemenu() {
+        Stage stage = new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FindReplacePopUp.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle("FindReplace");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(to_uppercase.getScene().getWindow());
+            //stage.showAndWait();
+        } catch(IOException e) { /* couldn't load fxml file */
+            System.out.println("Error!");
+        }
     }
 }

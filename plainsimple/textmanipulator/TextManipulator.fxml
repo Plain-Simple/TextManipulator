@@ -39,12 +39,6 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="find" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#findAction" text="Find" />
-                              <Button fx:id="replace" layoutX="12.0" layoutY="47.0" mnemonicParsing="false" text="Replace" />
-                              <Button fx:id="remove" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
-                              <TextField fx:id="to_find" layoutX="51.0" layoutY="14.0" onAction="#findAction" prefHeight="25.0" prefWidth="136.0" />
-                              <TextField fx:id="to_replace" layoutX="71.0" layoutY="47.0" onAction="#replaceAction" prefHeight="25.0" prefWidth="116.0" />
-                              <TextField fx:id="to_remove" layoutX="71.0" layoutY="81.0" onAction="#removeAction" prefHeight="25.0" prefWidth="117.0" />
                               <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" onAction="#uppercaseAction" text="Force Uppercase" />
                               <Button fx:id="to_lowercase" layoutX="13.0" layoutY="149.0" mnemonicParsing="false" onAction="#lowercaseAction" text="Force Lowercase" />
                            </children>
@@ -176,7 +170,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                        <MenuItem fx:id="menu_findreplace" mnemonicParsing="false" text="Find/Replace">
+                        <MenuItem fx:id="menu_findreplace" mnemonicParsing="false" onAction="#show_findreplacemenu" text="Find/Replace">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>

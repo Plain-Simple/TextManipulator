@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.textmanipulator.GUI">
+   <children>
+      <HBox layoutX="57.0" layoutY="95.0">
+         <children>
+            <VBox layoutX="57.0" layoutY="95.0" />
+            <VBox layoutX="116.0" layoutY="95.0" />
+         </children>
+      </HBox>
+      <CheckBox layoutX="197.0" layoutY="51.0" mnemonicParsing="false" text="Use Regex" />
+      <HBox layoutX="197.0" layoutY="26.0">
+         <children>
+            <RadioButton layoutX="265.0" layoutY="95.0" mnemonicParsing="false" text="in Words" />
+            <RadioButton layoutX="334.0" layoutY="95.0" mnemonicParsing="false" text="in Lines" />
+         </children>
+      </HBox>
+      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="90.0" prefWidth="178.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.0" minWidth="10.0" prefWidth="73.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="105.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="11.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="find" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Find" />
+            <TextField fx:id="to_find" GridPane.columnIndex="1" />
+            <TextField fx:id="to_replace" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="replace" mnemonicParsing="false" text="Replace" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <CheckBox layoutX="274.0" layoutY="51.0" mnemonicParsing="false" text="Remove all Instances Found" />
+      <Button layoutX="525.0" layoutY="83.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Close" />
+   </children>
+</AnchorPane>

@@ -5,25 +5,18 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -242,20 +235,13 @@ public class GUI implements Initializable {
         returnFocus();
     }
     @FXML private void import_action() {
-        import_file.setDisable(true); // todo: custom filechooser class
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open File");
-        fileChooser.setInitialDirectory(
-                new File(System.getProperty("user.home"))); // todo: set initial directory to last-used directory
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-        try {
-            File imported_file = fileChooser.showOpenDialog(new Stage());
-            TextFile text_file = new TextFile(imported_file);
-            setText(text_file.getFileText());
-            imported_filename.setText(text_file.getFileName());
-        } catch(NullPointerException e) { /* no file selected. Do nothing */ }
-        import_file.setDisable(false);
+        TextFileChooser chooser = new TextFileChooser("Open File",
+                new File(System.getProperty("user.home")), import_file);
+        if(chooser.display()) {
+            setText(chooser.getFile().getFileText());
+            imported_filename.setText(chooser.getFile().getFileName());
+        }
+        returnFocus();
     }
     @FXML private void cut_action() {
         setText((new ClipboardManager()).cut(text));

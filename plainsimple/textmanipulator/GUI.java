@@ -2,6 +2,8 @@ package plainsimple.textmanipulator;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
 import java.io.File;
@@ -20,7 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GUI implements Initializable {
-    private ManipulateText manip = new ManipulateText();
+    private final ManipulateText manip = new ManipulateText();
+    private final AnalyzeText analyze = new AnalyzeText();
     private int caret_location = 0; /* cursor location in textarea */
     @FXML private Button prefix;
     @FXML private Button replace;
@@ -36,8 +40,8 @@ public class GUI implements Initializable {
     @FXML private Button scramble;
     @FXML private Button accent_14;
     @FXML private Button number;
-    @FXML private TableColumn<?, ?> col_2;
-    @FXML private TableColumn<?, ?> col_1;
+    @FXML private TableColumn col_2 = new TableColumn("");
+    @FXML private TableColumn col_1 = new TableColumn("Analytics");
     @FXML private Button find;
     @FXML private RadioButton exec_c;
     @FXML private TextField to_remove;
@@ -62,7 +66,7 @@ public class GUI implements Initializable {
     @FXML private Button to_lowercase;
     @FXML private TextField to_find;
     @FXML private Button import_file;
-    @FXML private TableView<?> table;
+    @FXML private TableView<ObjectFrequency> table = new TableView();
     @FXML private TextField to_suffix;
     @FXML private RadioButton exec_w;
     @FXML private Button accent_2;
@@ -79,17 +83,29 @@ public class GUI implements Initializable {
     @FXML private MenuItem menu_copy;
     @FXML private MenuItem menu_paste;
     @FXML private TextField imported_filename;
-    @FXML void ff0808(ActionEvent event) {}
-    /* This method is called by the FXMLLoader when initialization is complete */
+    /* following 4 objects used in textanalysis table */
+    private ObjectFrequency words_frequency = new ObjectFrequency("Words", 0);
+    private ObjectFrequency lines_frequency = new ObjectFrequency("Lines", 0);
+    private ObjectFrequency chars_frequency = new ObjectFrequency("Chars", 0);
+    private ObservableList<ObjectFrequency> data = FXCollections.observableArrayList(
+            words_frequency, lines_frequency, chars_frequency);
+    /* this method is called by the FXMLLoader when initialization is complete */
     @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
+        /* initialize textanalysis table columns */
+        col_1.setCellValueFactory(new PropertyValueFactory<>("string"));
+        col_2.setCellValueFactory(new PropertyValueFactory<>("int"));
+        table.setItems(data);
         /* add change listener to textarea */
         text.textProperty().addListener(new ChangeListener<String>() {
                 @Override public void changed(ObservableValue<? extends String> observable,
                                               String oldValue, String newValue) {
                 caret_location = text.getCaretPosition(); // todo: improve. Caret location should be smart
                 // todo: diffs and undo/redo?
-
+                    // todo: should update table
+                words_frequency.setInt(analyze.wordCount(newValue));
+                lines_frequency.setInt(analyze.lineCount(newValue));
+                chars_frequency.setInt(analyze.charCount(newValue));
             }
         });
         returnFocus();

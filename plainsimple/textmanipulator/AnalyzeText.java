@@ -25,7 +25,7 @@ class AnalyzeText {
   public int lineCount(String text) {
     return text.length() - text.replace("\n", "").length() + 1;
   }
-  public int SentenceCount(String text) {
+  public int sentenceCount(String text) {
     int sentence_count = text.length()
                          - text.replace(".", "").replace("?", "").replace("!", "")
                          .length();

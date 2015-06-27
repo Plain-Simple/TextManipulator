@@ -1,18 +1,16 @@
 /* Plain+Simple TextManipulator text manipulation functions */
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-class ManipulateText {
+public class ManipulateText {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
   /* split into lines */

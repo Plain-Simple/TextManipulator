@@ -1,4 +1,4 @@
-package plainsimple.textmanipulator;
+package plainsimple.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

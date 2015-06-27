@@ -1,5 +1,4 @@
-package plainsimple.textmanipulator;
-import javax.xml.soap.Text;
+package plainsimple;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.InvalidPathException;

@@ -1,28 +1,24 @@
-package plainsimple.textmanipulator;
+package plainsimple.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import plainsimple.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,53 +29,30 @@ public class GUI implements Initializable {
     private final ManipulateText manip = new ManipulateText();
     private final AnalyzeText analyze = new AnalyzeText();
     private int caret_location = 0; /* cursor location in textarea */
-    @FXML private Button prefix;
-    @FXML private Button replace;
-    @FXML private Button accent_9;
     @FXML private TextField number_suffix;
-    @FXML private RadioButton exec_sep;
-    @FXML private Button accent_6;
-    @FXML private Button suffix;
-    @FXML private Button accent_5;
+    @FXML private TextField imported_filename;
     @FXML private TextField number_prefix;
-    @FXML private Button accent_8;
-    @FXML private Button accent_7;
-    @FXML private Button scramble;
-    @FXML private Button accent_14;
-    @FXML private Button number;
+    @FXML private TextField separator;
+    @FXML private TextField to_replace;
+    @FXML private TextField to_find;
+    @FXML private TextField to_suffix;
+    @FXML private TextField to_prefix;
+
+    @FXML private TextArea text;
+
+    @FXML private RadioButton exec_sep;
+    @FXML private RadioButton exec_c;
+    @FXML private RadioButton exec_l;
+    @FXML private RadioButton alphabetic_sort;
+    @FXML private RadioButton numeric_sort;
+    @FXML private RadioButton exec_w;
+
+    @FXML private CheckBox remove_delims;
+
+    @FXML private TableView<ObjectFrequency> table = new TableView();
     @FXML private TableColumn col_2 = new TableColumn("");
     @FXML private TableColumn col_1 = new TableColumn("Analytics");
-    @FXML private Button find;
-    @FXML private RadioButton exec_c;
-    @FXML private TextArea text;
-    @FXML private Button accent_11;
-    @FXML private Button accent_10;
-    @FXML private RadioButton exec_l;
-    @FXML private Button accent_13;
-    @FXML private RadioButton alphabetic_sort;
-    @FXML private Button accent_12;
-    @FXML private CheckBox remove_delims;
-    @FXML private RadioButton numeric_sort;
-    @FXML private Button remove_punctuation;
-    @FXML private Button sort;
-    @FXML private TextField separator;
-    @FXML private Button to_uppercase;
-    @FXML private Button remove_extra_spaces;
-    @FXML private Button remove_whitespace;
-    @FXML private Text title;
-    @FXML private TextField to_replace;
-    @FXML private Button to_lowercase;
-    @FXML private TextField to_find;
-    @FXML private Button import_file;
-    @FXML private TableView<ObjectFrequency> table = new TableView();
-    @FXML private TextField to_suffix;
-    @FXML private RadioButton exec_w;
-    @FXML private Button accent_2;
-    @FXML private Button accent_1;
-    @FXML private Button accent_4;
-    @FXML private Button accent_3;
-    @FXML private Button frequencies;
-    @FXML private TextField to_prefix;
+
     @FXML private MenuItem menu_open;
     @FXML private MenuItem menu_save;
     @FXML private MenuItem menu_close;
@@ -87,7 +60,7 @@ public class GUI implements Initializable {
     @FXML private MenuItem menu_copy;
     @FXML private MenuItem menu_paste;
     @FXML private MenuItem menu_findreplace;
-    @FXML private TextField imported_filename;
+
     /* following 4 objects used in textanalysis table */
     private ObjectFrequency words_frequency = new ObjectFrequency("Words", 0);
     private ObjectFrequency lines_frequency = new ObjectFrequency("Lines", 0);
@@ -96,7 +69,6 @@ public class GUI implements Initializable {
             words_frequency, lines_frequency, chars_frequency);
     /* this method is called by the FXMLLoader when initialization is complete */
     @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        assert prefix != null : "fx:id=\"prefix\" was not injected: check your FXML file 'simple.fxml'.";
         /* initialize textanalysis table columns */
         /*data.addListener(new ListChangeListener<ObjectFrequency>() {
             @Override public void onChanged(Change<? extends ObjectFrequency> c) {
@@ -248,12 +220,12 @@ public class GUI implements Initializable {
         returnFocus();
     }
     @FXML private void import_action() {
-        TextFileChooser chooser = new TextFileChooser("Open File",
-                new File(System.getProperty("user.home")), import_file);
-        if(chooser.display()) {
-            setText(chooser.getFile().getFileText());
-            imported_filename.setText(chooser.getFile().getFileName());
-        }
+        //TextFileChooser chooser = new TextFileChooser("Open File",
+        //        new File(System.getProperty("user.home")), import_file);
+        //if(chooser.display()) {
+         //   setText(chooser.getFile().getFileText());
+         //   imported_filename.setText(chooser.getFile().getFileName());
+        //}
         returnFocus();
     }
     @FXML private void cut_action() {
@@ -274,17 +246,15 @@ public class GUI implements Initializable {
     @FXML private void quit_action() {
         System.exit(0);
     }
-    @FXML private void show_findreplacemenu() {
+    @FXML private void show_findreplacemenu() throws Exception {
         Stage stage = new Stage();
-        try {
             Parent root = FXMLLoader.load(getClass().getResource("FindReplacePopUp.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle("FindReplace");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(to_uppercase.getScene().getWindow());
+           // stage.initOwner(to_uppercase.getScene().getWindow());
+            stage.show();
             //stage.showAndWait();
-        } catch(IOException e) { /* couldn't load fxml file */
-            System.out.println("Error!");
-        }
+
     }
 }

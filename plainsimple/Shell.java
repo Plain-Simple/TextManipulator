@@ -1,10 +1,9 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import c10n.C10N;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Shell {
     /* used to configure Apache cli */

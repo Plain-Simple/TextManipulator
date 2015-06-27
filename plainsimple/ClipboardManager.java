@@ -1,4 +1,4 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;

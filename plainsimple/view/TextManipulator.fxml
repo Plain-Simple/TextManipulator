@@ -8,13 +8,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.textmanipulator.GUI">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plainsimple.view.GUI">
    <bottom>
       <Pane prefHeight="55.0" prefWidth="937.0" BorderPane.alignment="CENTER">
          <children>
             <HBox layoutX="199.0" layoutY="-1.0" prefHeight="31.0" prefWidth="610.0">
                <children>
-                  <Button fx:id="import_file" mnemonicParsing="false" onAction="#import_action" text="Import File" />
+                  <Button mnemonicParsing="false" onAction="#import_action" text="Import File" />
                   <TextField fx:id="imported_filename" editable="false" />
                </children>
             </HBox>
@@ -26,7 +26,7 @@
          <children>
             <Pane prefHeight="177.0" prefWidth="202.0">
                <children>
-                  <Text fx:id="title" fill="#ff0808" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TextManipulator" wrappingWidth="201.9892578125">
+                  <Text fill="#ff0808" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TextManipulator" wrappingWidth="201.9892578125">
                      <font>
                         <Font name="Arial Black" size="22.0" />
                      </font>
@@ -39,8 +39,8 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="to_uppercase" layoutX="12.0" layoutY="115.0" mnemonicParsing="false" onAction="#uppercaseAction" text="Force Uppercase" />
-                              <Button fx:id="to_lowercase" layoutX="13.0" layoutY="149.0" mnemonicParsing="false" onAction="#lowercaseAction" text="Force Lowercase" />
+                              <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#uppercaseAction" text="Force Uppercase" />
+                              <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#lowercaseAction" text="Force Lowercase" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -49,11 +49,11 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="prefix" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#prefixAction" text="Prefix" />
-                              <Button fx:id="suffix" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#suffixAction" text="Suffix" />
-                              <Button fx:id="remove_punctuation" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#removePunctuationAction" text="Remove Punctuation" />
-                              <Button fx:id="remove_extra_spaces" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" onAction="#trimAction" text="Remove Extra Whitespace" />
-                              <Button fx:id="remove_whitespace" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" onAction="#removeAllWhitespaceAction" text="Remove All Whitespace" />
+                              <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#prefixAction" text="Prefix" />
+                              <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#suffixAction" text="Suffix" />
+                              <Button layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#removePunctuationAction" text="Remove Punctuation" />
+                              <Button layoutX="14.0" layoutY="113.0" mnemonicParsing="false" onAction="#trimAction" text="Remove Extra Whitespace" />
+                              <Button layoutX="14.0" layoutY="146.0" mnemonicParsing="false" onAction="#removeAllWhitespaceAction" text="Remove All Whitespace" />
                               <TextField fx:id="to_prefix" layoutX="60.0" layoutY="14.0" onAction="#prefixAction" prefHeight="25.0" prefWidth="121.0" />
                               <TextField fx:id="to_suffix" layoutX="60.0" layoutY="46.0" onAction="#suffixAction" prefHeight="25.0" prefWidth="121.0" />
                            </children>
@@ -64,15 +64,20 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="261.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="scramble" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Scramble" />
-                              <Button fx:id="sort" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Sort" />
-                              <Button fx:id="number" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" text="Number" />
-                              <Button fx:id="frequencies" layoutX="13.0" layoutY="145.0" mnemonicParsing="false" text="Get Frequencies" />
+                              <Button layoutX="11.0" layoutY="6.0" mnemonicParsing="false" text="Scramble" />
+                              <Button layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Sort" />
+                              <Button layoutX="13.0" layoutY="113.0" mnemonicParsing="false" text="Number" />
+                              <Button layoutX="13.0" layoutY="145.0" mnemonicParsing="false" text="Get Frequencies" />
                               <TextField fx:id="number_prefix" layoutX="73.0" layoutY="113.0" prefHeight="25.0" prefWidth="28.0" />
                               <TextField fx:id="number_suffix" layoutX="152.0" layoutY="113.0" prefHeight="25.0" prefWidth="30.0" />
                               <Text layoutX="101.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Number]" />
                               <RadioButton fx:id="alphabetic_sort" layoutX="64.0" layoutY="40.0" mnemonicParsing="false" selected="true" text="Alphabetically" />
                               <RadioButton fx:id="numeric_sort" layoutX="64.0" layoutY="65.0" mnemonicParsing="false" text="By Size" />
+                              <CheckBox layoutX="44.0" layoutY="34.0" mnemonicParsing="false" text="Scramble Chars Within TextObjects">
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </CheckBox>
                            </children>
                         </AnchorPane>
                   </content>
@@ -129,20 +134,20 @@
    <center>
       <FlowPane prefHeight="462.0" prefWidth="646.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="accent_1" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="a" />
-            <Button fx:id="accent_2" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="b" />
-            <Button fx:id="accent_3" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="c" />
-            <Button fx:id="accent_4" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="d" />
-            <Button fx:id="accent_5" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="e" />
-            <Button fx:id="accent_6" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="f" />
-            <Button fx:id="accent_7" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="g" />
-            <Button fx:id="accent_8" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="h" />
-            <Button fx:id="accent_9" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="i" />
-            <Button fx:id="accent_10" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="j" />
-            <Button fx:id="accent_11" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="k" />
-            <Button fx:id="accent_12" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="l" />
-            <Button fx:id="accent_13" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="m" />
-            <Button fx:id="accent_14" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="n" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="a" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="b" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="c" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="d" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="e" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="f" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="g" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="h" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="i" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="j" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="k" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="l" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="m" />
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="n" />
             <TextArea fx:id="text" prefHeight="386.0" prefWidth="616.0" />
          </children>
       </FlowPane>

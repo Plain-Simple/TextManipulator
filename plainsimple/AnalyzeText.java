@@ -2,13 +2,13 @@
 
 //TODO: rename everything to comply with naming standards!!
 
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class AnalyzeText {
+public class AnalyzeText {
     /* regex pattern to find words */
     private Pattern word_pattern = Pattern.compile("\\w+");
   public int charCount(String text) {

@@ -1,14 +1,11 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import c10n.C10N;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /* Plain+Simple TextManipulator settings and global variable management */
 class Settings {

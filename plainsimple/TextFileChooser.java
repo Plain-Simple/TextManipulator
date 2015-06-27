@@ -1,4 +1,4 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;

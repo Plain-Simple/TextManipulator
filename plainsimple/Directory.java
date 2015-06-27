@@ -1,8 +1,7 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;

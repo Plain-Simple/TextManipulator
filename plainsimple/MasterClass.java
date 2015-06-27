@@ -1,7 +1,8 @@
-package plainsimple.textmanipulator;
+package plainsimple;
 
 import c10n.C10N;
 import c10n.annotations.DefaultC10NAnnotations;
+import plainsimple.view.JavaFXGUI;
 
 class MasterClass {
   public static void main(String args[]) {

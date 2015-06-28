@@ -17,7 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import plainsimple.*;
-import plainsimple.util.AnalyzeText;
 import plainsimple.util.TextUtil;
 
 import java.net.URL;
@@ -27,7 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GUI implements Initializable {
-    private final AnalyzeText analyze = new AnalyzeText();
     private int caret_location = 0; /* cursor location in textarea */
     @FXML private TextField number_suffix;
     @FXML private TextField imported_filename;
@@ -85,9 +83,9 @@ public class GUI implements Initializable {
                 caret_location = text.getCaretPosition(); // todo: improve. Caret location should be smart
                 // todo: diffs and undo/redo?
                     // todo: should update table
-                words_frequency.setInt(analyze.wordCount(newValue));
-                lines_frequency.setInt(analyze.lineCount(newValue));
-                chars_frequency.setInt(analyze.charCount(newValue));
+                words_frequency.setInt(TextUtil.wordCount(newValue));
+                lines_frequency.setInt(TextUtil.lineCount(newValue));
+                chars_frequency.setInt(TextUtil.charCount(newValue));
             }
         });
         returnFocus();

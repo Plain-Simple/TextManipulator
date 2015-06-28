@@ -75,7 +75,7 @@ public class MainScreenController implements Initializable {
         });*/
         col_1.setCellValueFactory(new PropertyValueFactory<>("string"));
         col_2.setCellValueFactory(new PropertyValueFactory<>("int"));
-        frequencies_table.setItems(data);
+        //frequencies_table.setItems(data);
         /* add change listener to textarea */
         text.textProperty().addListener(new ChangeListener<String>() {
                 @Override public void changed(ObservableValue<? extends String> observable,

@@ -74,11 +74,36 @@ public class RootLayoutController {
         }
     }
 
-    /**
-     * Opens an about dialog.
-     */
-    @FXML
-    private void handleAbout() {
+    @FXML private void handleUndo() {
+
+    }
+
+    @FXML private void handleRedo() {
+
+    }
+
+    @FXML private void handleCut() {
+
+    }
+
+    @FXML private void handleCopy() {
+
+    }
+
+    @FXML private void handlePaste() {
+
+    }
+
+    @FXML private void handleFind() {
+
+    }
+
+    @FXML private void handleReplace() {
+
+    }
+
+    /* Opens an about dialog */
+    @FXML private void handleAbout() {
     }
 
     /* Closes the program */

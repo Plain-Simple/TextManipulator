@@ -57,10 +57,10 @@ public class MainApp extends Application {
             /* Load MainsScreen.fxml */
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/MainScreen.fxml"));
-            BorderPane personOverview = loader.load();
+            BorderPane mainScreen = loader.load();
 
             /* Set MainScreen into center of root layout */
-            rootLayout.setCenter(personOverview);
+            rootLayout.setCenter(mainScreen);
         } catch (IOException e) {
             e.printStackTrace();
         }

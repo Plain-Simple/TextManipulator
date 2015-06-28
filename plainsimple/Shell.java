@@ -2,7 +2,7 @@ package plainsimple;
 
 import c10n.C10N;
 import org.apache.commons.cli.*;
-import plainsimple.util.ManipulateText;
+import plainsimple.util.TextUtil;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class Shell {
     /* used to configure Apache cli */
     private Options options = new Options();
     /* used to access textmanipulation methods */
-    private static final ManipulateText manip = new ManipulateText();
+    private static final TextUtil manip = new TextUtil();
     /* used to access and write settings/data */
     private Settings settings = new Settings();
     /* used to access C10N messages */

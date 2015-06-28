@@ -18,7 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import plainsimple.*;
 import plainsimple.util.AnalyzeText;
-import plainsimple.util.ManipulateText;
+import plainsimple.util.TextUtil;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GUI implements Initializable {
-    private final ManipulateText manip = new ManipulateText();
     private final AnalyzeText analyze = new AnalyzeText();
     private int caret_location = 0; /* cursor location in textarea */
     @FXML private TextField number_suffix;
@@ -106,15 +105,15 @@ public class GUI implements Initializable {
     private ArrayList<String[]> getSplitText() {
         switch(getTarget()) {
             case "words":
-                return manip.splitIntoWords(getSelectedText());
+                return TextUtil.splitIntoWords(getSelectedText());
             case "lines":
-                return manip.splitIntoLines(getSelectedText());
+                return TextUtil.splitIntoLines(getSelectedText());
             case "chars":
-                return manip.splitIntoChars(getSelectedText());
+                return TextUtil.splitIntoChars(getSelectedText());
             case "sep":
-                return manip.splitBySeparator(getSelectedText(), getSeparator());
+                return TextUtil.splitBySeparator(getSelectedText(), getSeparator());
             default:
-                return manip.getAsArray(getSelectedText());
+                return TextUtil.getAsArray(getSelectedText());
         }
     }
     /* returns "target" of function (words, lines, chars, etc.) */
@@ -169,43 +168,43 @@ public class GUI implements Initializable {
             text.positionCaret(text.getText().length() - 1);
     }
     @FXML private void findAction() {
-        ArrayList<Integer> locations = manip.find(getSimpleText(), getFind());
+        ArrayList<Integer> locations = TextUtil.find(getSimpleText(), getFind());
         returnFocus();
     }
     @FXML private void replaceAction() {
-        setText(manip.findReplace(getSimpleText(), getFind(), getReplace()));
+        setText(TextUtil.findReplace(getSimpleText(), getFind(), getReplace()));
         returnFocus(); }
     @FXML private void uppercaseAction() {
-        setText(manip.forceUppercase(getSimpleText()));
+        setText(TextUtil.forceUppercase(getSimpleText()));
         returnFocus();
     }
     @FXML private void lowercaseAction() {
-        setText(manip.forceLowercase(getSimpleText()));
+        setText(TextUtil.forceLowercase(getSimpleText()));
         returnFocus();
     }
     @FXML private void prefixAction() {
         ArrayList<String[]> objects = getSplitText();
-        objects.set(1, manip.addPrefixSuffix(getSplitText().get(1), getPrefix(), ""));
-        setText(manip.mergeText(objects.get(0), objects.get(1)));
+        objects.set(1, TextUtil.addPrefixSuffix(getSplitText().get(1), getPrefix(), ""));
+        setText(TextUtil.mergeText(objects.get(0), objects.get(1)));
         returnFocus();
     }
     @FXML private void suffixAction() {
         ArrayList<String[]> objects = getSplitText();
-        objects.set(1, manip.addPrefixSuffix(getSplitText().get(1), "", getSuffix()));
-        setText(manip.mergeText(objects.get(0), objects.get(1)));
+        objects.set(1, TextUtil.addPrefixSuffix(getSplitText().get(1), "", getSuffix()));
+        setText(TextUtil.mergeText(objects.get(0), objects.get(1)));
         returnFocus();
     }
     @FXML private void removePunctuationAction() {
-        setText(manip.removePunctuation(getSimpleText()));
+        setText(TextUtil.removePunctuation(getSimpleText()));
         returnFocus();
     }
     @FXML private void removeAllWhitespaceAction() {
-        setText(manip.removeWhitespace(getSimpleText()));
+        setText(TextUtil.removeWhitespace(getSimpleText()));
         returnFocus();
     }
     /* remove extra whitespace */
     @FXML private void trimAction() {
-        setText(manip.removeExtraWhitespace(getSimpleText()));
+        setText(TextUtil.removeExtraWhitespace(getSimpleText()));
         returnFocus();
     }
     @FXML private void scrambleAction() {

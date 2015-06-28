@@ -10,11 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-public class ManipulateText {
+/* Helper functions for handling Strings */
+public class TextUtil {
   /* adds prefix and suffix to each line */
   @SuppressWarnings("HardCodedStringLiteral")
   /* split into lines */
-  public ArrayList<String[]> splitIntoLines(String text) { // todo: fix to recognize empty lines
+  public static ArrayList<String[]> splitIntoLines(String text) { // todo: fix to recognize empty lines
       /* in this case objects are technically the line breaks */
       ArrayList<String> objects = new ArrayList<>();
       ArrayList<String> delimiters = new ArrayList<>();
@@ -52,7 +53,7 @@ public class ManipulateText {
       return result;*/
   }
     /* split into words */
-    public ArrayList<String[]> splitIntoWords(String text) {
+    public static ArrayList<String[]> splitIntoWords(String text) {
         ArrayList<String> objects = new ArrayList<>();
         ArrayList<String> delimiters = new ArrayList<>();
         Pattern words_pattern = Pattern.compile("\\w+");
@@ -93,7 +94,7 @@ public class ManipulateText {
         //return text.split("\\W+"); /* splits at non-word characters */
     }
     /* split into chars */
-    public ArrayList<String[]> splitIntoChars(String text) {
+    public static ArrayList<String[]> splitIntoChars(String text) {
         String[] objects = new String[text.length()];
         String[] delimiters = new String[text.length()];
         for(int i = 0; i < text.length(); i++) {
@@ -106,7 +107,7 @@ public class ManipulateText {
         return result;
         //return text.split(".");
     }
-    public ArrayList<String[]> splitBySeparator(String text, String separator) {
+    public static ArrayList<String[]> splitBySeparator(String text, String separator) {
         // String[] split_text = text.split(separator);
         ArrayList<String> objects = new ArrayList<>();
         ArrayList<String> delimiters = new ArrayList<>();
@@ -129,20 +130,20 @@ public class ManipulateText {
     //public ArrayList<String[]> splitIntoSentences(String text) { // todo: fix this function
     //    return text.split("(\\d+)");
     //}
-    public ArrayList<String[]> getAsArray(String text) {
+    public static ArrayList<String[]> getAsArray(String text) {
         ArrayList<String[]> result = new ArrayList<>();
         result.add(new String[] {""});
         result.add(new String[] {text});
         return result;
     }
-  public String[] addPrefixSuffix(String[] text, String prefix, String suffix) {
+  public static String[] addPrefixSuffix(String[] text, String prefix, String suffix) {
     /* add each line to text with prefix and suffix */
     for(int i = 0; i < text.length; i++)
       text[i] = prefix + text[i] + suffix;
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] removeDuplicates(String text[]) { // todo: test
+  public static String[] removeDuplicates(String text[]) { // todo: test
     ArrayList<String> result = new ArrayList<>(Arrays.asList(text));
     for(int i = 0; i < result.size(); i++) {
         for(int j = 1; j < result.size(); j++) {
@@ -153,7 +154,7 @@ public class ManipulateText {
     return result.toArray(new String[result.size()]);
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] removeContaining(String text[], String remove) {
+  public static String[] removeContaining(String text[], String remove) {
     ArrayList<String> result = new ArrayList<>(Arrays.asList(text));
     for(int i = 0; i < result.size(); i++) {
       if(result.get(i).contains(remove))
@@ -162,7 +163,7 @@ public class ManipulateText {
     return result.toArray(new String[result.size()]);
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] scrambleObjects(String text[]) {
+  public static String[] scrambleObjects(String text[]) {
     String[] result = new String[text.length];
     ArrayList<String> objects_list = new ArrayList<>(Arrays.asList(text));
     int counter = 0;
@@ -177,12 +178,12 @@ public class ManipulateText {
     return result;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] sortObjectsAlphabetically(String text[]) {
+  public static String[] sortObjectsAlphabetically(String text[]) {
     Arrays.sort(text);
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] sortObjectsBySize(String text[]) {
+  public static String[] sortObjectsBySize(String text[]) {
     for(int i = 1; i < text.length; i++) { /* start at second element */
       int num = 1;
       String compare = text[i];
@@ -197,7 +198,7 @@ public class ManipulateText {
     return text;
   }
   @SuppressWarnings("HardCodedStringLiteral")
-  public String[] numberObjects(String text[], String prefix, String suffix) {
+  public static String[] numberObjects(String text[], String prefix, String suffix) {
     for(int i = 0; i < text.length; i++) {
       text[i] = prefix + (i + 1) + suffix + text[i] + "\n";
     }
@@ -205,7 +206,7 @@ public class ManipulateText {
   }
   @SuppressWarnings("HardCodedStringLiteral")
   /* merges merge with text */
-  public String[] mergeText(String text[], String merge[]) {
+  public static String[] mergeText(String text[], String merge[]) {
     if(text.length >= merge.length) {
           for(int i = 0; i < merge.length; i++) {
               text[i] = text[i] + merge[i];
@@ -219,13 +220,13 @@ public class ManipulateText {
         return result;
     }
   }
-  public String[] findReplace(String text[], String find, String replace) { /* use String.replaceAll(find, replace) */
+  public static String[] findReplace(String text[], String find, String replace) { /* use String.replaceAll(find, replace) */
       for(int i = 0; i < text.length; i++)
           text[i] = text[i].replaceAll(find, replace);
       return text;
   }
   /* removes all instances of 'argument' from 'text' */
-  public String[] remove(String text[], String argument) {
+  public static String[] remove(String text[], String argument) {
       for(int i = 0; i < text.length; i++)
           text[i] = text[i].replaceAll(argument, "");
       return text;
@@ -233,13 +234,13 @@ public class ManipulateText {
   //public String commaSeparateValues(String text) {
   //    return removePunctuation(removeExtraWhitespace(text)).replace(' ', ',');
   //}
-  public String[] removeLineBreaks(String text[]) {
+  public static String[] removeLineBreaks(String text[]) {
     for(int i = 0; i < text.length; i++)
         text[i] = text[i].replaceAll("\\n|\\r", "");
     return text;
   }
   /* duplicates specified object (line/word/char) a specified number of times */
-  public String[] duplicateObject(String text[], int element_number, int num_repetitions) throws NumberFormatException {
+  public static String[] duplicateObject(String text[], int element_number, int num_repetitions) throws NumberFormatException {
     if(num_repetitions < 0)
         throw new NumberFormatException("Error: Number of repetitions must be a positive integer");
     ArrayList<String> result = new ArrayList<>();
@@ -252,7 +253,7 @@ public class ManipulateText {
     return result.toArray(new String[result.size()]);
   }
     /* copies text to clipboard */
-    public void copyTextToClipboard(String text[]) {
+    public static void copyTextToClipboard(String text[]) {
         String as_string = "";
         for(int i = 0; i < text.length; i++)
             as_string += text[i];
@@ -264,7 +265,7 @@ public class ManipulateText {
             System.out.println("Error: System clipboard is currently unavailable.");
         }
     }
-    public ArrayList<Integer> find(String text[], String regex) throws PatternSyntaxException { // todo: improve
+    public static ArrayList<Integer> find(String text[], String regex) throws PatternSyntaxException { // todo: improve
         ArrayList<Integer> locations = new ArrayList<>();
         try {
             Pattern expression_to_find = Pattern.compile(regex);
@@ -280,45 +281,45 @@ public class ManipulateText {
         }
     }
   /* generates a random number between 0 and 'upper_bound' inclusive */
-  int generateRandomNumber(int
+  private static int generateRandomNumber(int
                            upper_bound) { /// I'm pretty sure there's a java.util.Random library we can use
     //int random = (int) (Math.floor(Math.random() * (upper_bound + 1)));
     return (int) Math.floor(Math.random() * (upper_bound + 1));
   }
-  public String[] removeExtraWhitespace(String[] text) { // note: removes tabs and linebreaks
+  public static String[] removeExtraWhitespace(String[] text) { // note: removes tabs and linebreaks
       for(int i = 0; i < text.length; i++)
           text[i] = text[i].replaceAll("\\s+", " ").trim();
       return text;
   }
   /* removes all whitespace */
-  public String[] removeWhitespace(String[] text) {
+  public static String[] removeWhitespace(String[] text) {
       for(int i = 0; i < text.length; i++)
           text[i] = text[i].replaceAll("\\s", "");
       return text;
   }
   /* removes all non-letter and non-numbers, leaves spaces */
-  public String[] removePunctuation(String text[]) {
+  public static String[] removePunctuation(String text[]) {
       for(int i = 0; i < text.length; i++)
           text[i] = text[i].replaceAll("[^\\w\\s]", "");
       return text;
   }
   /* reverses chars of each textobject */
-  public String[] reverse(String[] text) {
+  public static String[] reverse(String[] text) {
       for(int i = 0; i < text.length; i++)
           text[i] = new StringBuilder(text[i]).reverse().toString();
       return text;
   }
-  public String[] forceUppercase(String text[]) {
+  public static String[] forceUppercase(String text[]) {
     for(int i = 0; i < text.length; i++)
         text[i] = text[i].toUpperCase();
       return text;
   }
-  public String[] forceLowercase(String text[]) {
+  public static String[] forceLowercase(String text[]) {
     for(int i = 0; i < text.length; i++)
         text[i] = text[i].toLowerCase();
       return text;
   }
-  public void Println(String s) {
+  public static void Println(String s) {
       System.out.println(s);
   }
 }

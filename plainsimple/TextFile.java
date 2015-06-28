@@ -1,6 +1,6 @@
 package plainsimple;
 
-import plainsimple.util.ManipulateText;
+import plainsimple.util.TextUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -162,7 +162,7 @@ public class
     }
     /* prints contents of file with numbered lines */
     public void printLines() {
-        ManipulateText manip = new ManipulateText();
+        TextUtil manip = new TextUtil();
         System.out.println("Lines: ");
         System.out.println("---------------------------------------------------------");
         System.out.println(manip.numberObjects(manip.splitIntoLines(file_text).get(1), "", ". "));
@@ -170,7 +170,7 @@ public class
     }
     /* prints contents of file with words numbered and on separate lines */
     public void printWords() {
-        ManipulateText manip = new ManipulateText();
+        TextUtil manip = new TextUtil();
         System.out.println("Words: ");
         System.out.println("---------------------------------------------------------");
         System.out.println(manip.numberObjects(manip.splitIntoWords(file_text).get(1), "", ". "));
@@ -178,7 +178,7 @@ public class
     }
     /* prints contents of file with chars numbered and on separate lines */
     public void printChars() { // todo: improve this function
-        ManipulateText manip = new ManipulateText();
+        TextUtil manip = new TextUtil();
         System.out.println("Chars: ");
         System.out.println("---------------------------------------------------------");
         System.out.println(manip.numberObjects(manip.splitIntoChars(file_text).get(1), "", ". "));

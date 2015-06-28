@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GUI implements Initializable {
+public class MainScreenController implements Initializable {
     private int caret_location = 0; /* cursor location in textarea */
     @FXML private TextField number_suffix;
     @FXML private TextField imported_filename;

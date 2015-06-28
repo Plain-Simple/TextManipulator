@@ -2,7 +2,7 @@
 
 //TODO: rename everything to comply with naming standards!!
 
-package plainsimple;
+package plainsimple.util;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

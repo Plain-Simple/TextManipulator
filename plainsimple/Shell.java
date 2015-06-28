@@ -2,6 +2,7 @@ package plainsimple;
 
 import c10n.C10N;
 import org.apache.commons.cli.*;
+import plainsimple.util.ManipulateText;
 
 import java.util.ArrayList;
 

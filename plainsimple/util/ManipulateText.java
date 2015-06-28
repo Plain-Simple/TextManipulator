@@ -1,5 +1,5 @@
 /* Plain+Simple TextManipulator text manipulation functions */
-package plainsimple;
+package plainsimple.util;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

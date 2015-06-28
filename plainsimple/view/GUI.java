@@ -17,8 +17,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import plainsimple.*;
+import plainsimple.util.AnalyzeText;
+import plainsimple.util.ManipulateText;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

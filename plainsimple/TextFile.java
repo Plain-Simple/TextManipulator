@@ -1,5 +1,7 @@
 package plainsimple;
 
+import plainsimple.util.ManipulateText;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;

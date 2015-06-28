@@ -2,7 +2,6 @@ package plainsimple;
 
 import c10n.C10N;
 import c10n.annotations.DefaultC10NAnnotations;
-import plainsimple.view.JavaFXGUI;
 
 class MasterClass {
   public static void main(String args[]) {
@@ -16,7 +15,7 @@ class MasterClass {
 
     int RUN_INTERFACE = 1;
     if (RUN_INTERFACE ==1) {
-      JavaFXGUI.launch(JavaFXGUI.class, args);
+      MainApp.launch(args);
     } if (RUN_INTERFACE == 3) {
           Shell shell = new Shell(args);
       }

@@ -47,9 +47,9 @@ public class MainScreenController implements Initializable {
 
     @FXML private CheckBox remove_delims;
 
-    @FXML private TableView<ObjectFrequency> table = new TableView();
-    @FXML private TableColumn col_2 = new TableColumn("");
-    @FXML private TableColumn col_1 = new TableColumn("Analytics");
+    @FXML private TableView<ObjectFrequency> frequencies_table;
+    @FXML private TableColumn <ObjectFrequency, String> col_1;
+    @FXML private TableColumn <ObjectFrequency, String> col_2;
 
     @FXML private MenuItem menu_open;
     @FXML private MenuItem menu_save;
@@ -75,7 +75,7 @@ public class MainScreenController implements Initializable {
         });*/
         col_1.setCellValueFactory(new PropertyValueFactory<>("string"));
         col_2.setCellValueFactory(new PropertyValueFactory<>("int"));
-        table.setItems(data);
+        frequencies_table.setItems(data);
         /* add change listener to textarea */
         text.textProperty().addListener(new ChangeListener<String>() {
                 @Override public void changed(ObservableValue<? extends String> observable,

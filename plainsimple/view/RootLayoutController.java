@@ -3,6 +3,7 @@ package plainsimple.view;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import plainsimple.MainApp;
+import plainsimple.util.DataHandler;
 
 import java.io.File;
 
@@ -22,8 +23,8 @@ public class RootLayoutController {
 
     /* Empties textarea and clears last-used filepath */
     @FXML private void handleNew() {
-        mainApp.getPersonData().clear();
-        mainApp.setPersonFilePath(null);
+        mainApp.setTextData("");
+        DataHandler.setTextFilePath(null);
     }
 
     /* Opens a FileChooser to let the user select a file to load */
@@ -38,16 +39,16 @@ public class RootLayoutController {
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) { /* User opened a file */
-            mainApp.loadPersonDataFromFile(file);
+            DataHandler.loadTextFromFile(file, mainApp.getTextData());
         }
     }
 
     /* Saves the file to the textfile that is currently open. If there is no
      * open file, the "save as" dialog is shown */
     @FXML private void handleSave() {
-        File personFile = mainApp.getPersonFilePath();
-        if (personFile != null) {
-            mainApp.savePersonDataToFile(personFile);
+        File textFile = DataHandler.getTextFilePath();
+        if (textFile != null) {
+            DataHandler.saveTextToFile(textFile, mainApp.getTextData());
         } else {
             handleSaveAs();
         }
@@ -69,7 +70,7 @@ public class RootLayoutController {
             if (!file.getPath().endsWith(".txt")) {
                 file = new File(file.getPath() + ".txt");
             }
-            mainApp.savePersonDataToFile(file);
+            DataHandler.saveTextToFile(file, mainApp.getTextData());
         }
     }
 

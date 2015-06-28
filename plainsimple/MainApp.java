@@ -14,6 +14,8 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    private String textData = "";
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -24,9 +26,13 @@ public class MainApp extends Application {
         showMainScreen();
     }
 
-    /**
-     * Initializes the root layout.
-     */
+    /* Returns textData */
+    public String getTextData() { return textData; }
+
+    /* Sets textData */
+    public void setTextData(String textData) { this.textData = textData; }
+
+    /* Initializes the root layout */
     public void initRootLayout() {
         try {
             /* Load root layout from fxml file */

@@ -21,38 +21,30 @@ public class RootLayoutController {
     }
 
     /* Empties textarea and clears last-used filepath */
-    @FXML
-    private void handleNew() {
+    @FXML private void handleNew() {
         mainApp.getPersonData().clear();
         mainApp.setPersonFilePath(null);
     }
 
-    /**
-     * Opens a FileChooser to let the user select an address book to load.
-     */
-    @FXML
-    private void handleOpen() {
+    /* Opens a FileChooser to let the user select a file to load */
+    @FXML private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
 
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
+        /* Set extension filter */
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
-        // Show save file dialog
+        /* Show file dialog */
         File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
-        if (file != null) {
+        if (file != null) { /* User opened a file */
             mainApp.loadPersonDataFromFile(file);
         }
     }
 
-    /**
-     * Saves the file to the person file that is currently open. If there is no
-     * open file, the "save as" dialog is shown.
-     */
-    @FXML
-    private void handleSave() {
+    /* Saves the file to the textfile that is currently open. If there is no
+     * open file, the "save as" dialog is shown */
+    @FXML private void handleSave() {
         File personFile = mainApp.getPersonFilePath();
         if (personFile != null) {
             mainApp.savePersonDataToFile(personFile);
@@ -61,25 +53,21 @@ public class RootLayoutController {
         }
     }
 
-    /**
-     * Opens a FileChooser to let the user select a file to save to.
-     */
-    @FXML
-    private void handleSaveAs() {
+    /* Opens a FileChooser to let the user select a file to save to */
+    @FXML private void handleSaveAs() {
         FileChooser fileChooser = new FileChooser();
 
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
+        /* Set extension filter */
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
-        // Show save file dialog
+        /* Show dialog */
         File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
-            // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xml")) {
-                file = new File(file.getPath() + ".xml");
+            /* Ensure proper extension (.txt) */
+            if (!file.getPath().endsWith(".txt")) {
+                file = new File(file.getPath() + ".txt");
             }
             mainApp.savePersonDataToFile(file);
         }

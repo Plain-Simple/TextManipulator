@@ -58,10 +58,9 @@ public class DataHandler {
      * @param file textfile to write text to
      * @param text String to write to textfile */
     public static void saveTextToFile(File file, String text) {
-        TextFile save_text = new TextFile(file);
+        TextFile save_text = new TextFile(file.toString());
         if(save_text.isValid()) {
-            save_text.setText(text);
-            save_text.writeFile();
+            save_text.writeFile(text);
             /* Save the file path to the registry */
             setTextFilePath(file);
         } else { // todo: could not save file exception

@@ -30,7 +30,7 @@ class Settings {
     public boolean removeBatch(FileBatch remove) { // todo: testing
         TextFile data_file = new TextFile(file_name);
         /* read in data file and split into an array of lines */
-        ArrayList<String> data = data_file.getLines();
+        ArrayList<String> data = data_file.readLines();
         int index = data.indexOf(remove.getName());
         if(index <= 0) /* old filebatch not found in data file */
             return false;
@@ -42,7 +42,7 @@ class Settings {
             }
             for(int i = 0; i < data.size() - 1; i++) // todo: testing. Why are linebreaks lost without this?
                 data.set(i, data.get(i) + "\n");
-            data_file.setText(data.toArray(new String[data.size()]));
+            data_file.writeFile(data.toArray(new String[data.size()]));
             return true;
         }
     }
@@ -69,7 +69,7 @@ class Settings {
     /* returns arraylist containing names of all stored batches */
     public ArrayList<String> getSavedBatches() {
         TextFile data_file = new TextFile(file_name);
-        ArrayList<String> data = data_file.getLines();
+        ArrayList<String> data = data_file.readLines();
         ArrayList<String> batch_names = new ArrayList<>();
         int index = data.indexOf("----------");
         while(index > -1) {
@@ -87,7 +87,7 @@ class Settings {
     /* returns filebatch of specified name from storage */
     public FileBatch getBatch(String batch_name) throws NoSuchElementException {
         TextFile data_file = new TextFile(file_name);
-        ArrayList<String> data = data_file.getLines();
+        ArrayList<String> data = data_file.readLines();
         int index = data.indexOf(batch_name);
         if(index < 0) { /* specified batch not found */
             throw new NoSuchElementException("The batch \"" + batch_name + "\" could not be found");

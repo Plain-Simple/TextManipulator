@@ -25,7 +25,7 @@ public class TextFileChooser {
         try {
             File imported_file = file_chooser.showOpenDialog(new Stage());
             import_button.setDisable(false);
-            TextFile text_file = new TextFile(imported_file);
+            TextFile text_file = new TextFile(imported_file.getPath());
             if(text_file.isValid()) {
                 chosen_file = text_file;
                 return true;

@@ -49,9 +49,13 @@ public class MainApp extends Application {
 
         /* Access file containing persisting data using path found in Preferences */
         File file = DataHandler.getTextFilePath();
-        if(file != null)
+        if(file != null) {
             System.out.println("File location: " + file.getPath());
-        textData.add(DataHandler.loadTextFromFile(file));
+            textData.add(DataHandler.loadTextFromFile(file));
+        } else {
+            textData.add("");
+        }
+
     }
 
     /* Initializes the root layout */

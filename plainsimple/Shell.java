@@ -138,7 +138,7 @@ public class Shell {
             if(read_file.isValid()) {
                 files.add(read_file);
             } else {
-                Println(msg.file_error(read_file.getFileName()));
+                Println(msg.file_error(read_file.getName()));
             }
         } else if(cmd.hasOption("b")) { /* read in batch */
             String batch_name = cmd.getOptionValue("b");
@@ -159,11 +159,11 @@ public class Shell {
                 TextFile add_file = new TextFile(options[1]);
                 if (new_batch.addFile(add_file)) { /* false if textfile is invalid */
                     if(settings.replaceBatch(specified_batch, new_batch)) /* overwrite old batch */
-                        Println(msg.file_added(add_file.getFileName(), new_batch.getName()));
+                        Println(msg.file_added(add_file.getName(), new_batch.getName()));
                     else
                         Println("Error adding file");
                 } else
-                    Println(msg.file_error(add_file.getFileName()));
+                    Println(msg.file_error(add_file.getName()));
             } else
                 Println(msg.batch_error(options[0]));
         } else if(cmd.hasOption("removeduplicates")) {
@@ -196,11 +196,11 @@ public class Shell {
             String[] delimiters;
             String[] function_args;
             if (cmd.hasOption("w")) {
-                split_result = manip.splitIntoWords(files.get(i).getFileText());
+                split_result = manip.splitIntoWords(files.get(i).readFile());
             } else if(cmd.hasOption("l")) {
-                split_result = manip.splitIntoLines(files.get(i).getFileText());
+                split_result = manip.splitIntoLines(files.get(i).readFile());
             } else if(cmd.hasOption("c")) {
-                split_result = manip.splitIntoChars(files.get(i).getFileText());
+                split_result = manip.splitIntoChars(files.get(i).readFile());
             } //else if(cmd.hasOption("s")) {
                 //split_result = manip.splitIntoSentences(files.get(i).getFileText());
             //}
@@ -208,7 +208,7 @@ public class Shell {
 
             //}
             else{
-                split_result = manip.getAsArray(files.get(i).getFileText());
+                split_result = manip.getAsArray(files.get(i).readFile());
             }
             delimiters = split_result.get(0);
             manipulated_text = split_result.get(1);
@@ -262,12 +262,7 @@ public class Shell {
                 manipulated_text = manip.numberObjects(manipulated_text, function_args[0], function_args[1]);
             }
             manipulated_text = manip.mergeText(delimiters, manipulated_text);
-            files.get(i).setText(manipulated_text);
-            if(files.get(i).writeFile()) { /* file overwritten successfully */
-                Println("Success!");
-            } else {
-                Println("An error occurred");
-            }
+            files.get(i).writeFile(manipulated_text);
         }
 
     }

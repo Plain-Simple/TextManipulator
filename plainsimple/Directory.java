@@ -36,7 +36,7 @@ public class Directory {
         } // how to get only text files?
       });
       for (int i = 0; i < matchingFiles.length; i++) {
-        files_in_directory.add(new TextFile(matchingFiles[i].toPath()));
+        files_in_directory.add(new TextFile(matchingFiles[i].getPath()));
       }
     } catch(SecurityException
               e) { // ToDo: better handling and more catch statements

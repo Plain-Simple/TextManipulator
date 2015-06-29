@@ -56,13 +56,13 @@ public class FileBatch {
       }
     });
     for(int i = 0; i < matchingFiles.length; i++) {
-      files_in_directory.add(new TextFile(matchingFiles[i].toPath()));
+      files_in_directory.add(new TextFile(matchingFiles[i].getPath()));
     }
     return files_in_directory;
   }
   /* attempts to add textfile to batch */
   public boolean addFile(Path file_path) {
-    TextFile new_file = new TextFile(file_path);
+    TextFile new_file = new TextFile(file_path.toString());
     if(new_file.isValid()) {
         files.add(new_file);
         return true;

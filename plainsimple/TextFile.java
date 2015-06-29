@@ -28,16 +28,10 @@ public class TextFile extends File {
       return isFile() && canRead();
   }
 
-  /* Writes file
-   * @param text String to write to file */
-  public void setText(String text) {
-      writeFile(text);
-  }
-
   /* Writes file by "expanding" the array into a single String
    * and writing that String
    * @param text String array to write to file */
-  public void setText(String[] text) {
+  public void writeFile(String[] text) {
     String file_text = "";
     for(int i = 0; i < text.length; i++)
         file_text += text[i];
@@ -95,7 +89,7 @@ public class TextFile extends File {
   /* Reads file line by line and returns an arrayList of lines
    * @return an arrayList containing filetext as lines, or null if file
     * couldn't be read */
-  public ArrayList<String> ReadsLines() {
+  public ArrayList<String> readLines() {
       ArrayList<String> file_lines = new ArrayList<String> ();
       try {
           BufferedReader reader = new BufferedReader(new FileReader(this));

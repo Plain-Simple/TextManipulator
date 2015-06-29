@@ -51,6 +51,19 @@ public class MainScreenController {
     @FXML private TableColumn <ObjectFrequency, String> col_1;
     @FXML private TableColumn <ObjectFrequency, String> col_2;
 
+    private MainApp mainApp;
+
+    /* Constructor. Called after initialize() method */
+    public MainScreenController() {
+    }
+
+    /* Set main app and get textData from it */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        /* Add observable list data to session_table */
+        text.setText(mainApp.getTextData());
+    }
+
     /* following 4 objects used in textanalysis table */
     private ObjectFrequency words_frequency = new ObjectFrequency("Words", 0);
     private ObjectFrequency lines_frequency = new ObjectFrequency("Lines", 0);

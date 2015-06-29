@@ -7,12 +7,14 @@ import javafx.application.Application;
 import javafx.beans.binding.StringExpression;
 import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import plainsimple.util.DataHandler;
+import plainsimple.view.MainScreenController;
 import plainsimple.view.RootLayoutController;
 
 /* This class starts the JavaFX Application using MainScreen.fxml
@@ -42,21 +44,22 @@ public class MainApp extends Application {
     /* Starts program, setting up the root layout and displaying the main screen */
     @Override public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("TextManipulator");
+
+        /* Access file containing persisting data using path found in Preferences */
+        File file = DataHandler.getTextFilePath();
+        /* If a path is found attempt to read specified file and set textData */
+        if(file != null) {
+            System.out.println("File location: " + file.getPath());
+            textData.add(DataHandler.loadTextFromFile(file));
+            this.primaryStage.setTitle("TextManipulator - " + file.getName());
+        } else {
+            textData.add("");
+            this.primaryStage.setTitle("TextManipulator");
+        }
 
         initRootLayout();
 
         showMainScreen();
-
-        /* Access file containing persisting data using path found in Preferences */
-        File file = DataHandler.getTextFilePath();
-        if(file != null) {
-            System.out.println("File location: " + file.getPath());
-            textData.add(DataHandler.loadTextFromFile(file));
-        } else {
-            textData.add("");
-        }
-
     }
 
     /* Initializes the root layout */
@@ -88,6 +91,10 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/MainScreen.fxml"));
             BorderPane mainScreen = loader.load();
+
+            /* Give controller access to MainApp and stored data */
+            MainScreenController controller = loader.getController();
+            controller.setMainApp(this);
 
             /* Set MainScreen into center of root layout */
             rootLayout.setCenter(mainScreen);

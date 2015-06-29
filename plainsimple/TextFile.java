@@ -7,131 +7,131 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class
-  TextFile {
-  private String file_name = "";
-  private String file_text = "";
-  private Path file_path;
-  public String getPath() {
+/* Class that handles textfiles, files that can be read and written
+ * with Strings */
+public class TextFile {
+  private File file;
+
+ /* public String getPath() {
         return file_path.toString();
-    }
+  }
   public String getFileText() {
         return file_text;
-    }
+  }
   public String getFileName() {
         return file_name;
-    }
-  /* constructs textfile using path as a String */
-  public TextFile(String path) {
-    file_path = Paths.get(path).toAbsolutePath();
-    file_name = file_path.getFileName().toString();
-    if(isValid())
-        readFile();
-  }
-  /* constructs textfile using path */ // todo: constructor should create the file
-  public TextFile(Path path) {
-    file_path = path.toAbsolutePath();
-    file_name = file_path.getFileName().toString();
-    if(isValid())
-        readFile();
-  }
-  /* constructs textfile using path and WRITES text to it */
-  public TextFile(String path, String text) {
-      file_path = Paths.get(path).toAbsolutePath();
-      file_name = file_path.getFileName().toString();
-      file_text = text;
-      if(isValid())
-          writeFile();
-  }
-  /* constructs textfile from file */
+  } */
+
+  /* Constructor using file */
   public TextFile(File file) {
-      file_name = file.getName();
-      file_path = Paths.get(file.getPath()).toAbsolutePath();
-      if(isValid())
-        readFile();
+      this.file = file;
   }
-  /* sets text in textfile and rewrites */
+
+  /* Constructor using path as a String */
+  public TextFile(String path) {
+      this.file = new File(path);
+  }
+
+  /* Constructor using path */
+  public TextFile(Path path) {
+      this.file = new File(path.toString());
+  }
+
+  /* Returns whether this file exists as a file and can be read */
+  public boolean isValid() {
+      return file.isFile() && file.canRead();
+  }
+
+  /* Writes file
+   * @param text String to write to file */
+  public void setText(String text) {
+      writeFile(text);
+  }
+
+  /* Writes file by "expanding" the array into a single String
+   * and writing that String
+   * @param text String array to write to file */
   public void setText(String[] text) {
-    file_text = "";
+    String file_text = "";
     for(int i = 0; i < text.length; i++)
         file_text += text[i];
-    writeFile();
+    writeFile(file_text);
   }
-  /* sets text in textfile and rewrites */
-  public void setText(String text) {
-    file_text = text;
-    writeFile();
-  }
-  /* appends text to textfile and rewrites */
+
+  /* Appends String to file
+   * @param append String to add to the  end of the file */
   public void appendText(String append) {
-    file_text += append;
-    writeFile();
+    writeFile(readFile() + append);
   }
-  /* removes all text from file */
-  public boolean clear() {
-    file_text = "";
-    return writeFile();
+
+  /* Removes all text from the file */
+  public void clear() {
+      writeFile("");
   }
-  /* returns whether this file is a valid text file that exists and can be accessed */
-  public boolean isValid() {
-    try {
-        Files.newBufferedReader(file_path.toRealPath());
-        return true; /* exists */
-    } catch(IOException|SecurityException e) {
-      return false;
-    }
-  }
-  /* reads file and returns whether it was read successfully */
-  public boolean readFile() {
-    String file = "";
-    try (BufferedReader reader = Files.newBufferedReader(file_path)) {
-      String line;
-      int line_counter = 0;
-      while ((line = reader.readLine()) != null) {
-        if(line_counter == 0)
-            file = line;
-        else
-            file += "\n" + line;
-        line_counter++;
-      }
-      file_text = file;
-      return true;
+
+  /* Reads file and returns file contents as String
+   * @return file contents, null if file could not be read */
+  public String readFile() {
+      /* Try creating a BufferedReader using the file's path */
+      try (BufferedReader reader = Files.newBufferedReader(Paths.get(file.getPath()))) {
+          String line;
+          String text = "";
+          int line_counter = 0;
+          while ((line = reader.readLine()) != null) {
+              if(line_counter == 0)
+                  text = line;
+              else
+                  text += "\n" + line;
+              line_counter++;
+          }
+          return text;
     } catch (IOException e) {
-      return false;
+          return null;
     }
   }
-  /* writes file_text to file */
-  public boolean writeFile() {
-      System.out.println("File contents to write:\n" + file_text);
-    try (BufferedWriter writer = Files.newBufferedWriter(file_path)) {
+  /* Writes file with String
+   * @param file_text String to write to the file */
+  public boolean writeFile(String file_text) {
+    /* Try creating a BufferedWriter using the file's path */
+    try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getPath()))) {
       writer.write(file_text, 0, file_text.length());
       return true;
     } catch (IOException e) {
       return false;
     }
   }
-  /* deletes file */
+
+  /* Deletes file */
   public boolean delete() {
-    File file_to_delete = new File(file_path.toString());
-    boolean delete_success = file_to_delete.delete();
-    return delete_success;
+    return file.delete();
   }
-  /* returns text of data file in an arraylist of lines */
-  public ArrayList<String> getLines() {
-      readFile();
-      return new ArrayList<>(Arrays.asList(file_text.split("\\r?\\n")));
+
+  /* Reads file line by line and returns an arrayList of lines
+   * @return an arrayList containing filetext as lines, or null if file
+    * couldn't be read */
+  public ArrayList<String> ReadsLines() {
+      ArrayList<String> file_lines = new ArrayList<String> ();
+      try {
+          BufferedReader reader = new BufferedReader(new FileReader(file));
+          String line;
+          while ((line = reader.readLine()) != null) {
+              file_lines.add(line);
+          }
+          return file_lines;
+      } catch(IOException e) {
+          return null;
+      }
   }
-  /* pastes clipboard contents into file */
+
+  /* Pastes clipboard contents into file
+   * @return whether clipboard contents were accessed and written successfully */
   public boolean pasteIntoFile() { // Todo: fix bug where linebreaks are lost
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         /* get contents from clipboard (stored in a Transferable, which manages data transfer) */
@@ -142,22 +142,20 @@ public class
                 (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
         if (hasTransferableText) {
             try {
-                file_text = (String)contents.getTransferData(DataFlavor.stringFlavor);
-                return writeFile(); /* returns true or false for file writing */
+                return writeFile((String)contents.getTransferData(DataFlavor.stringFlavor));
             } catch (UnsupportedFlavorException|IOException e) {
-                System.out.println("Error: Could not access clipboard contents.");
                 return false;
             }
         } else {
-            System.out.println("Error: Clipboard is empty or does not contain writable text.");
             return false;
         }
     }
+
     /* prints contents of file in a presentable fashion */
     public void printFile() {
         System.out.println("File contents: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(file_text);
+        System.out.println(this.readFile());
         System.out.println("---------------------------------------------------------");
     }
     /* prints contents of file with numbered lines */
@@ -165,7 +163,7 @@ public class
         TextUtil manip = new TextUtil();
         System.out.println("Lines: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(manip.numberObjects(manip.splitIntoLines(file_text).get(1), "", ". "));
+        System.out.println(manip.numberObjects(manip.splitIntoLines(this.readFile()).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
     /* prints contents of file with words numbered and on separate lines */
@@ -173,7 +171,7 @@ public class
         TextUtil manip = new TextUtil();
         System.out.println("Words: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(manip.numberObjects(manip.splitIntoWords(file_text).get(1), "", ". "));
+        System.out.println(manip.numberObjects(manip.splitIntoWords(this.readFile()).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
     /* prints contents of file with chars numbered and on separate lines */
@@ -181,7 +179,7 @@ public class
         TextUtil manip = new TextUtil();
         System.out.println("Chars: ");
         System.out.println("---------------------------------------------------------");
-        System.out.println(manip.numberObjects(manip.splitIntoChars(file_text).get(1), "", ". "));
+        System.out.println(manip.numberObjects(manip.splitIntoChars(this.readFile()).get(1), "", ". "));
         System.out.println("---------------------------------------------------------");
     }
 }

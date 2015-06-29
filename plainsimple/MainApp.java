@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import plainsimple.util.DataHandler;
+import plainsimple.view.RootLayoutController;
 
 /* This class starts the JavaFX Application using MainScreen.fxml
  * as the root stage.
@@ -70,6 +71,11 @@ public class MainApp extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            /* Give controller access to mainApp and textData */
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

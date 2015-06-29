@@ -39,21 +39,18 @@ public class DataHandler {
     }
 
     /* Loads text data (i.e. String) from the specified file. If data
-     * could be loaded, text data will be replaced. Otherwise, it will
-     * not be changed.
-     * @param file textfile to read text from
-     * @param text the current text data */
-    public static String loadTextFromFile(File file, String text) {
+     * could not be loaded, returns an empty String
+     * @param file textfile to read text from */
+    public static String loadTextFromFile(File file) {
         TextFile load_text = new TextFile(file);
 
         /* File was read successfully */
         if(load_text.isValid()) {
-            text = load_text.getFileText();
             /* Save the file path to the registry */
             setTextFilePath(file);
-            return text;
+            return load_text.getFileText();
         } else {
-            return text; // todo: set text to ""?
+            return ""; // todo: set text to ""?
         }
     }
 

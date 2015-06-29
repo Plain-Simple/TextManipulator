@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainScreenController implements Initializable {
+public class MainScreenController {
     private int caret_location = 0; /* cursor location in textarea */
     @FXML private TextField number_suffix;
     @FXML private TextField imported_filename;
@@ -51,22 +51,15 @@ public class MainScreenController implements Initializable {
     @FXML private TableColumn <ObjectFrequency, String> col_1;
     @FXML private TableColumn <ObjectFrequency, String> col_2;
 
-    @FXML private MenuItem menu_open;
-    @FXML private MenuItem menu_save;
-    @FXML private MenuItem menu_close;
-    @FXML private MenuItem menu_cut;
-    @FXML private MenuItem menu_copy;
-    @FXML private MenuItem menu_paste;
-    @FXML private MenuItem menu_findreplace;
-
     /* following 4 objects used in textanalysis table */
     private ObjectFrequency words_frequency = new ObjectFrequency("Words", 0);
     private ObjectFrequency lines_frequency = new ObjectFrequency("Lines", 0);
     private ObjectFrequency chars_frequency = new ObjectFrequency("Chars", 0);
     private ObservableList<ObjectFrequency> data = FXCollections.observableArrayList(
             words_frequency, lines_frequency, chars_frequency);
+
     /* this method is called by the FXMLLoader when initialization is complete */
-    @Override public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+    @FXML private void initialize() {
         /* initialize textanalysis table columns */
         /*data.addListener(new ListChangeListener<ObjectFrequency>() {
             @Override public void onChanged(Change<? extends ObjectFrequency> c) {
@@ -90,6 +83,9 @@ public class MainScreenController implements Initializable {
         });
         returnFocus();
     }
+
+    public void setTextArea(String new_text) { text.setText(new_text);}
+
     /* returns text as a simple String (no processing) */
     private String[] getSimpleText() { return new String[] {getSelectedText()}; }
     /* special function to return selected text (returns all if no selection) */

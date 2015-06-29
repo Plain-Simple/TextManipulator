@@ -16,37 +16,16 @@ import java.util.Arrays;
 
 /* Class that handles textfiles, files that can be read and written
  * with Strings */
-public class TextFile {
-  private File file;
-
- /* public String getPath() {
-        return file_path.toString();
-  }
-  public String getFileText() {
-        return file_text;
-  }
-  public String getFileName() {
-        return file_name;
-  } */
-
-  /* Constructor using file */
-  public TextFile(File file) {
-      this.file = file;
-  }
+public class TextFile extends File {
 
   /* Constructor using path as a String */
   public TextFile(String path) {
-      this.file = new File(path);
-  }
-
-  /* Constructor using path */
-  public TextFile(Path path) {
-      this.file = new File(path.toString());
+      super(path);
   }
 
   /* Returns whether this file exists as a file and can be read */
   public boolean isValid() {
-      return file.isFile() && file.canRead();
+      return isFile() && canRead();
   }
 
   /* Writes file
@@ -80,7 +59,7 @@ public class TextFile {
    * @return file contents, null if file could not be read */
   public String readFile() {
       /* Try creating a BufferedReader using the file's path */
-      try (BufferedReader reader = Files.newBufferedReader(Paths.get(file.getPath()))) {
+      try (BufferedReader reader = Files.newBufferedReader(Paths.get(getPath()))) {
           String line;
           String text = "";
           int line_counter = 0;
@@ -100,7 +79,7 @@ public class TextFile {
    * @param file_text String to write to the file */
   public boolean writeFile(String file_text) {
     /* Try creating a BufferedWriter using the file's path */
-    try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getPath()))) {
+    try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(getPath()))) {
       writer.write(file_text, 0, file_text.length());
       return true;
     } catch (IOException e) {
@@ -110,7 +89,7 @@ public class TextFile {
 
   /* Deletes file */
   public boolean delete() {
-    return file.delete();
+    return delete();
   }
 
   /* Reads file line by line and returns an arrayList of lines
@@ -119,7 +98,7 @@ public class TextFile {
   public ArrayList<String> ReadsLines() {
       ArrayList<String> file_lines = new ArrayList<String> ();
       try {
-          BufferedReader reader = new BufferedReader(new FileReader(file));
+          BufferedReader reader = new BufferedReader(new FileReader(this));
           String line;
           while ((line = reader.readLine()) != null) {
               file_lines.add(line);

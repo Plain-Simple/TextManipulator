@@ -42,13 +42,13 @@ public class DataHandler {
      * could not be loaded, returns an empty String
      * @param file textfile to read text from */
     public static String loadTextFromFile(File file) {
-        TextFile load_text = new TextFile(file);
+        TextFile load_text = new TextFile(file.getPath());
 
         /* File was read successfully */
         if(load_text.isValid()) {
             /* Save the file path to the registry */
             setTextFilePath(file);
-            return load_text.getFileText();
+            return load_text.readFile();
         } else {
             return ""; // todo: set text to ""?
         }
